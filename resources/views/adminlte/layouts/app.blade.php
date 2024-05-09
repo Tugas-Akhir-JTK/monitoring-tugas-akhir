@@ -183,7 +183,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{{ route('home') }}" class="brand-link text-center">
+    <a href="#" class="brand-link text-center">
       <img id="polban-logo" src="{{ asset('assets/dist/img/polban.png') }}" alt="Polban Logo" style="width: 140px; height: auto;">
       <!-- <span class="brand-text font-weight-light">{{ $title ?? "monitoringta" }}</span> -->
     </a>
@@ -205,7 +205,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          @if (auth()->user()->role=="1" || auth()->user()->role == "3")
+          @if (auth()->user()->role=="1" || auth()->user()->role == "2" || auth()->user()->role == "3")
           <li class="nav-item">
             <a href="{{ route('home') }}" class="nav-link">
               <i class="nav-icon fas fa-home"></i>
