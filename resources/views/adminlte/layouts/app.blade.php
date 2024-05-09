@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ $title ?? "Reza Nurfachmi @ monitoringta" }} | Dashboard</title>
+  <title>Monitoring Tugas Akhir</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -24,10 +24,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button" id="pushMenuIcon""><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="{{ route('home') }}" class="nav-link">Beranda</a>
+        <a href="#  " class="nav-link">
+        {{ request()->route()->getName() }}
+        </a>
       </li>
     </ul>
 
@@ -182,7 +184,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('home') }}" class="brand-link text-center">
-      <img src="{{ asset('assets/dist/img/polban.png') }}" alt="Polban Logo" style="width: 200px; height: auto;">
+      <img id="polban-logo" src="{{ asset('assets/dist/img/polban.png') }}" alt="Polban Logo" style="width: 140px; height: auto;">
       <!-- <span class="brand-text font-weight-light">{{ $title ?? "monitoringta" }}</span> -->
     </a>
     <!-- Sidebar -->
@@ -203,8 +205,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          @if (auth()->user()->role=="1" || auth()->user()->role == "3")
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('home') }}" class="nav-link">
               <i class="nav-icon fas fa-home"></i>
               <p>
                 Beranda
@@ -212,8 +215,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
+          @endif
+          @if (auth()->user()->role== "1" || auth()->user()->role == "2")
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('kota') }}" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 KoTA
@@ -221,8 +226,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
+          @endif
+          @if (auth()->user()->role == "1" ||  auth()->user()->role == "2" || auth()->user()->role == "3")
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('timeline') }}" class="nav-link">
               <i class="nav-icon fas fa-calendar"></i>
               <p>
                 Timeline
@@ -230,8 +237,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
+          @endif
+          @if (auth()->user()->role=="1" ||  auth()->user()->role == "3")
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('artefak') }}" class="nav-link">
               <i class="nav-icon fas fa-file"></i>
               <p>
                 Artefak
@@ -239,8 +248,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
+          @endif
+          @if (auth()->user()->role=="1" ||  auth()->user()->role == "3")
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('jadwal') }}" class="nav-link">
               <i class="nav-icon fas fa-clock"></i>
               <p>
                 Jadwal Penguji
@@ -248,6 +259,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
+          @endif
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -265,5 +277,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('assets/dist/js/adminlte.min.js') }}"></script>
+
+<script>
+    document.getElementById('pushMenuIcon').addEventListener('click', function() {
+        var logoImg = document.getElementById('polban-logo');
+        var currentSrc = logoImg.src;
+        if (currentSrc.includes('polban.png')) {
+            logoImg.src = "{{ asset('assets/dist/img/polban1.png') }}";
+            logoImg.style.width = '20px';
+            logoImg.style.height = 'auto';
+        } else {
+            logoImg.src = "{{ asset('assets/dist/img/polban.png') }}";
+            logoImg.style.width = '140px';
+            logoImg.style.height = 'auto';
+        }
+    });
+</script
 </body>
 </html>
