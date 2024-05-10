@@ -28,11 +28,11 @@ class HomeController extends Controller
         if (Auth::check()) {
             $role = Auth()->user()->role;
             if ($role == '1') {
-                return view('beranda/koordinator/home');
+                return view('beranda.koordinator.home');
             } elseif ($role == '2') {
-                return view('beranda/pembimbing/home');
+                return view('beranda.pembimbing.home');
             } elseif ($role == '3') {
-                return view('beranda/mahasiswa/home');
+                return view('beranda.mahasiswa.home');
             }
         }
     }
