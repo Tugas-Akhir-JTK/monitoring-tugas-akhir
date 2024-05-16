@@ -137,7 +137,7 @@
                             <div class="col-md-2 mb-8pt mb-md-0">
                                 <div class="media align-items-left">
                                     <div class="d-flex flex-column media-body media-middle">
-                                        <span class="card-title">Anggota 2</span>
+                                        <span class="card-title">Anggota 3</span>
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +158,7 @@
                                 </div>
                             </div>
                             <div class="col mb-8pt mb-md-0">
-                                <input name="judul_kota" value="{{ old('judul_kota') }}" type="text" class="form-control" placeholder="Masukan Judul" required/>
+                                <input name="judul" value="{{ old('judul') }}" type="text" class="form-control" placeholder="Masukan Judul" required/>
                             </div>
                         </div>
                     </div>

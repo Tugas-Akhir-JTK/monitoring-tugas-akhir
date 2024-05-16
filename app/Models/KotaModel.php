@@ -9,10 +9,12 @@ use Illuminate\Support\Facades\DB;
 class KotaModel extends Model
 {
     use HasFactory;
-    
+
+    public $timestamps = false;
     protected $table = 'tbl_kota';
     protected $primaryKey = 'id_kota';
     protected $fillable = [
+        'id_kota',
         'judul', 
         'nim_satu', 
         'nama_mahasiswa_satu',
