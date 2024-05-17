@@ -31,6 +31,13 @@ class KotaController extends Controller
         return view('kota.index', compact('kotas'));
     }
 
+    public function detail($id)
+    {
+        $kota = KotaModel::findOrFail($id);
+
+        return view('kota.detail', compact('kota'));
+    }
+
     public function search(Request $request)
     {
         $keyword = $request->input('keyword');
@@ -49,6 +56,7 @@ class KotaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'id_kota' => 'required',
             'judul' => 'required',
             'nim_satu' => 'required', 
             'nama_mahasiswa_satu' => 'required',
@@ -107,25 +115,6 @@ class KotaController extends Controller
         
         // Mengupdate data kota dengan data yang diterima dari request
         $kota->update($request->all());
-
-        // $kota = KotaModel::find($id);
-        // $kota->id_kota = $request->get('id_kota');
-        // $kota->nim_satu =  $request->get('nim_satu');
-        // $kota->nama_mahasiswa_satu = $request->get('nama_mahasiswa_satu');
-        // $kota->nim_dua  = $request->get('nim_dua');
-        // $kota->nama_mahasiswa_dua = $request->get('nama_mahasiswa_dua');
-        // $kota->nim_tiga = $request->kota('nim_tiga');
-        // $kota->nama_mahasiswa_tiga = $request->get('nama_mahasiswa_tiga');
-        // $kota->nip_satu = $request->get('nip_satu');
-        // $kota->pembimbing_satu = $request->get('pembimbing_satu');
-        // $kota->nip_dua = $request->get('nip_dua');
-        // $kota->pembimbing_dua = $request->get('pembimbing_dua');
-        // $kota->kelas = $request->get('kelas');
-        // $kota->periode = $request->get('periode');
-        // $kota->tahapan_progres = $request->get('tahapan_progres');
-
-
-        // $kota->save();
 
         // Redirect ke halaman kota.index dengan pesan sukses
         return redirect()->route('kota')->with('success', 'Data Kota berhasil diperbarui');

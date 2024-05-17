@@ -11,7 +11,7 @@
                     <div class="col">
                         <h1 class="m-0">Daftar Kelompok Tugas Akhir</h1>
                     </div>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
                         <form class="me-m   d-2" action="{{ route('kota.search') }}" method="GET">
                             <input type="text" name="keyword" placeholder="Cari Kota...">
                             <button class="btn btn-secondary" type="submit"><i class="fas fa-search"></i></button>
@@ -73,7 +73,7 @@
                                 </td>
                                 <td>
                                     <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('kota.destroy', $row->id_kota) }}" method="POST">
-                                        <a class="detail" href="{{ route('kota', $row->id_kota) }}"><i class="nav-icon fas fa-eye" style="color: gray;"></i></a>
+                                        <a class="detail" href="{{ route('kota.detail', $row->id_kota) }}"><i class="nav-icon fas fa-eye" style="color: gray;"></i></a>
                                         <a class="edit" href="{{ route('kota.edit', $row->id_kota) }}"><i class="nav-icon fas fa-pen" style="color: blue;"></i></a>                     
                                         @csrf
                                         @method('DELETE')
