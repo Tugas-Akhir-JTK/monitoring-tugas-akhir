@@ -22,12 +22,11 @@ return new class extends Migration
             $table->string('nama_mahasiswa_tiga');
             $table->string('nip_satu');
             $table->string('pembimbing_satu');
-            $table->string('nim_dua');
+            $table->string('nip_dua');
             $table->string('pembimbing_dua');
             $table->string('kelas');
             $table->string('periode');
-            $table->integer('jumlah_bimbingan');
-            $table->integer('jumlah_artefak');
+            $table->string('tahapan_progres');
         });
     }
 
