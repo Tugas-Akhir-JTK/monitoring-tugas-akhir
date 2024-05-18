@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('nama_mahasiswa_satu');
             $table->string('nim_dua');
             $table->string('nama_mahasiswa_dua');
-            $table->string('nim_tiga');
+            $table->string('nim_tiga'); 
             $table->string('nama_mahasiswa_tiga');
             $table->string('nip_satu');
             $table->string('pembimbing_satu');

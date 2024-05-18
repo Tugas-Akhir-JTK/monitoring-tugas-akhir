@@ -282,7 +282,7 @@
                 <div class="col-auto me-auto">
                 </div>
                 <div class="col-auto" style="margin-left: auto;">
-                  <button type="submit" class="btn btn-info">Simpan</button>
+                  <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
               </div>
         </div>

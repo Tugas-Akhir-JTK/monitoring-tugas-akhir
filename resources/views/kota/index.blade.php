@@ -55,7 +55,7 @@
                             foreach($kotas as $row):
                         ?>
                             <tr>
-                                <td><?= $nomor++; ?></td>
+                                <td class="text-center"><?= $nomor++; ?></td>
                                 <td class="text-center"><?= $row->id_kota; ?></td>
                                 <td><?= $row->judul;?></td>
                                 <td class="text-center">
@@ -71,7 +71,7 @@
                                         Tidak Valid
                                     <?php endif; ?>
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('kota.destroy', $row->id_kota) }}" method="POST">
                                         <a class="detail" href="{{ route('kota.detail', $row->id_kota) }}"><i class="nav-icon fas fa-eye" style="color: gray;"></i></a>
                                         <a class="edit" href="{{ route('kota.edit', $row->id_kota) }}"><i class="nav-icon fas fa-pen" style="color: blue;"></i></a>                     
