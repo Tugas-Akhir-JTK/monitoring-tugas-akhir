@@ -71,8 +71,6 @@ class KotaController extends Controller
             'kelas' => 'required', 
             'periode' => 'required', 
             'tahapan_progres' => 'required', 
-            // 'jumlah_bimbingan' => 'required', 
-            // 'jumlah_artefak' => 'required',
         ]);
 
         KotaModel::create($request->all());
