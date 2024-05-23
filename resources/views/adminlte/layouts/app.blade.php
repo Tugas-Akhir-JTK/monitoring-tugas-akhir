@@ -22,19 +22,12 @@
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-<<<<<<< Updated upstream
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="{{ route('home') }}" class="nav-link">Beranda</a>
-=======
         <a class="nav-link" data-widget="pushmenu" href="#" role="button" id="pushMenuIcon"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">
           {{ request()->route()->getName() }}
         </a>
->>>>>>> Stashed changes
       </li>
     </ul>
 
@@ -124,14 +117,8 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-<<<<<<< Updated upstream
-    <a href="{{ route('home') }}" class="brand-link text-center">
-      <img src="{{ asset('assets/dist/img/polban.png') }}" alt="Polban Logo" style="width: 200px; height: auto;">
-      <!-- <span class="brand-text font-weight-light">{{ $title ?? "monitoringta" }}</span> -->
-=======
     <a href="#" class="brand-link text-center">
       <img id="polban-logo" src="{{ asset('assets/dist/img/polban.png') }}" alt="Polban Logo" style="width: 140px; height: auto;">
->>>>>>> Stashed changes
     </a>
     <!-- Sidebar -->
     <div class="sidebar">
@@ -197,12 +184,6 @@
 
 <!-- jQuery -->
 <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
-<<<<<<< Updated upstream
-<!-- Bootstrap 4 -->
-<script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ asset('assets/dist/js/adminlte.min.js') }}"></script>
-=======
 <!-- Bootstrap 5 JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
@@ -223,6 +204,5 @@
         }
     });
 </script>
->>>>>>> Stashed changes
 </body>
 </html>
