@@ -25,8 +25,8 @@ return new class extends Migration
             $table->string('nip_dua');
             $table->string('pembimbing_dua');
             $table->string('kelas');
-            $table->string('periode');
-            $table->string('tahapan_progres');
+            $table->integer('periode');
+            $table->integer('tahapan_progres');
         });
     }
 
