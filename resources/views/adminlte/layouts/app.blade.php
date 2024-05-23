@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ $title ?? "Reza Nurfachmi @ monitoringta" }} | Dashboard</title>
+  <title>Monitoring Tugas Akhir</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -22,11 +22,11 @@
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button" id="pushMenuIcon"><i class="fas fa-bars"></i></a>
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button" id="pushMenuIcon""><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">
-          {{ request()->route()->getName() }}
+        {{ request()->route()->getName() }}
         </a>
       </li>
     </ul>
@@ -119,6 +119,7 @@
     <!-- Brand Logo -->
     <a href="#" class="brand-link text-center">
       <img id="polban-logo" src="{{ asset('assets/dist/img/polban.png') }}" alt="Polban Logo" style="width: 140px; height: auto;">
+      <!-- <span class="brand-text font-weight-light">{{ $title ?? "monitoringta" }}</span> -->
     </a>
     <!-- Sidebar -->
     <div class="sidebar">
@@ -126,8 +127,9 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          @if (auth()->user()->role=="1" || auth()->user()->role == "2" || auth()->user()->role == "3")
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('home') }}" class="nav-link">
               <i class="nav-icon fas fa-home"></i>
               <p>
                 Beranda
@@ -135,8 +137,10 @@
               </p>
             </a>
           </li>
+          @endif
+          @if (auth()->user()->role== "1" || auth()->user()->role == "2")
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('kota') }}" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 KoTA
@@ -144,8 +148,10 @@
               </p>
             </a>
           </li>
+          @endif
+          @if (auth()->user()->role == "1" ||  auth()->user()->role == "2" || auth()->user()->role == "3")
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('timeline') }}" class="nav-link">
               <i class="nav-icon fas fa-calendar"></i>
               <p>
                 Timeline
@@ -153,8 +159,10 @@
               </p>
             </a>
           </li>
+          @endif
+          @if (auth()->user()->role=="1" ||  auth()->user()->role == "3")
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('artefak') }}" class="nav-link">
               <i class="nav-icon fas fa-file"></i>
               <p>
                 Artefak
@@ -162,8 +170,10 @@
               </p>
             </a>
           </li>
+          @endif
+          @if (auth()->user()->role=="1" ||  auth()->user()->role == "3")
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('jadwal') }}" class="nav-link">
               <i class="nav-icon fas fa-clock"></i>
               <p>
                 Jadwal Penguji
@@ -171,6 +181,7 @@
               </p>
             </a>
           </li>
+          @endif
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -184,8 +195,13 @@
 
 <!-- jQuery -->
 <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
-<!-- Bootstrap 5 JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap 4 -->
+<!-- <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script> -->
+<!-- Bootsrap 5-->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('assets/dist/js/adminlte.min.js') }}"></script>
 
@@ -203,6 +219,6 @@
             logoImg.style.height = 'auto';
         }
     });
-</script>
+</script
 </body>
 </html>

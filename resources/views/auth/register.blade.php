@@ -4,17 +4,19 @@
 <body class="hold-transition register-page">
     <div class="register-box">
       <div class="register-logo">
-        <a href="{{ route('home') }}"><b>{{ config('app.name', 'Laravel') }}</b> 1.0</a>
+        <!-- <a href="{{ route('home') }}"><b>{{ config('app.name', 'Laravel') }}</b> 1.0</a> -->
       </div>
 
       <div class="card">
         <div class="card-body register-card-body">
-          <p class="login-box-msg">Register a new membership</p>
+          <p class="login-box-msg">
+          <img src="{{ asset('assets/dist/img/polban.png') }}" alt="Polban Logo" style="width: 300px; height: auto;"/>
+          </p>
 
           <form action="{{ route('register') }}" method="post">
             @csrf
             <div class="input-group mb-3">
-              <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" placeholder="Full name" name="name" value="{{ old('name') }}">
+              <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" placeholder="Nama" name="name" value="{{ old('name') }}">
               <div class="input-group-append">
                 <div class="input-group-text">
                   <span class="fas fa-user"></span>
@@ -23,6 +25,19 @@
               @error('name')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
+                </span>
+              @enderror
+            </div>
+            <div class="input-group mb-3">
+                <select type="text" class="form-control @error('role') is-invalid @enderror" name="role" placeholder="Role" name="role" value="{{ old('role') }}" required>
+                    <option value="">-- Pilih Role --</option>
+                    <option value="1">Koordinator</option>
+                    <option value="2">Dosen Pembimbing</option>
+                    <option value="3">Mahasiswa</option>
+                </select>
+              @error('role')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
                 </span>
               @enderror
             </div>
@@ -53,7 +68,7 @@
               @enderror
             </div>
             <div class="input-group mb-3">
-              <input type="password" class="form-control" name="password_confirmation" placeholder="Retype password">
+              <input type="password" class="form-control" name="password_confirmation" placeholder="Password">
               <div class="input-group-append">
                 <div class="input-group-text">
                   <span class="fas fa-lock"></span>
@@ -77,7 +92,7 @@
             </div>
           </form>
 
-          <div class="social-auth-links text-center">
+          <!-- <div class="social-auth-links text-center">
             <p>- OR -</p>
             <a href="#" class="btn btn-block btn-primary">
               <i class="fab fa-facebook mr-2"></i>
@@ -87,7 +102,7 @@
               <i class="fab fa-google-plus mr-2"></i>
               Sign up using Google+
             </a>
-          </div>
+          </div> -->
           @if (Route::has('login'))
           <a href="{{ route('login') }}" class="text-center">I already have a membership</a>
           @endif
