@@ -91,7 +91,7 @@ class KotaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'id_kota' => 'required',
+            // 'id_kota' => 'required',
             'judul' => 'required',
             'nim_satu' => 'required', 
             'nama_mahasiswa_satu' => 'required',
@@ -114,8 +114,11 @@ class KotaController extends Controller
         // Mengupdate data kota dengan data yang diterima dari request
         $kota->update($request->all());
 
+        // Set flash message
+        session()->flash('success', 'Data kota berhasil diubah');
+
         // Redirect ke halaman kota.index dengan pesan sukses
-        return redirect()->route('kota')->with('success', 'Data Kota berhasil diperbarui');
+        return redirect()->route('kota');
     }
 
 
@@ -125,7 +128,9 @@ class KotaController extends Controller
         Storage::delete('/kota'. $kota->id_kota);
         $kota->delete();
 
+        session()->flash('successdelete', 'Data kota berhasil dihapus');
+
         
-        return redirect()->route('kota')->with('success', 'Data Kota berhasil dihapus');
+        return redirect()->route('kota');
     }
 }
