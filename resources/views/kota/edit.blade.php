@@ -1,26 +1,21 @@
 @extends('adminlte.layouts.app')
 
 @section('content')
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6 col-md-8">
-                    <h1 class="m-0">Edit KoTA</h1>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
+                    <h1 class="m-0">Edit KoTA {{ ($kota->id_kota) }}</h1>
+                </div>
+            </div>
             <hr />
-        </div><!-- /.container-fluid -->
+        </div>
     </div>
-    <!-- /.content-header -->
 
-    <!-- Main content -->
     <div class="content">
-        <!-- Begin Page Content -->
         <div class="container-fluid">
-            <form action="{{ route('kota.update', $kota->id) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('kota.update', $kota->id_kota) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="row card-group-row">
@@ -32,10 +27,10 @@
                             {{ $error }}
                         </div>
                         @endforeach
-                    </div>
+                    </div>             
                     @endif
                     <div class="col-md-12">
-                        <!-- Nomor KoTA -->
+                        <!-- Nomor KoTA
                         <div class="list-group-item p-3">
                             <div class="row align-items-start">
                                 <div class="col-md-2 mb-8pt mb-md-0">
@@ -50,7 +45,7 @@
                                         class="form-control" placeholder="Masukan Id KoTA" required />
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <!-- Nomor NIM Satu -->
                         <div class="list-group-item p-3">
@@ -303,16 +298,14 @@
                     <div class="col-auto me-auto">
                     </div>
                     <div class="col-auto" style="margin-left: auto;">
-                        <button type="submit" class="btn btn-info">Simpan</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </div>
-            </div>
-        </form>
-        <br />
-        <br />
-        <br />
+            </form>
+            <br />
+            <br />
+            <br />
+        </div>
     </div>
 </div>
-</div>
-<!-- End of Main Content -->
 @endsection
