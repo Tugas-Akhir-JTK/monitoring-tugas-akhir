@@ -75,15 +75,15 @@ class ArtefakController extends Controller
 
     public function edit($id)
     {
-        $artefaks = ArtefakModel::findOrFail($id);
-        if (!$artefaks) {
+        $artefak = ArtefakModel::findOrFail($id);
+        if (!$artefak) {
             return redirect()->route('artefak')->withErrors('Data tidak ditemukan.');
         }
 
-        return view('artefak.edit', compact('artefaks'));
+        return view('artefak.edit', compact('artefak'));
     }
 
-    public function update(Request $request, ArtefakModel $artefak)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'nama_artefak' => 'required',
@@ -92,10 +92,13 @@ class ArtefakController extends Controller
             'tenggat_waktu' => 'required',
         ]);
 
+        $artefak = ArtefakModel::findOrFail($id);
+
         $artefak->update($request->all());
 
-        return redirect()->route('artefak')
-                         ->with('success', 'Artefak berhasil diupdate.');
+        session()->flash('success', 'Data kota berhasil diubah');
+
+        return redirect()->route('artefak');
     }
 
     public function destroy($id)
