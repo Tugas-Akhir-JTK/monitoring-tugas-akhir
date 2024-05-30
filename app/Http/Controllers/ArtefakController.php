@@ -68,11 +68,6 @@ class ArtefakController extends Controller
                         ->with('success', 'Artefak berhasil ditambahkan.');
     }
 
-    // public function detail(ArtefakModel $artefak)
-    // {
-    //     return view('artefak.detail', compact('artefaks'));
-    // }
-
     public function edit($id)
     {
         $artefak = ArtefakModel::findOrFail($id);
