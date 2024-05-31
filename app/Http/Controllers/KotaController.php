@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\KotaModel;
+use App\Models\User;
+use App\Models\KotaHasUser;
+use App\Models\KotaHasUserModel;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class KotaController extends Controller
 {
@@ -25,19 +29,91 @@ class KotaController extends Controller
      */
     public function index()
     {
-        $kotaModel = new KotaModel();
-        $kotas = $kotaModel->getKota();
+        $kotas = KotaModel::with('users')->get();
 
         return view('kota.index', compact('kotas'));
     }
+    
+    public function create()
+    {
+        $users = User::all();
+        
+        return view('kota.create', compact('users'));
+    }
+    
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nama_kota' => 'required',
+            'judul' => 'required',
+            'kelas' => 'required', 
+            'periode' => 'required',
+            'user_ids' => 'required|array|min:3',
+            'user_ids.*' => 'exists:tbl_user,id_user'
+        ]);
+        
+        $kota = KotaModel::create($request->only('nama_kota', 'judul', 'kelas', 'periode'));
 
+        foreach ($request->user_ids as $user_id) {
+            KotaHasUserModel::create([
+                'id_kota' => $kota->id_kota,
+                'id_user' => $user_id,
+            ]);
+        }
+        
+        return redirect()->route('kota')->with('success', 'Data Kota berhasil disimpan');
+    }
+    
     public function detail($id)
     {
-        $kota = KotaModel::findOrFail($id);
-
+        $kota = KotaModel::with('users')->findOrFail($id);
+        
         return view('kota.detail', compact('kota'));
     }
 
+    
+    public function edit($id)
+    {
+        $kota = KotaModel::with('users')->findOrFail($id);
+        $users = User::all();
+
+        if (!$kota) {
+            return redirect()->route('kota')->withErrors('Data tidak ditemukan.');
+        }
+        
+        return view('kota.edit', compact('kota', 'users'));
+    }
+
+    public function update(Request  $request, $id)
+    {
+        $kota = KotaModel::findOrFail($id);
+
+        $request->validate([
+            'nama_kota' => 'required',
+            'judul' => 'required',
+            'kelas' => 'required', 
+            'periode' => 'required',
+            'user_ids' => 'required|array|min:3',
+            'user_ids.*' => 'exists:tbl_user,id_user'
+        ]);
+        
+        // Mengambil data kota berdasarkan id
+        $kota->update($request->only('nama_kota', 'judul', 'kelas', 'periode'));
+
+        // Update user di kota
+        KotaHasUserModel::where('id_kota', $kota->id_kota)->delete();
+
+        foreach ($request->user_ids as $user_id) {
+            KotaHasUserModel::create([
+                'id_kota' => $kota->id_kota,
+                'id_user' => $user_id,
+            ]);
+        }
+
+        // Redirect ke halaman kota.index dengan pesan sukses
+        return redirect()->route('kota')->with('success', 'Data Kota berhasil diperbarui');
+    }
+    
     public function search(Request $request)
     {
         $keyword = $request->input('keyword');
@@ -47,82 +123,12 @@ class KotaController extends Controller
 
         return view('kota.index', compact('kotas'));
     }
-
-    public function create()
-    {
-        return view('kota.create');
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'id_kota' => 'required',
-            'judul' => 'required',
-            'nim_satu' => 'required', 
-            'nama_mahasiswa_satu' => 'required',
-            'nim_dua' => 'required', 
-            'nama_mahasiswa_dua' => 'required', 
-            'nim_tiga' => 'required', 
-            'nama_mahasiswa_tiga' => 'required', 
-            'nip_satu' => 'required', 
-            'pembimbing_satu' => 'required', 
-            'nip_dua' => 'required', 
-            'pembimbing_dua' => 'required', 
-            'kelas' => 'required', 
-            'periode' => 'required', 
-            'tahapan_progres' => 'required', 
-        ]);
-
-        KotaModel::create($request->all());
-
-        return redirect()->route('kota')->with('success', 'Data Kota berhasil disimpan');
-    }
-
-    public function edit($id)
-    {
-        $kota = KotaModel::findOrFail($id);
-        if (!$kota) {
-            return redirect()->route('kota')->withErrors('Data tidak ditemukan.');
-        }
-
-        return view('kota.edit', compact('kota'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'id_kota' => 'required',
-            'judul' => 'required',
-            'nim_satu' => 'required', 
-            'nama_mahasiswa_satu' => 'required',
-            'nim_dua' => 'required', 
-            'nama_mahasiswa_dua' => 'required', 
-            'nim_tiga' => 'required', 
-            'nama_mahasiswa_tiga' => 'required', 
-            'nip_satu' => 'required', 
-            'pembimbing_satu' => 'required', 
-            'nip_dua' => 'required', 
-            'pembimbing_dua' => 'required', 
-            'kelas' => 'required', 
-            'periode' => 'required', 
-            'tahapan_progres' => 'required', 
-        ]);
-
-        // Mengambil data kota berdasarkan id
-        $kota = KotaModel::findOrFail($id);
-        
-        // Mengupdate data kota dengan data yang diterima dari request
-        $kota->update($request->all());
-
-        // Redirect ke halaman kota.index dengan pesan sukses
-        return redirect()->route('kota')->with('success', 'Data Kota berhasil diperbarui');
-    }
-
-
+    
     public function destroy($id)
     {
         $kota = KotaModel::findOrFail($id);
-        Storage::delete('/kota'. $kota->id_kota);
+        KotaHasUserModel::where('id_kota', $kota->id_kota)->delete();
+        // Storage::delete('/kota'. $kota->id_kota);
         $kota->delete();
 
         

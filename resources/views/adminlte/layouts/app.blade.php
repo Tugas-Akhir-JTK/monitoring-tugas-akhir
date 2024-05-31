@@ -13,12 +13,24 @@
   <link rel="stylesheet" href="{{ asset('assets/dist/css/adminlte.min.css') }}">
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Manual CSS -->
+  <link rel="stylesheet" href="{{ asset('resources/css/app.css') }}">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    @if (session('success'))
+      <div class="toast align-items-center text-white bg-success border-0 position-fixed bottom-0 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000" id="toast" style="opacity: 1;">
+          <div class="d-flex">
+              <div class="toast-body">
+                  {{ session('success') }}
+              </div>
+              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+      </div>
+    @endif
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -54,6 +66,7 @@
           </form>
         </div>
       </li>
+      
 
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
@@ -81,7 +94,7 @@
         </ul>
       </li>
 
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown dropstart">
         <div class="media user-panel d-flex" data-bs-toggle="dropdown">
           <div class="image">
             <img src="{{ asset('assets/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
@@ -97,6 +110,8 @@
               <a href="#" class="d-block">211511048</a>
               <a href="#" class="d-block">{{ auth()->user()->name }}</a>
             </div>
+            <br>
+            <br>
             <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-danger ml-auto" style="color: white;">Logout</a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
               @csrf
@@ -160,7 +175,7 @@
             </a>
           </li>
           @endif
-          @if (auth()->user()->role=="1" ||  auth()->user()->role == "3")
+          @if (auth()->user()->role=="1")
           <li class="nav-item">
             <a href="{{ route('artefak') }}" class="nav-link">
               <i class="nav-icon fas fa-file"></i>
@@ -169,6 +184,39 @@
                 <span class="right badge badge-danger">New</span>
               </p>
             </a>
+          </li>
+          @endif
+          @if (auth()->user()->role == "3")
+          <li class="nav-item">
+            <a href="#artefakCollapse" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="artefakCollapse">
+              <i class="nav-icon fas fa-file"></i>
+              <p>
+                Artefak
+                <span class="right badge badge-danger">New</span>
+              </p>
+            </a>
+            <div class="collapse" id="artefakCollapse">
+              <ul class="list-unstyled">
+                <li>
+                  <a class="nav-link" href="{{ route('artefak') }}">
+                    <i class="nav-icon fas fa-arrow"></i>
+                    <p>FTA dan Dokumen</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="nav-link" href="{{ route('resume') }}">
+                      <i class="nav-icon fas fa-arrow"></i>
+                    <p>Resume Bimbingan</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="nav-link" href="#">
+                    <i class="nav-icon fas fa-arrow"></i>
+                    <p>Lain-lain</p>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </li>
           @endif
           @if (auth()->user()->role=="1" ||  auth()->user()->role == "3")
@@ -198,8 +246,6 @@
 <!-- Bootstrap 4 -->
 <!-- <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script> -->
 <!-- Bootsrap 5-->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <!-- AdminLTE App -->
@@ -219,6 +265,17 @@
             logoImg.style.height = 'auto';
         }
     });
-</script
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var toastEl = document.getElementById('toast');
+        if (toastEl) {
+            var toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
+    });
+</script>
+
 </body>
 </html>
