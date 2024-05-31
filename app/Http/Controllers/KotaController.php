@@ -110,8 +110,11 @@ class KotaController extends Controller
             ]);
         }
 
+        // Set flash message
+        session()->flash('success', 'Data kota berhasil diubah');
+
         // Redirect ke halaman kota.index dengan pesan sukses
-        return redirect()->route('kota')->with('success', 'Data Kota berhasil diperbarui');
+        return redirect()->route('kota');
     }
     
     public function search(Request $request)
@@ -131,7 +134,9 @@ class KotaController extends Controller
         // Storage::delete('/kota'. $kota->id_kota);
         $kota->delete();
 
+        session()->flash('successdelete', 'Data kota berhasil dihapus');
+
         
-        return redirect()->route('kota')->with('success', 'Data Kota berhasil dihapus');
+        return redirect()->route('kota');
     }
 }

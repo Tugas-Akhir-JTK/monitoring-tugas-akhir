@@ -20,24 +20,24 @@
     <div class="content">
         <!-- Begin Page Content -->
         <div class="container-fluid">
-            <form action="{{ route('artefak.update', $artefaks->id_artefak) }}" method="POST">
+            <form action="{{ route('artefak.update', $artefak->id_artefak) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
                     <label for="nama_artefak">Nama Artefak</label>
-                    <input type="text" class="form-control" id="nama_artefak" name="nama_artefak" value="{{ $artefaks->nama_artefak }}" required>
+                    <input type="text" class="form-control" id="nama_artefak" name="nama_artefak" value="{{ old('nama_artefak', $artefak->nama_artefak) }}" required>
                 </div>
                 <div class="form-group">
                     <label for="deskripsi">Deskripsi</label>
-                    <textarea class="form-control" id="deskripsi" name="deskripsi" required>{{ $artefaks->deskripsi }}</textarea>
+                    <textarea class="form-control" id="deskripsi" name="deskripsi" required>{{ old('deskripsi', $artefak->deskripsi) }}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="kategori_artefak">Kategori Artefak</label>
-                    <input type="text" class="form-control" id="kategori_artefak" name="kategori_artefak" value="{{ $artefaks->kategori_artefak }}" required>
+                    <input type="text" class="form-control" id="kategori_artefak" name="kategori_artefak" value="{{ old('kategori_artefak', $artefak->kategori_artefak) }}" required>
                 </div>
                 <div class="form-group">
                     <label for="tenggat_waktu">Tenggat Waktu</label>
-                    <input type="datetime-local" class="form-control" id="tenggat_waktu" name="tenggat_waktu" value="{{ $artefaks->tenggat_waktu }}" required>
+                    <input type="datetime-local" class="form-control" id="tenggat_waktu" name="tenggat_waktu" value="{{ old('tenggat_waktu', $artefak->tenggat_waktu) }}" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>

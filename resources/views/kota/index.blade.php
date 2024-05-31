@@ -23,6 +23,7 @@
                             </button>
                         </a>
                     </div>
+                    
                 </div><!-- /.row -->
             <hr/>
         </div><!-- /.container-fluid -->
@@ -33,7 +34,29 @@
     <div class="content">
     <!-- Begin Page Content -->
     <div class="container-fluid">
-
+    @if(session('success'))
+    <div class="alert alert-success d-flex align-items-center" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+            <div>
+                Kota Berhasil Diubah
+            </div>
+    </div> 
+    @elseif(session('successdelete'))
+    <div class="alert alert-success d-flex align-items-center" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+            <div>
+                Kota Berhasil Didelete
+            </div>
+    </div>
+    <!-- <div class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                Hello, world! This is a toast message.
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>    -->
+    @endif
 
     <!-- DataTables Example -->
     <div class="card shadow mb-4">
@@ -75,11 +98,30 @@
                                     <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('kota.destroy', $row->id_kota) }}" method="POST">
                                         <a class="detail" href="{{ route('kota.detail', $row->id_kota) }}"><i class="nav-icon fas fa-eye" style="color: gray;"></i></a>
                                         <a class="edit" href="{{ route('kota.edit', $row->id_kota) }}"><i class="nav-icon fas fa-pen" style="color: blue;"></i></a>                     
-                                        @csrf
-                                        @method('DELETE')
-                                        <a class="destroy" type="submit" href="{{ route('kota.destroy', $row->id_kota) }}"><i class="nav-icon fas fa-trash"style="color: red;"></i></a>
+                                       
+                                        <a class="destroy" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="nav-icon fas fa-trash"style="color: red;"></i></a>
+                                        <!-- href="{{ route('kota.destroy', $row->id_kota) }}" -->
                                     </form>
                                 </td>
+                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form action="{{ route('kota.destroy', $row->id_kota) }}" method="DELETE">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel">Yakin Akan Menghapus KoTA ini ??</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-primary" >Iya</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </tr>
                         <?php endforeach; ?>
                         
