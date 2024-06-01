@@ -46,105 +46,19 @@
                                 </div>
                             </div>
                             <div class="col mb-8pt mb-md-0">
-                                <input name="id_kota" value="{{ old('id_kota') }}" type="text" class="form-control" placeholder="Masukan Id KoTA" required/>
+                                <input name="nama_kota" value="{{ old('nama_kota') }}" type="text" class="form-control" placeholder="Masukan Id KoTA" required/>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Nomor NIM Satu -->
-                    <div class="list-group-item p-3">
-                        <div class="row align-items-start">
-                            <div class="col-md-2 mb-8pt mb-md-0">
-                                <div class="media align-items-left">
-                                    <div class="d-flex flex-column media-body media-middle">
-                                        <span class="card-title">NIM</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col mb-8pt mb-md-0">
-                                <input name="nim_satu" value="{{ old('nim_satu') }}" type="text" class="form-control" placeholder="NIM" required/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Nomor Anggota Satu -->
-                    <div class="list-group-item p-3">
-                        <div class="row align-items-start">
-                            <div class="col-md-2 mb-8pt mb-md-0">
-                                <div class="media align-items-left">
-                                    <div class="d-flex flex-column media-body media-middle">
-                                        <span class="card-title">Anggota 1</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col mb-8pt mb-md-0">
-                                <input name="nama_mahasiswa_satu" value="{{ old('nama_mahasiswa_satu') }}" type="text" class="form-control" placeholder="Nama Anggota 1" required/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Nomor NIM Dua -->
-                    <div class="list-group-item p-3">
-                        <div class="row align-items-start">
-                            <div class="col-md-2 mb-8pt mb-md-0">
-                                <div class="media align-items-left">
-                                    <div class="d-flex flex-column media-body media-middle">
-                                        <span class="card-title">NIM</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col mb-8pt mb-md-0">
-                                <input name="nim_dua" value="{{ old('nim_dua') }}" type="text" class="form-control" placeholder="NIM" required/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Nomor Anggota Dua -->
-                    <div class="list-group-item p-3">
-                        <div class="row align-items-start">
-                            <div class="col-md-2 mb-8pt mb-md-0">
-                                <div class="media align-items-left">
-                                    <div class="d-flex flex-column media-body media-middle">
-                                        <span class="card-title">Anggota 2</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col mb-8pt mb-md-0">
-                                <input name="nama_mahasiswa_dua" value="{{ old('nama_mahasiswa_dua') }}" type="text" class="form-control" placeholder="Nama Anggota 2" required/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Nomor NIM Tiga -->
-                    <div class="list-group-item p-3">
-                        <div class="row align-items-start">
-                            <div class="col-md-2 mb-8pt mb-md-0">
-                                <div class="media align-items-left">
-                                    <div class="d-flex flex-column media-body media-middle">
-                                        <span class="card-title">NIM</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col mb-8pt mb-md-0">
-                                <input name="nim_tiga" value="{{ old('nim_tiga') }}" type="text" class="form-control" placeholder="NIM" required/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Nomor Anggota Tiga -->
-                    <div class="list-group-item p-3">
-                        <div class="row align-items-start">
-                            <div class="col-md-2 mb-8pt mb-md-0">
-                                <div class="media align-items-left">
-                                    <div class="d-flex flex-column media-body media-middle">
-                                        <span class="card-title">Anggota 3</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col mb-8pt mb-md-0">
-                                <input name="nama_mahasiswa_tiga" value="{{ old('nama_mahasiswa_tiga') }}" type="text" class="form-control" placeholder="Nama Anggota 3" required/>
-                            </div>
-                        </div>
+                    <!-- Tambah Mahasiswa dan Dosen Pembimbing -->
+                    <div>
+                        <label for="user_ids">Select Users</label>
+                        <select name="user_ids[]" id="user_ids" multiple required>
+                            @foreach($users as $user)
+                                <option value="{{ $user->id_user }}">{{ $user->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <!-- JUDUL KUTIPAN -->
@@ -159,70 +73,6 @@
                             </div>
                             <div class="col mb-8pt mb-md-0">
                                 <input name="judul" value="{{ old('judul') }}" type="text" class="form-control" placeholder="Masukan Judul" required/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Nomor NIP Satu -->
-                    <div class="list-group-item p-3">
-                        <div class="row align-items-start">
-                            <div class="col-md-2 mb-8pt mb-md-0">
-                                <div class="media align-items-left">
-                                    <div class="d-flex flex-column media-body media-middle">
-                                        <span class="card-title">NIP</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col mb-8pt mb-md-0">
-                                <input name="nip_satu" value="{{ old('nip_satu') }}" type="text" class="form-control" placeholder="NIP" required/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Nomor Anggota Satu -->
-                    <div class="list-group-item p-3">
-                        <div class="row align-items-start">
-                            <div class="col-md-2 mb-8pt mb-md-0">
-                                <div class="media align-items-left">
-                                    <div class="d-flex flex-column media-body media-middle">
-                                        <span class="card-title">Pembimbing 1</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col mb-8pt mb-md-0">
-                                <input name="pembimbing_satu" value="{{ old('pembimbing_satu') }}" type="text" class="form-control" placeholder="Nama Pembimbing 1" required/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Nomor NIP Dua -->
-                    <div class="list-group-item p-3">
-                        <div class="row align-items-start">
-                            <div class="col-md-2 mb-8pt mb-md-0">
-                                <div class="media align-items-left">
-                                    <div class="d-flex flex-column media-body media-middle">
-                                        <span class="card-title">NIP</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col mb-8pt mb-md-0">
-                                <input name="nip_dua" value="{{ old('nip_dua') }}" type="text" class="form-control" placeholder="NIP" required/>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Nomor Anggota Dua -->
-                    <div class="list-group-item p-3">
-                        <div class="row align-items-start">
-                            <div class="col-md-2 mb-8pt mb-md-0">
-                                <div class="media align-items-left">
-                                    <div class="d-flex flex-column media-body media-middle">
-                                        <span class="card-title">Pembimbing 2</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col mb-8pt mb-md-0">
-                                <input name="pembimbing_dua" value="{{ old('pembimbing_dua') }}" type="text" class="form-control" placeholder="Nama Pembimbing 2" required/>
                             </div>
                         </div>
                     </div>

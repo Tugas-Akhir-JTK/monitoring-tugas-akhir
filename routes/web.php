@@ -38,7 +38,7 @@ Route::get('/timeline', [App\Http\Controllers\TimelineController::class, 'index'
 
 
 //Artefak
-Route::get('/artefak', [App\Http\Controllers\ArtefakController::class, 'index'])->middleware(['auth', 'role:1'])->name('artefak');
+Route::get('/artefak', [App\Http\Controllers\ArtefakController::class, 'index'])->middleware(['auth', 'role:1,3'])->name('artefak');
 Route::get('/artefak/detail/{id}', [App\Http\Controllers\ArtefakController::class, 'detail'])->middleware(['auth', 'role:1'])->name('artefak.detail');
 Route::get('/artefak/create', [App\Http\Controllers\ArtefakController::class, 'create'])->middleware(['auth', 'role:1'])->name('artefak.create'); //menambahkan data
 Route::get('/artefak/{id}', [App\Http\Controllers\ArtefakController::class, 'detail'])->middleware(['auth', 'role:1'])->name('artefak.detail');
@@ -54,3 +54,14 @@ Route::get('/jadwal', [App\Http\Controllers\JadwalController::class, 'index'])->
 
 //Bimbingan
 Route::get('/bimbingan', [App\Http\Controllers\BimbinganController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('bimbingan');
+
+//Resume Bimbingan
+Route::get('/resume', [App\Http\Controllers\ResumeBimbinganController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('resume');
+Route::get('/resume/detail/{id}', [App\Http\Controllers\ResumeBimbinganController::class, 'detail'])->middleware(['auth', 'role:2,3'])->name('resume.detail');
+Route::get('/resume/create', [App\Http\Controllers\ResumeBimbinganController::class, 'create'])->middleware(['auth', 'role:2,3'])->name('resume.create'); //menambahkan data
+Route::get('/resume/{id}', [App\Http\Controllers\ResumeBimbinganController::class, 'detail'])->middleware(['auth', 'role:2,3'])->name('resume.detail');
+Route::post('/resume/store', [App\Http\Controllers\ResumeBimbinganController::class, 'store'])->middleware(['auth', 'role:2,3'])->name('resume.store');
+Route::get('/resume/edit/{id}', [App\Http\Controllers\ResumeBimbinganController::class, 'edit'])->middleware(['auth', 'role:2,3'])->name('resume.edit');
+Route::put('/resume/update/{id}', [App\Http\Controllers\ResumeBimbinganController::class, 'update'])->middleware(['auth', 'role:2,3'])->name('resume.update');
+Route::post('/resume/search', [App\Http\Controllers\ResumeBimbinganController::class, 'search'])->middleware(['auth', 'role:2,3'])->name('resume.search');
+Route::delete('/resume/{id}', [App\Http\Controllers\ResumeBimbinganController::class, 'destroy'])->middleware(['auth', 'role:2,3'])->name('resume.destroy');

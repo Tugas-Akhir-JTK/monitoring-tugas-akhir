@@ -31,7 +31,7 @@
     <div class="content">
         <!-- Begin Page Content -->
         <div class="container-fluid">
-            <h3 style="font-weight: bold;">KoTA <?= $kota->id_kota; ?></h3>
+            <h3 style="font-weight: bold;">KoTA <?= $kota->nama_kota; ?></h3>
             <h4><?= $kota->judul; ?></h4>
             <br>
             <table id="personTable" width="100%" cellspacing="0">
@@ -46,6 +46,12 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($kota->users as $user)
+                        <tr>
+                            <td><h5>{{ $user->name }}</h5></td>
+                            <td><h5>{{ $user->nomor_induk }}</h5></td>
+                            <td><h5>&nbsp;</h5></td>
+                        </tr>
                         <tr>
                             <td><h5><?= $kota->nama_mahasiswa_satu; ?></h5></td>
                             <td><h5><?= $kota->nim_satu;?></h5></td>
@@ -67,6 +73,7 @@
                             <td><h5></h5></td>
                             <td><h5></h5></td>
                         </tr>
+                    @endforeach
                 </tbody>
             </table>
             <br>

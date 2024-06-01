@@ -14,24 +14,16 @@ class KotaModel extends Model
     protected $table = 'tbl_kota';
     protected $primaryKey = 'id_kota';
     protected $fillable = [
-        'id_kota',
-        'judul', 
-        'nim_satu', 
-        'nama_mahasiswa_satu',
-        'nim_dua', 
-        'nama_mahasiswa_dua', 
-        'nim_tiga', 
-        'nama_mahasiswa_tiga', 
-        'nip_satu', 
-        'pembimbing_satu', 
-        'nip_dua', 
-        'pembimbing_dua', 
+        'nama_kota',
+        'judul',
         'kelas', 
         'periode', 
-        'tahapan_progres', 
-        // 'jumlah_bimbingan', 
-        // 'jumlah_artefak',
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'tbl_kota_has_user', 'id_kota', 'id_user');
+    }
 
     public function getKota($id = null)
     {

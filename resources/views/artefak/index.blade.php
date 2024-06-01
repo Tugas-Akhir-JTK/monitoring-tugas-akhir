@@ -70,42 +70,42 @@
 
     <!-- Main content -->
     <div class="content">
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
-
-
-    <!-- DataTables Example -->
-    <div class="card shadow mb-4">
-        <div class="card-body">
-            <div class="row mt-4">
-                @foreach($artefaks as $artefak)
-                <div class="col-md-4">
-                    <div class="card">
-                        <h5 class="card-header d-flex justify-content-between align-items-center">
-                            <div class="col">{{ $artefak->nama_artefak }}</div>
-                            <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
-                                <!-- <a href="{{ route('artefak.detail', $artefak->id_artefak) }}">
-                                    <i class="nav-icon fas fa-eye" style="color: gray;"></i>
-                                </a> -->
-                                <a href="{{ route('artefak.edit', $artefak->id_artefak) }}">
-                                    <i class="nav-icon fas fa-pen" style="color: blue;"></i>
-                                </a>
-                                <form action="{{ route('artefak.destroy', $artefak->id_artefak) }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-link" style="color: red; padding: 0; border: none;">
-                                        <i class="nav-icon fas fa-trash"></i>
-                                    </button>
-                                </form>
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+            <!-- DataTables Example -->
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div class="row mt-4">
+                        @foreach($artefaks as $artefak)
+                        <div class="col-md-4">
+                            <div class="card">
+                                <h5 class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="col">{{ $artefak->nama_artefak }}</div>
+                                    <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
+                                        <!-- <a href="{{ route('artefak.detail', $artefak->id_artefak) }}">
+                                            <i class="nav-icon fas fa-eye" style="color: gray;"></i>
+                                        </a> -->
+                                        <a href="{{ route('artefak.edit', $artefak->id_artefak) }}">
+                                            <i class="nav-icon fas fa-pen" style="color: blue;"></i>
+                                        </a>
+                                        <form action="{{ route('artefak.destroy', $artefak->id_artefak) }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-link" style="color: red; padding: 0; border: none;">
+                                                <i class="nav-icon fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </h5>
+                                <div class="card-body">
+                                    <p class="card-text">{{ $artefak->deskripsi }}</p>
+                                    <p class="card-text"><small class="text-muted">{{ $artefak->formatted_tenggat_waktu }}</small></p>
+                                </div>
                             </div>
-                        </h5>
-                        <div class="card-body">
-                            <p class="card-text">{{ $artefak->deskripsi }}</p>
-                            <p class="card-text"><small class="text-muted">{{ $artefak->formatted_tenggat_waktu }}</small></p>
                         </div>
+                        @endforeach
                     </div>
                 </div>
-                @endforeach
             </div>
         </div>
     </div>

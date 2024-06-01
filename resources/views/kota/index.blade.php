@@ -68,7 +68,7 @@
                             <th>No</th>
                             <th>Kode KoTA</th>
                             <th>Judul KoTA</th>
-                            <th>Tahap Progres</th>
+                            <!-- <th>Tahap Progres</th> -->
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -79,9 +79,9 @@
                         ?>
                             <tr>
                                 <td class="text-center"><?= $nomor++; ?></td>
-                                <td class="text-center"><?= $row->id_kota; ?></td>
+                                <td class="text-center"><?= $row->nama_kota; ?></td>
                                 <td><?= $row->judul;?></td>
-                                <td class="text-center">
+                                <!-- <td class="text-center">
                                     <?php if($row->tahapan_progres == 1): ?>
                                         Seminar 1
                                     <?php elseif($row->tahapan_progres == 2): ?>
@@ -93,7 +93,7 @@
                                     <?php else: ?>
                                         Tidak Valid
                                     <?php endif; ?>
-                                </td>
+                                </td> -->
                                 <td class="text-center">
                                     <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('kota.destroy', $row->id_kota) }}" method="POST">
                                         <a class="detail" href="{{ route('kota.detail', $row->id_kota) }}"><i class="nav-icon fas fa-eye" style="color: gray;"></i></a>

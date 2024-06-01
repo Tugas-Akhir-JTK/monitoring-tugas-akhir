@@ -18,6 +18,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'role',
+        'nomor_induk',
         'name',
         'email',
         'password',
@@ -41,4 +42,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function kota()
+    {
+        return $this->belongsTo(KotaModel::class, 'id_kota');
+    }
 }

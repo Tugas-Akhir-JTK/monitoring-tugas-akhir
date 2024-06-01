@@ -29,6 +29,19 @@
               @enderror
             </div>
             <div class="input-group mb-3">
+              <input type="text" class="form-control @error('nomor_induk') is-invalid @enderror" name="nomor_induk" placeholder="NIM/NIP" name="nomor_induk" value="{{ old('nomor_induk') }}">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-key"></span>
+                </div>
+              </div>
+              @error('nomor_induk')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+              @enderror
+            </div>
+            <div class="input-group mb-3">
                 <select type="text" class="form-control @error('role') is-invalid @enderror" name="role" placeholder="Role" name="role" value="{{ old('role') }}" required>
                     <option value="">-- Pilih Role --</option>
                     <option value="1">Koordinator</option>

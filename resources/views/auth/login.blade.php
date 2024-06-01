@@ -13,7 +13,7 @@
             <img src="{{ asset('assets/dist/img/polban.png') }}" alt="Polban Logo" style="width: 300px; height: auto;"/>
           </p>
 
-          <form action="{{ route('login') }}" method="post">
+          <form action="{{ route('login') }}" method="POST">
             @csrf
             <div class="input-group mb-3">
               <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Email">
@@ -58,15 +58,6 @@
             </div>
           </form>
 
-          <!-- <div class="social-auth-links text-center mb-3">
-            <p>- OR -</p>
-            <a href="#" class="btn btn-block btn-primary">
-              <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-            </a>
-            <a href="#" class="btn btn-block btn-danger">
-              <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-            </a>
-          </div> -->
           <!-- /.social-auth-links -->
           @if (Route::has('password.request'))
           <p class="mb-1">

@@ -12,21 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tbl_kota', function (Blueprint $table) {
-            $table->integer('id_kota')->unique();
+            $table->id('id_kota')->unique();
+            $table->string('nama_kota');
             $table->string('judul');
-            $table->string('nim_satu');
-            $table->string('nama_mahasiswa_satu');
-            $table->string('nim_dua');
-            $table->string('nama_mahasiswa_dua');
-            $table->string('nim_tiga'); 
-            $table->string('nama_mahasiswa_tiga');
-            $table->string('nip_satu');
-            $table->string('pembimbing_satu');
-            $table->string('nip_dua');
-            $table->string('pembimbing_dua');
             $table->string('kelas');
             $table->integer('periode');
-            $table->integer('tahapan_progres');
+            $table->timestamps();
         });
     }
 
