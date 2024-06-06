@@ -42,7 +42,12 @@ Route::get('/artefak', [App\Http\Controllers\ArtefakController::class, 'index'])
 
 
 //Jadwal
+// Route::controller(App\Http\Controllers\JadwalController::class)->group(function(){
+//     Route::get('jadwal', 'index')->middleware(['auth', 'role:1,3'])->name('jadwal');
+//     Route::post('jadwalAjax', 'ajax')->middleware(['auth', 'role:1,3'])->name('jadwal.ajax');
+// });
 Route::get('/jadwal', [App\Http\Controllers\JadwalController::class, 'index'])->middleware(['auth', 'role:1,3'])->name('jadwal');
+Route::post('/jadwalAjax', [App\Http\Controllers\JadwalController::class, 'ajax'])->middleware(['auth', 'role:1,3'])->name('jadwal.ajak');
 
 
 //Bimbingan

@@ -3,26 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Event;
 
 class JadwalController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * Handle the incoming request.
      */
     public function index()
     {
-        return view('jadwal/jadwal');
+        $eventModel = new Event();
+        $events = $eventModel->getevent();
+
+        return view('jadwal.index', compact('events'));
     }
 }
