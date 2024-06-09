@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6 col-md-8">
-                    <h1 class="m-0">Edit KoTA {{ ($kota->id_kota) }}</h1>
+                    <h1 class="m-0">Edit KoTA {{ ($kota->nama_kota) }}</h1>
                 </div>
             </div>
             <hr />
@@ -30,34 +30,43 @@
                     </div>             
                     @endif
                     <div class="col-md-12">
-                        <!-- Nomor KoTA
+                        <!-- Tambah Mahasiswa dan Dosen Pembimbing -->
                         <div class="list-group-item p-3">
-                            <div class="row align-items-start">
-                                <div class="col-md-2 mb-8pt mb-md-0">
-                                    <div class="media align-items-left">
-                                        <div class="d-flex flex-column media-body media-middle">
-                                            <span class="card-title">Nomor KoTA</span>
-                                        </div>
+                        <div class="row align-items-start">
+                            <div class="col-md-2 mb-8pt mb-md-0">
+                                <div class="media align-items-left">
+                                    <div class="d-flex flex-column media-body media-middle">
+                                        <span class="card-title">Dosen Pembimbing</span>
                                     </div>
                                 </div>
-                                <div class="col mb-8pt mb-md-0">
-                                    <input name="nama_kota" value="{{ old('nama_kota', $kota->nama_kota) }}" type="text"
-                                        class="form-control" placeholder="Masukan Id KoTA" required />
+                            </div>
+                            <div class="col mb-8pt mb-md-0">
+                                <select multiple class="form-select" id="dosen" name="dosen[]" required>
+                                    @foreach($dosen as $d)
+                                        <option value="{{ $d->id }}" {{ in_array($d->id, old('dosen', $kota->users->pluck('id')->toArray())) ? 'selected' : '' }}>{{ $d->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item p-3">
+                        <div class="row align-items-start">
+                            <div class="col-md-2 mb-8pt mb-md-0">
+                                <div class="media align-items-left">
+                                    <div class="d-flex flex-column media-body media-middle">
+                                        <span class="card-title">Mahasiswa</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div> -->
-
-                        <!-- Tambah Mahasiswa dan Dosen Pembimbing -->
-                        <div>
-                            <label for="user_ids">Select Users</label>
-                            <select name="user_ids[]" id="user_ids" multiple required>
-                                @foreach($users as $user)
-                                    <option value="{{ $user->id_user }}" {{ in_array($user->id_user, $kota->users->pluck('id_user')->toArray()) ? 'selected' : '' }}>
-                                        {{ $user->name }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <div class="col mb-8pt mb-md-0">
+                                <select multiple class="form-select" id="mahasiswa" name="mahasiswa[]" required>
+                                    @foreach($mahasiswa as $m)
+                                        <option value="{{ $m->id }}" {{ in_array($m->id, old('mahasiswa', $kota->users->pluck('id')->toArray())) ? 'selected' : '' }}>{{ $m->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
+                    </div>
 
                         <!-- Judul KoTA -->
                         <div class="list-group-item p-3">
@@ -111,7 +120,7 @@
                         </div>
 
                         <!-- Tahapan Progres -->
-                        <div class="list-group-item p-3">
+                        <!-- <div class="list-group-item p-3">
                             <div class="row align-items-start">
                                 <div class="col-md-2 mb-8pt mb-md-0">
                                     <div class="media align-items-left">
@@ -126,7 +135,7 @@
                                         class="form-control" placeholder="Masukan Tahapan Progres" required />
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                     </div>
                 </div>

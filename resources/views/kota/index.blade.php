@@ -12,10 +12,31 @@
                         <h1 class="m-0">Daftar Kelompok Tugas Akhir</h1>
                     </div>
                     <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
-                        <form class="me-m   d-2" action="{{ route('kota.search') }}" method="GET">
-                            <input type="text" name="keyword" placeholder="Cari Kota...">
-                            <button class="btn btn-secondary" type="submit"><i class="fas fa-search"></i></button>
-                        </form>
+                        <!-- Messages Dropdown Menu -->
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                             Kelas
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ route('kota', ['sort' => 'kelas', 'direction' => 'asc', 'value' => 1]) }}" class="dropdown-item">D3-A</a></li>
+                                <li><a href="{{ route('kota', ['sort' => 'kelas', 'direction' => 'asc', 'value' => 2]) }}" class="dropdown-item">D3-B</a></li>
+                                <li><a href="{{ route('kota', ['sort' => 'kelas', 'direction' => 'asc', 'value' => 3]) }}" class="dropdown-item">D4-A</a></li>
+                                <li><a href="{{ route('kota', ['sort' => 'kelas', 'direction' => 'asc', 'value' => 4]) }}" class="dropdown-item">D4-B</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Notifications Dropdown Menu -->
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" href="#">
+                                Tahapan TA
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-lg">
+                                <li><a href="#" class="dropdown-item">Seminar 1</a></li>
+                                <li><a href="#" class="dropdown-item">Seminar 2</a></li>
+                                <li><a href="#" class="dropdown-item">Seminar 3</a></li>
+                                <li><a href="#" class="dropdown-item">Sidang</a></li>
+                            </ul>
+                        </div>
                         <a href="{{ url('/kota/create') }} ">
                             <button type="button" class="btn btn-success">
                                 Tambah
@@ -34,20 +55,6 @@
     <div class="content">
     <!-- Begin Page Content -->
     <div class="container-fluid">
-    @if(session('success'))
-    <div class="alert alert-success d-flex align-items-center" role="alert">
-        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-            <div>
-                Kota Berhasil Diubah
-            </div>
-    </div> 
-    @elseif(session('successdelete'))
-    <div class="alert alert-success d-flex align-items-center" role="alert">
-        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-            <div>
-                Kota Berhasil Didelete
-            </div>
-    </div>
     <!-- <div class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="d-flex">
             <div class="toast-body">
@@ -56,13 +63,19 @@
             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
     </div>    -->
-    @endif
 
     <!-- DataTables Example -->
     <div class="card shadow mb-4">
         <div class="card-body">
+            <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
+                <form class="me-m d-2" action="{{ route('kota.search') }}" method="GET">
+                    <input type="text" name="keyword" placeholder="Cari Kota...">
+                    <button class="btn btn-secondary" type="submit"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+            <br>
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table id="example" class="table table-bordered data-table"  width="100%" cellspacing="0">
                     <thead class="text-center" style="background-color: gray; color: white;">
                         <tr>
                             <th>No</th>
@@ -98,25 +111,29 @@
                                     <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('kota.destroy', $row->id_kota) }}" method="POST">
                                         <a class="detail" href="{{ route('kota.detail', $row->id_kota) }}"><i class="nav-icon fas fa-eye" style="color: gray;"></i></a>
                                         <a class="edit" href="{{ route('kota.edit', $row->id_kota) }}"><i class="nav-icon fas fa-pen" style="color: blue;"></i></a>                     
-                                       
-                                        <a class="destroy" type="submit" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="nav-icon fas fa-trash"style="color: red;"></i></a>
-                                        <!-- href="{{ route('kota.destroy', $row->id_kota) }}" -->
+                                        <a class="destroy" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="{{ $row->id_kota }}" data-nama="{{ $row->nama_kota }}">
+                                            <i class="nav-icon fas fa-trash" style="color: red;"></i>
+                                        </a>
                                     </form>
                                 </td>
-                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <form action="{{ route('kota.destroy', $row->id_kota) }}" method="DELETE">
+                                            <form id="deleteForm" action="" method="POST">
+                                                @csrf
+                                                @method('DELETE')
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="staticBackdropLabel">Yakin Akan Menghapus KoTA ini ??</h5>
+                                                    <h5 class="modal-title" id="deleteModalLabel">Yakin Akan Menghapus KoTA?</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
-                                                
+                                                <div class="modal-body">
+                                                    <p id="modalBodyText"></p>
+                                                </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-primary" >Iya</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+                                                    <button type="submit" class="btn btn-danger">Iya</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -128,8 +145,43 @@
                     </tbody>
                 </table>
             </div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    {{ $kotas->links() }}
+                </ul>
+            </nav>
         </div>
     </div>
   </div>
+
+<!-- Modal Delete by id -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var deleteModal = document.getElementById('deleteModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget; // Button that triggered the modal
+            var id = button.getAttribute('data-id');
+            var nama = button.getAttribute('data-nama');
+
+            var modalTitle = deleteModal.querySelector('.modal-title');
+            var modalBodyText = deleteModal.querySelector('#modalBodyText');
+            var deleteForm = deleteModal.querySelector('#deleteForm');
+
+            modalTitle.textContent = 'Menghapus KoTA ' + nama;
+            modalBodyText.textContent = 'Apakah anda yakin ingin menghapus KoTA ' + nama + '?';
+            deleteForm.action = '/kota/' + id;
+        });
+    });
+
+    $(document).ready(function() {
+        $('#example').DataTable({
+            responsive: true,
+            lengthChange: false,
+            autoWidth: false,
+            buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example_wrapper .col-md-6:eq(0)');
+    });
+
+</script>
 
 @endsection

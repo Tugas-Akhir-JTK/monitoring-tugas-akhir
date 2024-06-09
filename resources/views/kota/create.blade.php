@@ -23,17 +23,15 @@
         <form action="{{ url('/kota/store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="row card-group-row">
-            @if (isset($errors) && $errors->any())
-                <div class="col-md-12">
-                    @foreach ($errors->all() as $error)
-                        <div class="alert alert-warning" role="alert">
-                            <i class="mdi mdi-alert-outline me-2"></i>
-                            {{ $error }}
-                        </div>
-                    @endforeach
-                </div>
-            @endif
             <div class="col-md-12">
+                @if (session('error'))
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                        <div>
+                            {{ session('error') }}
+                        </div>
+                    </div>
+                @endif
                     
                     <!-- Nomor KoTA -->
                     <div class="list-group-item p-3">
@@ -52,14 +50,137 @@
                     </div>
 
                     <!-- Tambah Mahasiswa dan Dosen Pembimbing -->
-                    <div>
-                        <label for="user_ids">Select Users</label>
-                        <select name="user_ids[]" id="user_ids" multiple required>
-                            @foreach($users as $user)
-                                <option value="{{ $user->id_user }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="list-group-item p-3">
+                                <div class="row align-items-start">
+                                    <div class="col-md-4 mb-8pt mb-md-0">
+                                        <div class="media align-items-left">
+                                            <div class="d-flex flex-column media-body media-middle">
+                                                <span class="card-title">Mahasiswa</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <select multiple class="form-select" id="mahasiswa" name="mahasiswa[]" required>
+                                            @foreach($mahasiswa as $m)
+                                                <option value="{{ $m->nomor_induk }}" {{ in_array($m->nomor_induk, old('mahasiswa', [])) ? 'selected' : '' }}>{{ $m->nomor_induk }} - {{ $m->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="list-group-item p-3">
+                                <div class="row align-items-start">
+                                    <div class="col-md-4 mb-8pt mb-md-0">
+                                        <div class="media align-items-left">
+                                            <div class="d-flex flex-column media-body media-middle">
+                                                <span class="card-title">Dosen Pembimbing</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <select multiple class="form-select" id="dosen" name="dosen[]" required>
+                                            @foreach($dosen as $d)
+                                                <option value="{{ $d->nomor_induk }}" {{ in_array($d->nomor_induk, old('dosen', [])) ? 'selected' : '' }}>{{ $d->nomor_induk }} - {{ $d->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- <div class="row">
+                        <div class="col">
+                            <div class="list-group-item p-3">
+                                <div class="row align-items-start">
+                                    <div class="col-md-2 mb-8pt mb-md-0">
+                                        <div class="media align-items-left">
+                                            <div class="d-flex flex-column media-body media-middle">
+                                                <span class="card-title" for="mahasiswa_nomor_induk">NIM</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col mb-8pt mb-md-0">
+                                        <select class="form-select" id="mahasiswa_nomor_induk" name="mahasiswa_nomor_induk[]" required>
+                                            <option value="" disabled selected>Pilih Nomor Induk</option>
+                                            @foreach($mahasiswa as $m)
+                                                <option value="{{ $m->nomor_induk }}" data-name="{{ $m->name }}">{{ $m->nomor_induk }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="list-group-item p-3">
+                                <div class="row align-items-start">
+                                    <div class="col-md-2 mb-8pt mb-md-0">
+                                        <div class="media align-items-left">
+                                            <div class="d-flex flex-column media-body media-middle">
+                                                <span class="card-title" for="mahasiswa_name">Anggota</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col mb-8pt mb-md-0">
+                                        <select class="form-select" id="mahasiswa_name" name="mahasiswa_name[]">
+                                            <option value="" disabled selected>Pilih Nama</option>
+                                            @foreach($mahasiswa as $m)
+                                                <option value="{{ $m->id }}" data-nomor_induk="{{ $m->nomor_induk }}">{{ $m->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="list-group-item p-3">
+                                <div class="row align-items-start">
+                                    <div class="col-md-2 mb-8pt mb-md-0">
+                                        <div class="media align-items-left">
+                                            <div class="d-flex flex-column media-body media-middle">
+                                                <span class="card-title" for="dosen_nomor_induk" >NIP</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col mb-8pt mb-md-0">
+                                        <select class="form-select" id="dosen_nomor_induk" name="dosen_nomor_induk[]" required>
+                                            <option value="" disabled selected>Pilih Nomor Induk</option>
+                                            @foreach($dosen as $d)
+                                                <option value="{{ $d->nomor_induk }}" data-name="{{ $d->name }}">{{ $d->nomor_induk }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="list-group-item p-3">
+                                <div class="row align-items-start">
+                                    <div class="col-md-2 mb-8pt mb-md-0">
+                                        <div class="media align-items-left">
+                                            <div class="d-flex flex-column media-body media-middle">
+                                                <span class="card-title" for="dosen_name">Dosen</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col mb-8pt mb-md-0">
+                                        <select ct class="form-select" id="dosen_name" name="dosen_name[]">
+                                            <option value="" disabled selected>Pilih Nama</option>
+                                            @foreach($dosen as $d)
+                                                <option value="{{ $d->id }}" data-nomor_induk="{{ $d->nomor_induk }}">{{ $d->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
 
                     <!-- JUDUL KUTIPAN -->
                     <div class="list-group-item p-3">
@@ -104,13 +225,20 @@
                                 </div>
                             </div>
                             <div class="col mb-8pt mb-md-0">
-                                <input name="kelas" value="{{ old('kelas') }}" type="text" class="form-control" placeholder="Masukan Kelas" required/>
+                                <select name="kelas" class="form-select" required>
+                                    <option value="" disabled selected>Pilih Kelas</option>
+                                    <option value="1" {{ old('kelas') == 1 ? 'selected' : '' }}>D3-A</option>
+                                    <option value="2" {{ old('kelas') == 2 ? 'selected' : '' }}>D3-B</option>
+                                    <option value="3" {{ old('kelas') == 3 ? 'selected' : '' }}>D4-A</option>
+                                    <option value="4" {{ old('kelas') == 4 ? 'selected' : '' }}>D4-B</option>
+                                </select>
                             </div>
                         </div>
                     </div>
 
+
                     <!-- TAHAPAN PROGRES -->
-                    <div class="list-group-item p-3">
+                    <!-- <div class="list-group-item p-3">
                         <div class="row align-items-start">
                             <div class="col-md-2 mb-8pt mb-md-0">
                                 <div class="media align-items-left">
@@ -123,7 +251,7 @@
                                 <input name="tahapan_progres" value="{{ old('tahapan_progres') }}" type="text" class="form-control" placeholder="Masukan Tahapan Progres" required/>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     
                 </div>
             </div>
