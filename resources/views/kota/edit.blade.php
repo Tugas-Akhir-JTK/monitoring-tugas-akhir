@@ -113,8 +113,13 @@
                                     </div>
                                 </div>
                                 <div class="col mb-8pt mb-md-0">
-                                    <input name="kelas" value="{{ old('kelas', $kota->kelas) }}" type="text"
-                                        class="form-control" placeholder="Masukan Kelas" required />
+                                <select name="kelas" class="form-select" required>
+                                    <option value="" disabled selected>Pilih Kelas</option>
+                                    <option value="1" {{ old('kelas', $kota->kelas) == 1 ? 'selected' : '' }}>D3-A</option>
+                                    <option value="2" {{ old('kelas', $kota->kelas) == 2 ? 'selected' : '' }}>D3-B</option>
+                                    <option value="3" {{ old('kelas', $kota->kelas) == 3 ? 'selected' : '' }}>D4-A</option>
+                                    <option value="4" {{ old('kelas', $kota->kelas) == 4 ? 'selected' : '' }}>D4-B</option>
+                                </select>
                                 </div>
                             </div>
                         </div>
