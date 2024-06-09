@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     {
         User::create([
             'role' => 1,
-            'name' => 'Rivan',
+            'name' => 'Trisna',
             'nomor_induk' => 211511048,
             'email' => 'admin@example.com',
             'password' => Hash::make('1234567890'),
@@ -227,6 +227,30 @@ class UserSeeder extends Seeder
             'name' => 'Faul',
             'nomor_induk' => '211611008',
             'email' => 'faul@example.com',
+            'password' => Hash::make('1234567890'),
+        ]);
+
+        User::create([
+            'role' => 3,
+            'name' => 'Kevin',
+            'nomor_induk' => '211511019',
+            'email' => 'kevin@example.com',
+            'password' => Hash::make('1234567890'),
+        ]);
+
+        User::create([
+            'role' => 3,
+            'name' => 'Rivan',
+            'nomor_induk' => '211511020',
+            'email' => 'rivan@example.com',
+            'password' => Hash::make('1234567890'),
+        ]);
+
+        User::create([
+            'role' => 3,
+            'name' => 'Syahrul',
+            'nomor_induk' => '211511021',
+            'email' => 'syahrul@example.com',
             'password' => Hash::make('1234567890'),
         ]);
 

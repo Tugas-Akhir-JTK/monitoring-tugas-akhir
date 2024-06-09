@@ -14,46 +14,35 @@ class KotaSeeder extends Seeder
      */
     public function run(): void
     {
-        KotaModel::create([
-            'nama_kota' => 206,
-            'judul' => 'PENGEMBANGAN APLIKASI MONITORING TUGAS AKHIR DI JURUSAN TEKNIK KOMPUTER DAN INFORMATIKA',
-            'kelas' => 'D3-3B',
-            'periode' => 2024,
-        ]);
+        $judulList = [
+            'PENGEMBANGAN APLIKASI MONITORING TUGAS AKHIR DI JURUSAN TEKNIK KOMPUTER DAN INFORMATIKA',
+            'PEMANFAATAN TELEMEDICINE LAYANAN INFORMASI INTERAKTIF BERBASIS CHATBOT DAN LAYANAN RESERVASI ANTRIAN PASIEN',
+            'PENGEMBANGAN APLIKASI AUDIT MUTU INTERNAL BERBASIS WEBSITE SPMI POLBAN',
+            'PENGEMBANGAN APLIKASI PENGUKURAN CAPAIAN PEMBELAJARAN BERBASIS WEB DENGAN MENGGUNAKAN METODE GRAPH',
+            'RANCANG BANGUN SISTEM ANALISIS KOMPUTASI SCORE INHEREN PADA IDENTIFIKASI RESIKO DI SPI POLBAN',
+            'PENGEMBANGAN APLIKASI WEB UNTUK REKOMENDASI PEMBELAJARAN ONLINE MENGGUNAKAN METODE HYBRID FILTERING',
+            'PENGEMBANGAN SISTEM INFORMASI MANAJEMEN LABORATORIUM',
+            'PENGEMBANGAN SISTEM E-COMMERCE UNTUK PENJUALAN PRODUK LOKAL',
+            'RANCANG BANGUN APLIKASI PEMANTAUAN CUACA REALTIME',
+            'PENGEMBANGAN SISTEM INFORMASI AKADEMIK BERBASIS WEB'
+        ];
 
-        KotaModel::create([
-            'nama_kota' => 205,
-            'judul' => 'PEMANFAATAN TELEMEDICINE LAYANAN INFORMASI INTERAKTIF BERBASIS CHATBOT DAN LAYANAN RESERVASI ANTRIAN PASIEN',
-            'kelas' => 'D3-3B',
-            'periode' => 2024,
-        ]);
+        $classes = [
+            '1' => 101, //Angka 1 mewakili kelas D3-A
+            '2' => 201, //Angka 2 mewakili kelas D3-B
+            '3' => 301, //Angka 3 mewakili kelas D4-A
+            '4' => 401, //Angka 4 mewakili kelas D4-B
+        ];
 
-        KotaModel::create([
-            'nama_kota' => 204,
-            'judul' => 'PENGEMBANGAN APLIKASI AUDIT MUTU INTERNAL BERBASIS WEBSITE SPMI POLBAN',
-            'kelas' => 'D3-3B',
-            'periode' => 2024,
-        ]);
-
-        KotaModel::create([
-            'nama_kota' => 101,
-            'judul' => 'PENGEMBANGAN APLIKASI PENGUKURAN CAPAIAN PEMBELAJARAN BERBASIS WEB DENGAN MENGGUNAKAN METODE GRAPH',
-            'kelas' => 'D3-3A',
-            'periode' => 2024,
-        ]);
-
-        KotaModel::create([
-            'nama_kota' => 102,
-            'judul' => 'RANCANG BANGUN SISTEM ANALISIS KOMPUTASI SCORE INHEREN PADA IDENTIFIKASI RESIKO DI SPI POLBAN',
-            'kelas' => 'D3-3A',
-            'periode' => 2024,
-        ]);
-
-        KotaModel::create([
-            'nama_kota' => 103,
-            'judul' => 'PENGEMBANGAN APLIKASI WEB UNTUK REKOMENDASI PEMBELAJARAN ONLINE MENGGUNAKAN METODE HYBRID FILTERING',
-            'kelas' => 'D3-3A',
-            'periode' => 2024,
-        ]);
+        foreach ($classes as $class => $startId) {
+            for ($i = 0; $i < 10; $i++) {
+                KotaModel::create([
+                    'nama_kota' => $startId + $i,
+                    'judul' => $judulList[$i % count($judulList)],
+                    'kelas' => $class,
+                    'periode' => 2024,
+                ]);
+            }
+        }
     }
 }

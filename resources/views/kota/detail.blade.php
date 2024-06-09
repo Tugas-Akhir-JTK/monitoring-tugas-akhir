@@ -34,7 +34,7 @@
             <h3 style="font-weight: bold;">KoTA <?= $kota->nama_kota; ?></h3>
             <h4><?= $kota->judul; ?></h4>
             <br>
-            <table id="personTable" width="100%" cellspacing="0">
+            <!-- <table id="personTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th><h4 style="font-weight: bold;">Anggota</h4></th>
@@ -46,36 +46,64 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($kota->users as $user)
+                    @foreach($mahasiswa as $m)
                         <tr>
-                            <td><h5>{{ $user->name }}</h5></td>
-                            <td><h5>{{ $user->nomor_induk }}</h5></td>
+                            <td><h5>{{ $m->name }}</h5></td>
+                            <td><h5>{{ $m->nomor_induk }}</h5></td>
                             <td><h5>&nbsp;</h5></td>
                         </tr>
+                    @endforeach
+                    @foreach($dosen as $d)
                         <tr>
-                            <td><h5><?= $kota->nama_mahasiswa_satu; ?></h5></td>
-                            <td><h5><?= $kota->nim_satu;?></h5></td>
+                            <td><h5>{{ $d->name }}</h5></td>
+                            <td><h5>{{ $d->nomor_induk }}</h5></td>
                             <td><h5>&nbsp;</h5></td>
-                            <td><h5><?= $kota->pembimbing_satu; ?></h5></td>
-                            <td><h5><?= $kota->nip_satu;?></h5></td>
-                        </tr>
-                        <tr>
-                            <td><h5><?= $kota->nama_mahasiswa_dua; ?></h5></td>
-                            <td><h5><?= $kota->nim_dua;?></h5></td>
-                            <td><h5>&nbsp;</h5></td>
-                            <td><h5><?= $kota->pembimbing_dua; ?></h5></td>
-                            <td><h5><?= $kota->nip_dua;?></h5></td>
-                        </tr>
-                        <tr>
-                            <td><h5><?= $kota->nama_mahasiswa_tiga; ?></h5></td>
-                            <td><h5><?= $kota->nim_tiga;?></h5></td>
-                            <td><h5>&nbsp;</h5></td>
-                            <td><h5></h5></td>
-                            <td><h5></h5></td>
                         </tr>
                     @endforeach
                 </tbody>
-            </table>
+            </table> -->
+            <div class="row">
+                <div class="col">
+                    <h4>Mahasiswa</h4>
+                    <ul>
+                        @foreach($mahasiswa as $mhs)
+                            <li><h5>{{ $mhs->name }}</h5></li>
+                        @endforeach
+                    </ul>
+                </div> 
+                <div class="col">
+                    <h4>NIM</h4>
+                    <ul>
+                        @foreach($mahasiswa as $mhs)
+                            <li><h5>{{ $mhs->nomor_induk }}</h5></li>
+                        @endforeach
+                    </ul>
+                </div>  
+                <div class="col">
+                    <h4>Dosen Pembimbing</h4>
+                    <ul>
+                        @foreach($dosen as $dsn)
+                            @if($dsn)
+                                <li><h5>{{ $dsn->name }}</h5></li>
+                            @else
+                                <li>Data tidak ditemukan</li>
+                            @endif
+                        @endforeach
+                    </ul>
+                </div>
+                <div class="col">
+                    <h4>NIP</h4>
+                    <ul>
+                        @foreach($dosen as $dsn)
+                            @if($dsn)
+                                <li><h5>{{ $dsn->nomor_induk }}</h5></li>
+                            @else
+                                <li>Data tidak ditemukan</li>
+                            @endif
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
             <br>
             <br> 
         </div>

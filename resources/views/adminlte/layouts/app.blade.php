@@ -15,9 +15,13 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Manual CSS -->
   <link rel="stylesheet" href="{{ asset('resources/css/app.css') }}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{ asset('plugins/datatables-bs5/css/dataTables.bootstrap5.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap5.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap5.min.css') }}">
 </head>
 <body class="hold-transition sidebar-mini">
-<div class="wrapper">
+<di5 class="wrapper">
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -26,6 +30,16 @@
           <div class="d-flex">
               <div class="toast-body">
                   {{ session('success') }}
+              </div>
+              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+      </div>
+    @endif
+    @if (session('error'))
+      <div class="toast align-items-center text-white bg-danger border-0 position-fixed bottom-0 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000" id="toast" style="opacity: 1;">
+          <div class="d-flex">
+              <div class="toast-body">
+                  {{ session('error') }}
               </div>
               <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
           </div>
@@ -69,7 +83,7 @@
       
 
       <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
+      <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
           <i class="far fa-building"></i>
         </a>
@@ -79,10 +93,10 @@
           <li><a href="#" class="dropdown-item">D4-A</a></li>
           <li><a href="#" class="dropdown-item">D4-B</a></li>
         </ul>
-      </li>
+      </li> -->
 
       <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
+      <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
           <i class="far fa-chart-bar"></i>
         </a>
@@ -92,7 +106,7 @@
           <li><a href="#" class="dropdown-item">Seminar 3</a></li>
           <li><a href="#" class="dropdown-item">Sidang</a></li>
         </ul>
-      </li>
+      </li> -->
 
       <li class="nav-item dropdown dropstart">
         <div class="media user-panel d-flex" data-bs-toggle="dropdown">
@@ -148,7 +162,7 @@
               <i class="nav-icon fas fa-home"></i>
               <p>
                 Beranda
-                <span class="right badge badge-danger">New</span>
+                <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
           </li>
@@ -159,7 +173,7 @@
               <i class="nav-icon fas fa-users"></i>
               <p>
                 KoTA
-                <span class="right badge badge-info">5</span>
+                <!-- <span class="right badge badge-info">5</span> -->
               </p>
             </a>
           </li>
@@ -170,7 +184,7 @@
               <i class="nav-icon fas fa-calendar"></i>
               <p>
                 Timeline
-                <span class="right badge badge-success">Updated</span>
+                <!-- <span class="right badge badge-success">Updated</span> -->
               </p>
             </a>
           </li>
@@ -181,7 +195,7 @@
               <i class="nav-icon fas fa-file"></i>
               <p>
                 Artefak
-                <span class="right badge badge-danger">New</span>
+                <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
           </li>
@@ -192,7 +206,7 @@
               <i class="nav-icon fas fa-file"></i>
               <p>
                 Artefak
-                <span class="right badge badge-danger">New</span>
+                <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
             <div class="collapse" id="artefakCollapse">
@@ -225,7 +239,7 @@
               <i class="nav-icon fas fa-clock"></i>
               <p>
                 Jadwal Penguji
-                <span class="right badge badge-success">Updated</span>
+                <!-- <span class="right badge badge-success">Updated</span> -->
               </p>
             </a>
           </li>
@@ -250,6 +264,19 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('assets/dist/js/adminlte.min.js') }}"></script>
+<!-- DataTables -->
+<!-- <script src="{{ asset('assets/AdminLTE-3.2.0/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/AdminLTE-3.2.0/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/AdminLTE-3.2.0/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/AdminLTE-3.2.0/plugins/datatables-responsive/js/responsive.bootstrap5.min.js') }}"></script>
+<script src="{{ asset('assets/AdminLTE-3.2.0/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/AdminLTE-3.2.0/plugins/datatables-buttons/js/buttons.bootstrap5.min.js') }}"></script>
+<script src="{{ asset('assets/AdminLTE-3.2.0/plugins/jszip/jszip.min.js') }}"></script>
+<script src="{{ asset('assets/AdminLTE-3.2.0/plugins/pdfmake/pdfmake.min.js') }}"></script>
+<script src="{{ asset('assets/AdminLTE-3.2.0/plugins/pdfmake/vfs_fonts.js') }}"></script>
+<script src="{{ asset('assets/AdminLTE-3.2.0/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('assets/AdminLTE-3.2.0/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('assets/AdminLTE-3.2.0/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script> -->
 
 <script>
     document.getElementById('pushMenuIcon').addEventListener('click', function() {

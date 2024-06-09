@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             KotaSeeder::class,
             ArtefakSeeder::class,
+            ResumeBimbinganSeeder::class,
             KotaHasUserSeeder::class,
         ]);
     }
