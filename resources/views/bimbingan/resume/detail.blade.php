@@ -36,7 +36,7 @@
                                         Kota Berhasil Didelete
                                     </div>
                             </div>
-
+                            @endif
                             <div>
                                 <h5>Resume Bimbingan</h5>
                                 <small>{{ $resumes->isi_resume_bimbingan }}</small>
@@ -44,7 +44,7 @@
                             <br>
                             <div>
                                 <h5>Revisi</h5>
-                                <small>{{ $resumes->isi_resume_bimbingan }}</small>
+                                <small>{{ $resumes->isi_revisi_bimbingan }}</small>
                             </div>
                             <br>
                             <div class="row g-2">

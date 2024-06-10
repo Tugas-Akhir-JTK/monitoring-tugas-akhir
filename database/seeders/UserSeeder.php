@@ -106,7 +106,7 @@ class UserSeeder extends Seeder
             'role' => 3,
             'name' => 'Jundy',
             'nomor_induk' => '211511011',
-            'email' => 'bagus@example.com',
+            'email' => 'jundy@example.com',
             'password' => Hash::make('1234567890'),
         ]);
 

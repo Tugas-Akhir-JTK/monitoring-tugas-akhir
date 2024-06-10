@@ -22,10 +22,34 @@ class ResumeBimbinganController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        $resumes = ResumeBimbinganModel::all();
-        return view('bimbingan/resume/index', compact('resumes'));
+        $query = ResumeBimbinganModel::query();
+
+        if ($request->has('sort') && $request->has('value')) {
+            $sort = $request->input('sort');
+            $value = $request->input('value');
+            
+            // Tambahkan filter berdasarkan nilai yang dipilih
+            $query->where($sort, $value);
+        }
+
+        // Tambahkan logika sorting berdasarkan parameter 'sort' dan 'direction'
+        if ($request->has('sort') && $request->has('direction')) {
+            $query->orderBy($request->input('sort'), $request->input('direction'));
+        }
+
+        $resumes = $query->paginate(10);
+        // $tahapan_progres = $request->input('tahap$tahapan_progres');
+    
+        // if ($tahapan_progres) {
+        //     $resumes = ResumeBimbinganModel::where('tahap$tahapan_progres', $tahapan_progres)->get(); 
+        // } else {
+        //     $resumes = ResumeBimbinganModel::all();
+        // }
+
+        // $resumes = ResumeBimbinganModel::all();
+        return view('bimbingan/resume/index', compact('resumes', ));
     }
 
     public function create()
@@ -39,6 +63,7 @@ class ResumeBimbinganController extends Controller
             'tanggal_bimbingan' => 'required',
             'waktu_bimbingan' => 'required',
             'isi_resume_bimbingan' => 'required',
+            'isi_revisi_bimbingan' => '',
             'progres_pengerjaan' => 'required',
             'tahapan_progres' => 'required',
         ]);
@@ -97,6 +122,7 @@ class ResumeBimbinganController extends Controller
             'tanggal_bimbingan' => 'required',
             'waktu_bimbingan' => 'required',
             'isi_resume_bimbingan' => 'required',
+            'isi_revisi_bimbingan' => '',
             'progres_pengerjaan' => 'required',
             'tahapan_progres' => 'required',
         ]);
