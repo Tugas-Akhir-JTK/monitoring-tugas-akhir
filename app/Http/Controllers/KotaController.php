@@ -7,6 +7,7 @@ use App\Models\KotaModel;
 use App\Models\User;
 use App\Models\KotaHasUser;
 use App\Models\KotaHasUserModel;
+use App\Models\ResumeBimbinganModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 
@@ -29,6 +30,7 @@ class KotaController extends Controller
      */
     public function index()
     {
+        
         $kotas = KotaModel::with('users')->get();
 
         return view('kota.index', compact('kotas'));
@@ -66,9 +68,12 @@ class KotaController extends Controller
     
     public function detail($id)
     {
+        $progressStage1Count = ResumeBimbinganModel::where('tahapan_progres', '2')->count();
+        $progressStage2Count = ResumeBimbinganModel::where('tahapan_progres', '3')->count();
+        $progressStage3Count = ResumeBimbinganModel::where('tahapan_progres', '4')->count();
         $kota = KotaModel::with('users')->findOrFail($id);
         
-        return view('kota.detail', compact('kota'));
+        return view('kota.detail', compact('kota', 'progressStage1Count', 'progressStage2Count', 'progressStage3Count'));
     }
 
     
