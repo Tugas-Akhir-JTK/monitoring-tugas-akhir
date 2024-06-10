@@ -65,7 +65,7 @@ class ArtefakController extends Controller
         ArtefakModel::create($request->all());
 
         return redirect()->route('artefak')
-                        ->with('success', 'Artefak berhasil ditambahkan.');
+                        ->with('toast_success', 'Artefak berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -91,7 +91,7 @@ class ArtefakController extends Controller
 
         $artefak->update($request->all());
 
-        session()->flash('success', 'Data kota berhasil diubah');
+        session()->flash('success', 'Data artefak berhasil diubah');
 
         return redirect()->route('artefak');
     }
@@ -101,8 +101,10 @@ class ArtefakController extends Controller
         $artefak = ArtefakModel::findOrFail($id);
         Storage::delete('/artefak'. $artefak->id_artefak);
         $artefak->delete();
-        
-        return redirect()->route('artefak')->with('success', 'Data Artefak berhasil dihapus');
+
+        session()->flash('success', 'Data artefak berhasil dihapus');
+
+        return redirect()->route('artefak')->with('toast_success', 'Data Artefak berhasil dihapus');
     }
 
 }
