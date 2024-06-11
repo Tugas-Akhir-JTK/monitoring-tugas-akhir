@@ -59,13 +59,13 @@ class ArtefakController extends Controller
             'nama_artefak' => $request->nama_artefak,
             'deskripsi' => $request->deskripsi,
             'kategori_artefak' => $request->kategori_artefak,
-            'tenggat_waktu' => $tenggat_waktu, // Combined datetime value
+            'tenggat_waktu' => $tenggat_waktu,
         ]);
 
-        ArtefakModel::create($request->all());
+        // ArtefakModel::create($request->all());
 
         return redirect()->route('artefak')
-                        ->with('toast_success', 'Artefak berhasil ditambahkan.');
+                        ->with('success', 'Artefak berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -104,7 +104,7 @@ class ArtefakController extends Controller
 
         session()->flash('success', 'Data artefak berhasil dihapus');
 
-        return redirect()->route('artefak')->with('toast_success', 'Data Artefak berhasil dihapus');
+        return redirect()->route('artefak')->with('success', 'Data Artefak berhasil dihapus');
     }
 
 }

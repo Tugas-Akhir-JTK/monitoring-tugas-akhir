@@ -60,7 +60,7 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" data-widget="navbar-search" href="#" role="button">
           <i class="fas fa-search"></i>
         </a>
@@ -79,7 +79,7 @@
             </div>
           </form>
         </div>
-      </li>
+      </li> -->
       
 
       <!-- Messages Dropdown Menu -->
@@ -121,7 +121,7 @@
           <li class="dropdown-item">
             <div class="image text-center">
               <img src="{{ asset('assets/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
-              <a href="#" class="d-block">211511048</a>
+              <a href="#" class="d-block">{{auth()->user()->nomor_induk }}</a>
               <a href="#" class="d-block">{{ auth()->user()->name }}</a>
             </div>
             <br>

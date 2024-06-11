@@ -11,6 +11,7 @@
                     <div class="col">
                         <h1 class="m-0">Daftar Artefak</h1>
                     </div>
+                    @if (auth()->user()->role=="1")
                     <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
                         <form class="me-m   d-2" action="{{ route('artefak.search') }}" method="GET">
                             <input type="text" name="keyword" placeholder="Cari Artefak...">
@@ -42,7 +43,11 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="kategori_artefak">Kategori Artefak</label>
-                                                    <input type="text" class="form-control" id="kategori_artefak" name="kategori_artefak" required>
+                                                    <select name="kategori_artefak" id="kategori_artefak" class="form-select" required>
+                                                        <option value="" disabled selected>Pilih Kategori Artefak</option>
+                                                        <option value="1" {{ old('kategori_artefak') == 1 ? 'selected' : '' }}>FTA</option>
+                                                        <option value="2" {{ old('kategori_artefak') == 2 ? 'selected' : '' }}>Dokumen</option>
+                                                    </select>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="tanggal_tenggat">Tanggal Tenggat</label>
@@ -62,6 +67,7 @@
                             </div>
                         <!-- </a> -->
                     </div>
+                    @endif
                 </div><!-- /.row -->
             <hr/>
         </div><!-- /.container-fluid -->
@@ -81,13 +87,52 @@
                             <div class="card">
                                 <h5 class="card-header d-flex justify-content-between align-items-center">
                                     <div class="col">{{ $artefak->nama_artefak }}</div>
+                                    @if (auth()->user()->role=="1")
                                     <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
-                                        <!-- <a href="{{ route('artefak.detail', $artefak->id_artefak) }}">
-                                            <i class="nav-icon fas fa-eye" style="color: gray;"></i>
-                                        </a> -->
-                                        <a href="{{ route('artefak.edit', $artefak->id_artefak) }}">
+                                        <!-- Button edit -->
+                                        <a href="#" class="edit-artefak" data-bs-toggle="modal" data-bs-target="#editArtefakModal{{ $artefak->id_artefak }}">
                                             <i class="nav-icon fas fa-pen" style="color: blue;"></i>
                                         </a>
+                                        <!-- Modal Edit Artefak -->
+                                        <div class="modal fade" id="editArtefakModal{{ $artefak->id_artefak }}" tabindex="-1" aria-labelledby="editArtefakModalLabel{{ $artefak->id_artefak }}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <form action="{{ route('artefak.update', $artefak->id_artefak) }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="editArtefakModalLabel{{ $artefak->id_artefak }}">Edit Artefak</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <label for="nama_artefak">Nama Artefak</label>
+                                                                <input type="text" class="form-control" id="nama_artefak" name="nama_artefak" value="{{ old('nama_artefak', $artefak->nama_artefak) }}" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="deskripsi">Deskripsi</label>
+                                                                <textarea class="form-control" id="deskripsi" name="deskripsi" required>{{ old('deskripsi', $artefak->deskripsi) }}</textarea>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="kategori_artefak">Kategori Artefak</label>
+                                                                <select name="kategori_artefak" id="kategori_artefak" class="form-select" required>
+                                                                    <option value="" disabled>Pilih Kategori Artefak</option>
+                                                                    <option value="FTA" {{ old('kategori_artefak', $artefak->kategori_artefak) == 'FTA' ? 'selected' : '' }}>FTA</option>
+                                                                    <option value="Dokumen" {{ old('kategori_artefak', $artefak->kategori_artefak) == 'Dokumen' ? 'selected' : '' }}>Dokumen</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="tenggat_waktu">Tenggat Waktu</label>
+                                                                <input type="datetime-local" class="form-control" id="tenggat_waktu" name="tenggat_waktu" value="{{ old('tenggat_waktu', $artefak->tenggat_waktu) }}" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <form action="{{ route('artefak.destroy', $artefak->id_artefak) }}" method="POST" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
@@ -96,10 +141,24 @@
                                             </button>
                                         </form>
                                     </div>
+                                    @endif
                                 </h5>
                                 <div class="card-body">
                                     <p class="card-text">{{ $artefak->deskripsi }}</p>
-                                    <p class="card-text"><small class="text-muted">{{ $artefak->formatted_tenggat_waktu }}</small></p>
+                                    <br>
+                                    <p class="card-text"><small class="text-muted">Tenggat:<strong> {{ $artefak->formatted_tenggat_waktu }}</strong></small></p>
+                                    @if (auth()->user()->role== "3")
+                                    <div class="input-group">
+                                            <form action="{{ route('submissions.store', $artefak->id_artefak) }}" method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                <input type="file" class="form-control" name="file_pengumpulan" required>
+                                                <br>
+                                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                                    <button class="btn btn-primary" type="submit">Kumpulkan</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

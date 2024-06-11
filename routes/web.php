@@ -47,6 +47,9 @@ Route::get('/artefak/edit/{id}', [App\Http\Controllers\ArtefakController::class,
 Route::put('/artefak/update{id}', [App\Http\Controllers\ArtefakController::class, 'update'])->middleware(['auth', 'role:1'])->name('artefak.update');
 Route::post('/artefak/search', [App\Http\Controllers\ArtefakController::class, 'search'])->middleware(['auth', 'role:1'])->name('artefak.search');
 Route::delete('/artefak/{id}', [App\Http\Controllers\ArtefakController::class, 'destroy'])->middleware(['auth', 'role:1'])->name('artefak.destroy');
+Route::get('/artefak/{artefak_id}/submit', [App\Http\Controllers\SubmissionController::class, 'create'])->middleware(['auth', 'role:3'])->name('submissions.create'); //menambahkan data
+Route::post('/artefak/{artefak_id}/submit', [App\Http\Controllers\SubmissionController::class, 'store'])->middleware(['auth', 'role:3'])->name('submissions.store'); //menambahkan data
+
 
 //Jadwal
 Route::get('/jadwal', [App\Http\Controllers\JadwalController::class, 'index'])->middleware(['auth', 'role:1,3'])->name('jadwal');
