@@ -62,6 +62,12 @@
                                 <textarea name="isi_resume_bimbingan" class="form-control" id="isi_resume_bimbingan" rows="3" required>{{ old('isi_resume_bimbingan', $resume->isi_resume_bimbingan) }}</textarea>
                             </div>
 
+                            <!-- ISI REVISI BIMBINGAN -->
+                            <div class="mb-3">
+                                <label for="isi_revisi_bimbingan" class="form-label">Revisi Bimbingan</label>
+                                <textarea name="isi_revisi_bimbingan" class="form-control" id="isi_revisi_bimbingan" rows="3">{{ old('isi_revisi_bimbingan', $resume->isi_revisi_bimbingan) }}</textarea>
+                            </div>
+
                             <div class="row g-2">
                                 <!-- PROGRES PENGERJAAN -->
                                 <div class="col mb-3">

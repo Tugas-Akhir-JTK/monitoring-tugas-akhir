@@ -18,6 +18,7 @@ class ResumeBimbinganModel extends Model
         'tanggal_bimbingan',
         'waktu_bimbingan',
         'isi_resume_bimbingan',
+        'isi_revisi_bimbingan',
         'progres_pengerjaan',
         'tahapan_progres',
     ];
