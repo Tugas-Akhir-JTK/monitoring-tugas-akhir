@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_kota');
             $table->foreign('id_kota')->references('id_kota')->on('tbl_kota')->onDelete('cascade');
-            $table->unsignedBigInteger('id_user');
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('id_artefak');
             $table->foreign('id_artefak')->references('id_artefak')->on('tbl_artefak')->onDelete('cascade');
+            $table->text('file_pengumpulan');
+            $table->timestamp('waktu_pengumpulan')->nullable();
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\KotaModel;
 use App\Models\User;
 use App\Models\KotaHasUserModel;
+use App\Models\KotaHasArtefakModel;
 use App\Models\ResumeBimbinganModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
@@ -122,9 +123,66 @@ class KotaController extends Controller
         $kota = KotaModel::with('users')->findOrFail($id);
         $dosen = $kota->users->where('role', 2);
         $mahasiswa = $kota->users->where('role', 3);
-        
 
-        return view('kota.detail', compact('kota', 'progressStage1Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa'));
+        $masterArtefaks = DB::table('tbl_master_artefak')->get();
+        $artefakKota = KotaHasArtefakModel::where('id_kota', $id)->get();
+
+
+        // Inisialisasi array kosong untuk menyimpan artefak sesuai dengan tahapan
+        $seminar1 = [];
+        $seminar2 = [];
+        $seminar3 = [];
+        $sidang = [];
+
+        // Looping untuk membagi artefak sesuai dengan tahapan
+        foreach ($masterArtefaks as $artefak) {
+            switch ($artefak->nama_artefak) {
+                case 'FTA 01':
+                case 'FTA 02':
+                case 'FTA 03':
+                case 'FTA 04':
+                case 'FTA 05':
+                case 'FTA 05a':
+                case 'Proposal Tugas Akhir':
+                    $seminar1[] = $artefak;
+                    break;
+                case 'FTA 06':
+                case 'FTA 06a':
+                case 'FTA 07':
+                case 'FTA 08':
+                case 'FTA 09':
+                case 'FTA 09a':
+                case 'Laporan Tugas Akhir':
+                case 'SRS':
+                case 'SDD':
+                    $seminar2[] = $artefak;
+                    break;
+                case 'FTA 10':
+                case 'FTA 11':
+                case 'FTA 12':
+                case 'Laporan Tugas Akhir':
+                case 'SRS':
+                case 'SDD':
+                    $seminar3[] = $artefak;
+                    break;
+                case 'FTA 13':
+                case 'FTA 14':
+                case 'FTA 15':
+                case 'FTA 16':
+                case 'FTA 17':
+                case 'FTA 18':
+                case 'FTA 19':
+                case 'Laporan Tugas Akhir':
+                case 'SRS':
+                case 'SDD':
+                    $sidang[] = $artefak;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return view('kota.detail', compact('kota', 'progressStage1Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa''seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota'));
     }
 
     
