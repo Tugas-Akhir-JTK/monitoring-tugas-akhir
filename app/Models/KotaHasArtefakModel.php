@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class KotaHasArterfakModel extends Model
+class KotaHasArtefakModel extends Model
 {
     use HasFactory;
 
@@ -13,8 +13,9 @@ class KotaHasArterfakModel extends Model
     protected $table = 'tbl_kota_has_artefak';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'id_kota_user', 
+        'id_kota', 
         'id_artefak',
-        'file_pengumpulan'
+        'file_pengumpulan',
+        'waktu_pengumpulan'
     ];
 }

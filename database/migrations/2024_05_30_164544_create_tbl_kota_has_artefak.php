@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('tbl_kota_has_artefak', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_kota_user');
-            $table->foreign('id_kota_user')->references('id')->on('tbl_kota_has_user')->onDelete('cascade');
+            $table->unsignedBigInteger('id_kota');
+            $table->foreign('id_kota')->references('id_kota')->on('tbl_kota')->onDelete('cascade');
             $table->unsignedBigInteger('id_artefak');
             $table->foreign('id_artefak')->references('id_artefak')->on('tbl_artefak')->onDelete('cascade');
             $table->text('file_pengumpulan');

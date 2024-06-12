@@ -13,10 +13,10 @@
                     </div>
                     @if (auth()->user()->role=="1")
                     <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
-                        <form class="me-m   d-2" action="{{ route('artefak.search') }}" method="GET">
+                        <!-- <form class="me-m   d-2" action="{{ route('artefak.search') }}" method="GET">
                             <input type="text" name="keyword" placeholder="Cari Artefak...">
                             <button class="btn btn-secondary" type="submit"><i class="fas fa-search"></i></button>
-                        </form>
+                        </form> -->
                         <!-- <a href="{{ url('/artefak/create') }} "> -->
                             <button type="button" class="btn btn-success"  data-bs-toggle="modal" data-bs-target="#tambahArtefakModal">
                                 Tambah
@@ -35,7 +35,12 @@
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label for="nama_artefak">Nama Artefak</label>
-                                                    <input type="text" class="form-control" id="nama_artefak" name="nama_artefak" required>
+                                                    <select name="nama_artefak" id="nama_artefak" class="form-select" required>
+                                                        <option value="" disabled selected>Pilih Nama Artefak</option>
+                                                        @foreach($masterArtefaks as $masterArtefak)
+                                                            <option value="{{ $masterArtefak }}" {{ old('nama_artefak') == $masterArtefak ? 'selected' : '' }}>{{ $masterArtefak }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="deskripsi">Deskripsi</label>
@@ -45,8 +50,8 @@
                                                     <label for="kategori_artefak">Kategori Artefak</label>
                                                     <select name="kategori_artefak" id="kategori_artefak" class="form-select" required>
                                                         <option value="" disabled selected>Pilih Kategori Artefak</option>
-                                                        <option value="1" {{ old('kategori_artefak') == 1 ? 'selected' : '' }}>FTA</option>
-                                                        <option value="2" {{ old('kategori_artefak') == 2 ? 'selected' : '' }}>Dokumen</option>
+                                                        <option value="FTA" {{ old('kategori_artefak') == 'FTA' ? 'selected' : '' }}>FTA</option>
+                                                        <option value="Dokumen" {{ old('kategori_artefak') == 'Dokumen' ? 'selected' : '' }}>Dokumen</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
@@ -147,17 +152,32 @@
                                     <p class="card-text">{{ $artefak->deskripsi }}</p>
                                     <br>
                                     <p class="card-text"><small class="text-muted">Tenggat:<strong> {{ $artefak->formatted_tenggat_waktu }}</strong></small></p>
-                                    @if (auth()->user()->role== "3")
-                                    <div class="input-group">
-                                            <form action="{{ route('submissions.store', $artefak->id_artefak) }}" method="POST" enctype="multipart/form-data">
-                                                @csrf
-                                                <input type="file" class="form-control" name="file_pengumpulan" required>
-                                                <br>
-                                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                                    <button class="btn btn-primary" type="submit">Kumpulkan</button>
-                                                </div>
-                                            </form>
-                                        </div>
+                                    @if (auth()->user()->role == "3")
+                                        @if ($artefak->kumpul)
+                                            <div>
+                                                <a href="{{ Storage::url($artefak->kumpul->file_pengumpulan) }}" target="_blank">
+                                                    <i class="fas fa-file-pdf"></i> {{ basename($artefak->kumpul->file_pengumpulan) }}
+                                                </a>                                                
+                                                <form action="{{ route('submissions.destroy', $artefak->kumpul->id) }}" method="POST" class="mt-2">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                                        <button class="btn btn-danger" type="submit">Batalkan Pengiriman</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        @else
+                                            <div class="input-group">
+                                                <form action="{{ route('submissions.store', $artefak->id_artefak) }}" method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <input type="file" class="form-control" name="file_pengumpulan" required>
+                                                    <br>
+                                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                                        <button class="btn btn-primary" type="submit">Kumpulkan</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        @endif
                                     @endif
                                 </div>
                             </div>
