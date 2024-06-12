@@ -164,7 +164,7 @@
                 <div class="col-5 d-md-flex justify-content-md-end">
                     <div>
                         <span class="badge bg-light text-dark me-3">
-                            Jumlah Bimbingan : 7
+                            Jumlah Bimbingan : {{ $progressStage1Count }}
                         </span>
                     </div>
                     <div>
@@ -218,7 +218,7 @@
                 <div class="col-5 d-md-flex justify-content-md-end">
                     <div>
                         <span class="badge bg-light text-dark me-3">
-                            Jumlah Bimbingan : 0
+                            Jumlah Bimbingan : {{ $progressStage2Count }}
                         </span>
                     </div>
                     <div>
@@ -273,7 +273,7 @@
                 <div class="col-5 d-md-flex justify-content-md-end">
                     <div>
                         <span class="badge bg-light text-dark me-3">
-                            Jumlah Bimbingan : 0
+                            Jumlah Bimbingan : {{ $progressStage3Count }}
                         </span>
                     </div>
                     <div>

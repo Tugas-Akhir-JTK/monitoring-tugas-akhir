@@ -7,8 +7,12 @@ use App\Models\KotaModel;
 use App\Models\User;
 use App\Models\KotaHasUserModel;
 use App\Models\KotaHasArtefakModel;
+use App\Models\ResumeBimbinganModel;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
+
 
 class KotaController extends Controller
 {
@@ -52,6 +56,7 @@ class KotaController extends Controller
         }
 
         $kotas = $query->paginate(10);
+
 
         return view('kota.index', compact('kotas'));
     }
@@ -112,6 +117,9 @@ class KotaController extends Controller
     
     public function detail($id)
     {
+        $progressStage1Count = ResumeBimbinganModel::where('tahapan_progres', '2')->count();
+        $progressStage2Count = ResumeBimbinganModel::where('tahapan_progres', '3')->count();
+        $progressStage3Count = ResumeBimbinganModel::where('tahapan_progres', '4')->count();
         $kota = KotaModel::with('users')->findOrFail($id);
         $dosen = $kota->users->where('role', 2);
         $mahasiswa = $kota->users->where('role', 3);
@@ -173,8 +181,8 @@ class KotaController extends Controller
                     break;
             }
         }
-        
-        return view('kota.detail', compact('kota', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota'));
+
+        return view('kota.detail', compact('kota', 'progressStage1Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa''seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota'));
     }
 
     
