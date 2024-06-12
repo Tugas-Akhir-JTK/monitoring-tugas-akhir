@@ -182,7 +182,7 @@ class KotaController extends Controller
             }
         }
 
-        return view('kota.detail', compact('kota', 'progressStage1Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa''seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota'));
+        return view('kota.detail', compact('kota', 'progressStage1Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota'));
     }
 
     
