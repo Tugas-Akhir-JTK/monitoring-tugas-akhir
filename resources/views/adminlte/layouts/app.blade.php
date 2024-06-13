@@ -178,7 +178,7 @@
             </a>
           </li>
           @endif
-          @if (auth()->user()->role == "1" ||  auth()->user()->role == "2" || auth()->user()->role == "3")
+          @if (auth()->user()->role == "1" ||  auth()->user()->role == "2" )
           <li class="nav-item">
             <a href="{{ route('timeline') }}" class="nav-link">
               <i class="nav-icon fas fa-calendar"></i>
@@ -233,7 +233,7 @@
             </div>
           </li>
           @endif
-          @if (auth()->user()->role=="1" ||  auth()->user()->role == "3")
+          @if (auth()->user()->role=="1")
           <li class="nav-item">
             <a href="{{ route('jadwal') }}" class="nav-link">
               <i class="nav-icon fas fa-clock"></i>
@@ -242,6 +242,39 @@
                 <!-- <span class="right badge badge-success">Updated</span> -->
               </p>
             </a>
+          </li>
+          @endif
+          @if (auth()->user()->role == "3")
+          <li class="nav-item">
+            <a href="#jadwalCollapse" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="jadwalCollapse">
+              <i class="nav-icon fas fa-clock"></i>
+              <p>
+                Jadwal
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+            <div class="collapse" id="jadwalCollapse">
+              <ul class="list-unstyled">
+                <li>
+                  <a class="nav-link" href="{{ route('jadwal') }}">
+                    <i class="nav-icon fas fa-arrow"></i>
+                    <p>Jadwal Penguji</p>
+                  </a>
+                </li>
+                <li>
+                  <a class="nav-link" href="{{ route('kegiatan.index') }}">
+                      <i class="nav-icon fas fa-arrow"></i>
+                    <p>Jadwal Kegiatan</p>
+                  </a>
+                </li>
+                <!-- <li>
+                  <a class="nav-link" href="#">
+                    <i class="nav-icon fas fa-arrow"></i>
+                    <p>Lain-lain</p>
+                  </a>
+                </li> -->
+              </ul>
+            </div>
           </li>
           @endif
         </ul>
