@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Illuminate\Support\Facades\Log;
 
 
 class KotaController extends Controller
@@ -229,11 +230,23 @@ class KotaController extends Controller
     {
         $keyword = $request->input('keyword');
 
-        // Lakukan pencarian berdasarkan nama kota
-        // $kotas = KotaModel::where('nama_kota', 'like', '%' . $keyword . '%')->paginate(10);
-        $kotas = DB::table('tbl_kota')->where('nama_kota', 'like', '%' . $keyword . '%')
-            ->orwhere('judul', 'like', '%' . $keyword . '%')
-            ->get();
+        // Log keyword for debugging
+        Log::info('Search keyword: ' . $keyword);
+        
+        // Ambil nama kolom dari tabel
+        $columns = DB::getSchemaBuilder()->getColumnListing('tbl_kota');
+
+        // Buat query pencarian dinamis
+        $query = DB::table('tbl_kota');
+        
+        foreach ($columns as $column) {
+            $query->orWhere($column, 'like', '%' . $keyword . '%');
+        }
+
+        $kotas = $query->get();
+
+        // Log results for debugging
+        Log::info('Search results: ' . json_encode($kotas));
 
         return view('kota.index', compact('kotas'));
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\EventModel;
 
 class TimelineController extends Controller
 {
@@ -23,6 +24,18 @@ class TimelineController extends Controller
      */
     public function index()
     {
-        return view('timeline/timeline');
+
+        return view('timeline.timeline');
+    }
+
+    public function store(Request $request)
+    {
+        $event = new EventModel();
+        $event->title = $request->input('title');
+        $event->start = $request->input('start');
+        $event->end = $request->input('end');
+        $event->save();
+
+        return redirect()->route('timeline');
     }
 }
