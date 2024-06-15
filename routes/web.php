@@ -43,6 +43,15 @@ Route::get('/timeline/edit/{id}', [App\Http\Controllers\TimelineController::clas
 Route::put('/timeline/update/{id}', [App\Http\Controllers\TimelineController::class, 'update'])->middleware(['auth', 'role:1'])->name('timeline.update');
 Route::get('/timeline/search', [App\Http\Controllers\TimelineController::class, 'search'])->middleware(['auth', 'role:1'])->name('timeline.search');
 Route::delete('/timeline/{id}', [App\Http\Controllers\TimelineController::class, 'destroy'])->middleware(['auth', 'role:1'])->name('timeline.destroy');
+Route::get('/timeline', [App\Http\Controllers\TimelineController::class, 'index'])->name('timeline');
+Route::get('/timeline/store', [App\Http\Controllers\TimelineController::class, 'store'])->name('timeline.store');
+
+//Jadwal Kegiatan
+Route::get('/kegiatan', [App\Http\Controllers\JadwalKegiatanController::class, 'index'])->middleware(['auth', 'role:3'])->name('kegiatan.index');
+Route::get('/kegiatan/create', [App\Http\Controllers\JadwalKegiatanController::class, 'create'])->middleware(['auth', 'role:3'])->name('kegiatan.create');
+Route::post('/kegiatan/store', [App\Http\Controllers\JadwalKegiatanController::class, 'store'])->middleware(['auth', 'role:3'])->name('kegiatan.store');
+Route::put('/kegiatan/update/{id}', [App\Http\Controllers\JadwalKegiatanController::class, 'update'])->middleware(['auth', 'role:3'])->name('kegiatan.update');
+
 
 
 //Artefak
@@ -55,9 +64,9 @@ Route::get('/artefak/edit/{id}', [App\Http\Controllers\ArtefakController::class,
 Route::put('/artefak/update{id}', [App\Http\Controllers\ArtefakController::class, 'update'])->middleware(['auth', 'role:1'])->name('artefak.update');
 Route::post('/artefak/search', [App\Http\Controllers\ArtefakController::class, 'search'])->middleware(['auth', 'role:1'])->name('artefak.search');
 Route::delete('/artefak/{id}', [App\Http\Controllers\ArtefakController::class, 'destroy'])->middleware(['auth', 'role:1'])->name('artefak.destroy');
-//Pengumpulan Artefak 
-Route::get('/artefak/{artefak_id}/submit', [App\Http\Controllers\SubmissionController::class, 'create'])->middleware(['auth', 'role:3'])->name('submissions.create'); 
-Route::post('/artefak/{artefak_id}/submit', [App\Http\Controllers\SubmissionController::class, 'store'])->middleware(['auth', 'role:3'])->name('submissions.store'); 
+//Pengumpulan Artefak
+Route::get('/artefak/{artefak_id}/submit', [App\Http\Controllers\SubmissionController::class, 'create'])->middleware(['auth', 'role:3'])->name('submissions.create');
+Route::post('/artefak/{artefak_id}/submit', [App\Http\Controllers\SubmissionController::class, 'store'])->middleware(['auth', 'role:3'])->name('submissions.store');
 Route::delete('submissions/{id}', [App\Http\Controllers\SubmissionController::class, 'destroy'])->middleware(['auth', 'role:3'])->name('submissions.destroy');
 
 

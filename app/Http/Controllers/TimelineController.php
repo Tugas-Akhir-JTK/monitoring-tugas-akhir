@@ -39,7 +39,7 @@ class TimelineController extends Controller
         $request->validate([
             'nama_kegiatan' => 'required',
             'tanggal_mulai' => 'required',
-            'tanggal_selesai' => 'required', 
+            'tanggal_selesai' => 'required',
             'deskripsi' => 'required',
             'id_master_artefak' => 'required|array', // validasi array karena multiple select
             'id_master_artefak.*' => 'exists:tbl_master_artefak,id' // validasi keberadaan id di tbl_master_artefak
@@ -116,14 +116,14 @@ class TimelineController extends Controller
         $request->validate([
             'nama_kegiatan' => 'required',
             'tanggal_mulai' => 'required',
-            'tanggal_selesai' => 'required', 
+            'tanggal_selesai' => 'required',
             'deskripsi' => 'required',
             'id_master_artefak' => 'required|array', // validasi array karena multiple select
-            'id_master_artefak.*' => 'exists:tbl_master_artefak,id' // validasi keberadaan id di tbl_master_artefak 
+            'id_master_artefak.*' => 'exists:tbl_master_artefak,id' // validasi keberadaan id di tbl_master_artefak
         ]);
-        
+
         $timeline = TimelineModel::findOrFail($id);
-        
+
         // Update data timeline
         $timeline->update($request->only(['nama_kegiatan', 'tanggal_mulai', 'tanggal_selesai', 'deskripsi']));
 
