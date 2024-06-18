@@ -17,7 +17,7 @@ class TimelineSeeder extends Seeder
         $timelines = [
             [
                 'nama_kegiatan' => 'Seminar 1',
-                'tanggal_mulai' => '2024-03-05',
+                'tanggal_mulai' => '2024-02-25',
                 'tanggal_selesai' => '2024-03-14',
                 'deskripsi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel luctus lectus. Curabitur egestas augue eu est tincidunt, vel malesuada tellus.',
             ],

@@ -12,11 +12,11 @@
                         <h1 class="m-0">Detail Kelompok Tugas Akhir</h1>
                     </div>
                     <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
-                        <span class="badge rounded-pill bg-success" style="font-size: 1.0em;">
+                        <span class="badge badge-pill badge-success" style="font-size: 1.0em;">
                             <i class="nav-icon fas fa-check"></i>
                             Sudah Mengumpulkan
                         </span>
-                        <span class="badge rounded-pill bg-secondary" style="font-size: 1.0em;">
+                        <span class="badge badge-pill badge-secondary" style="font-size: 1.0em;">
                             <i class="nav-icon fas fa-times"></i>
                             Belum Mengumpulkan
                         </span>
@@ -108,7 +108,7 @@
             <br> 
         </div>
     </div>
-        <div class="alert alert-primary" role="alert">
+        <div class="alert" role="alert" style="background-color: #D2DCF2;">
             <div class="row">
                 <div class="col">
                     Seminar 1
@@ -137,18 +137,20 @@
                             }
                         }
                     @endphp
-                    <div class="col">
-                        @if ($isSubmitted)
-                            <span class="badge rounded-pill bg-success">
-                                <i class="nav-icon fas fa-file"></i>
-                                {{ $masterArtefak->nama_artefak }}
-                            </span>
-                        @else
-                            <span class="badge rounded-pill bg-secondary">
-                                <i class="nav-icon fas fa-file"></i>
-                                {{ $masterArtefak->nama_artefak }}
-                            </span>
-                        @endif
+                    <div class="row">
+                        <div class="col mr-2">
+                            @if ($isSubmitted)
+                                <span class="badge badge-pill badge-success">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @else
+                                <span class="badge badge-pill badge-secondary">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @endif
+                        </div>
                     </div>
                 @endforeach
             </div>
@@ -156,13 +158,13 @@
         
         <br>
         
-        <div class="alert alert-primary" role="alert">
+        <div class="alert" role="alert" style="background-color: #D2DCF2;">
             <div class="row">
                 <div class="col">
                     Seminar 2
                 </div>
                 <div class="col-5 d-md-flex justify-content-md-end">
-                    <div>
+                    <div class="mr-2">
                         <span class="badge bg-light text-dark me-3">
                             Jumlah Bimbingan : {{ $progressStage1Count }}
                         </span>
@@ -192,31 +194,33 @@
                             }
                         }
                     @endphp
-                    <div class="col">
-                        @if ($isSubmitted)
-                            <span class="badge rounded-pill bg-success">
-                                <i class="nav-icon fas fa-file"></i>
-                                {{ $masterArtefak->nama_artefak }}
-                            </span>
-                        @else
-                            <span class="badge rounded-pill bg-secondary">
-                                <i class="nav-icon fas fa-file"></i>
-                                {{ $masterArtefak->nama_artefak }}
-                            </span>
-                        @endif
+                    <div class="row">
+                        <div class="col mr-2">
+                            @if ($isSubmitted)
+                                <span class="badge badge-pill badge-success">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @else
+                                <span class="badge badge-pill badge-secondary">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @endif
+                        </div>
                     </div>
                 @endforeach
             </div>
         </div>
         <br>
 
-        <div class="alert alert-primary" role="alert">
+        <div class="alert" role="alert" style="background-color: #D2DCF2;">
             <div class="row">
                 <div class="col">
                     Seminar 3
                 </div>
                 <div class="col-5 d-md-flex justify-content-md-end">
-                    <div>
+                    <div class="mr-2">
                         <span class="badge bg-light text-dark me-3">
                             Jumlah Bimbingan : {{ $progressStage2Count }}
                         </span>
@@ -246,18 +250,20 @@
                             }
                         }
                     @endphp
-                    <div class="col">
-                        @if ($isSubmitted)
-                            <span class="badge rounded-pill bg-success">
-                                <i class="nav-icon fas fa-file"></i>
-                                {{ $masterArtefak->nama_artefak }}
-                            </span>
-                        @else
-                            <span class="badge rounded-pill bg-secondary">
-                                <i class="nav-icon fas fa-file"></i>
-                                {{ $masterArtefak->nama_artefak }}
-                            </span>
-                        @endif
+                    <div class="row">
+                        <div class="col mr-2">
+                            @if ($isSubmitted)
+                                <span class="badge badge-pill badge-success">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @else
+                                <span class="badge badge-pill badge-secondary">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @endif
+                        </div>
                     </div>
                 @endforeach
             </div>
@@ -265,13 +271,13 @@
 
         <br>
 
-        <div class="alert alert-primary" role="alert">
+        <div class="alert" role="alert" style="background-color: #D2DCF2;">
             <div class="row">
                 <div class="col">
                     Sidang
                 </div>
                 <div class="col-5 d-md-flex justify-content-md-end">
-                    <div>
+                    <div class="mr-2">
                         <span class="badge bg-light text-dark me-3">
                             Jumlah Bimbingan : {{ $progressStage3Count }}
                         </span>
@@ -301,18 +307,20 @@
                             }
                         }
                     @endphp
-                    <div class="col">
-                        @if ($isSubmitted)
-                            <span class="badge rounded-pill bg-success">
-                                <i class="nav-icon fas fa-file"></i>
-                                {{ $masterArtefak->nama_artefak }}
-                            </span>
-                        @else
-                            <span class="badge rounded-pill bg-secondary">
-                                <i class="nav-icon fas fa-file"></i>
-                                {{ $masterArtefak->nama_artefak }}
-                            </span>
-                        @endif
+                    <div class="row">
+                        <div class="col mr-2">
+                            @if ($isSubmitted)
+                                <span class="badge badge-pill badge-success">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @else
+                                <span class="badge badge-pill badge-secondary">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @endif
+                        </div>
                     </div>
                 @endforeach
             </div>

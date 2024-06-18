@@ -57,12 +57,12 @@
                                     <div class="col-md-4 mb-8pt mb-md-0">
                                         <div class="media align-items-left">
                                             <div class="d-flex flex-column media-body media-middle">
-                                                <span class="card-title">Mahasiswa</span>
+                                                <span class="card-title" for="mahasiswa">Mahasiswa</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <select multiple class="form-select" id="mahasiswa" name="mahasiswa[]" required>
+                                        <select multiple class="form-control" id="mahasiswa" name="mahasiswa[]" required>
                                             @foreach($mahasiswa as $m)
                                                 <option value="{{ $m->nomor_induk }}" {{ in_array($m->nomor_induk, old('mahasiswa', [])) ? 'selected' : '' }}>{{ $m->nomor_induk }} - {{ $m->name }}</option>
                                             @endforeach
@@ -77,12 +77,12 @@
                                     <div class="col-md-4 mb-8pt mb-md-0">
                                         <div class="media align-items-left">
                                             <div class="d-flex flex-column media-body media-middle">
-                                                <span class="card-title">Dosen Pembimbing</span>
+                                                <span class="card-title" for="dosen">Dosen Pembimbing</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <select multiple class="form-select" id="dosen" name="dosen[]" required>
+                                        <select multiple class="form-control" id="dosen" name="dosen[]" required>
                                             @foreach($dosen as $d)
                                                 <option value="{{ $d->nomor_induk }}" {{ in_array($d->nomor_induk, old('dosen', [])) ? 'selected' : '' }}>{{ $d->nomor_induk }} - {{ $d->name }}</option>
                                             @endforeach
@@ -220,12 +220,12 @@
                             <div class="col-md-2 mb-8pt mb-md-0">
                                 <div class="media align-items-left">
                                     <div class="d-flex flex-column media-body media-middle">
-                                        <span class="card-title">Kelas</span>
+                                        <span class="card-title" for="kelas">Kelas</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="col mb-8pt mb-md-0">
-                                <select name="kelas" class="form-select" required>
+                                <select name="kelas" class="form-control" id="kelas" required>
                                     <option value="" disabled selected>Pilih Kelas</option>
                                     <option value="1" {{ old('kelas') == 1 ? 'selected' : '' }}>D3-A</option>
                                     <option value="2" {{ old('kelas') == 2 ? 'selected' : '' }}>D3-B</option>

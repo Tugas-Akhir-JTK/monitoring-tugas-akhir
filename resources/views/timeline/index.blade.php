@@ -11,6 +11,7 @@
             <h1 class="m-0">Timeline</h1>
             </div><!-- /.col -->
             <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
+                @if (auth()->user()->role== "1")
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addTimelineModal">
                     Tambah
@@ -63,6 +64,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
             </div><!-- /.col -->
         </div><!-- /.row -->
         <hr>
@@ -85,7 +87,8 @@
                             <div class="timeline-item">
                                 <div class="timeline-header d-flex justify-content-between align-items-center">
                                     <strong>{{ $timeline->nama_kegiatan }}</strong>
-                                    <div>
+                                    @if (auth()->user()->role== "1")
+                                    <div class="mr-2"> 
                                         <!-- Edit Button trigger modal -->
                                         <a href="#" data-toggle="modal" data-target="#editTimelineModal-{{ $timeline->id_timeline }}">
                                             <i class="nav-icon fas fa-pen" style="color: blue;"></i>
@@ -95,6 +98,7 @@
                                             <i class="nav-icon fas fa-trash" style="color: red;"></i>
                                         </a>
                                     </div>
+                                    @endif
                                 </div>
                                 <div class="timeline-body">
                                     <div>

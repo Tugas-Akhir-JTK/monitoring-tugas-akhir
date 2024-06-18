@@ -230,9 +230,6 @@ class KotaController extends Controller
     {
         $keyword = $request->input('keyword');
 
-        // Log keyword for debugging
-        Log::info('Search keyword: ' . $keyword);
-        
         // Ambil nama kolom dari tabel
         $columns = DB::getSchemaBuilder()->getColumnListing('tbl_kota');
 
@@ -244,10 +241,7 @@ class KotaController extends Controller
         }
 
         $kotas = $query->get();
-
-        // Log results for debugging
-        Log::info('Search results: ' . json_encode($kotas));
-
+        
         return view('kota.index', compact('kotas'));
     }
     
@@ -258,7 +252,7 @@ class KotaController extends Controller
         // Storage::delete('/kota'. $kota->id_kota);
         $kota->delete();
 
-        // session()->flash('success', 'Data kota berhasil dihapus');
+        session()->flash('success', 'Data kota berhasil dihapus');
 
         
         return redirect()->route('kota')->with('toast_success', 'Data KoTA berhasil dihapus');
