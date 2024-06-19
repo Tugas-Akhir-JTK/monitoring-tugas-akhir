@@ -85,7 +85,7 @@
                             <th>No</th>
                             <th>Kode KoTA</th>
                             <th>Judul KoTA</th>
-                            <!-- <th>Tahap Progres</th> -->
+                            <th>Tahap Progres</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -98,24 +98,16 @@
                                 <td class="text-center"><?= $nomor++; ?></td>
                                 <td class="text-center"><?= $row->nama_kota; ?></td>
                                 <td><?= $row->judul;?></td>
-                                <!-- <td class="text-center">
-                                    <?php if($row->tahapan_progres == 1): ?>
-                                        Seminar 1
-                                    <?php elseif($row->tahapan_progres == 2): ?>
-                                        Seminar 2
-                                    <?php elseif($row->tahapan_progres == 3): ?>
-                                        Seminar 3
-                                    <?php elseif($row->tahapan_progres == 4): ?>
-                                        Sidang
-                                    <?php else: ?>
-                                        Tidak Valid
-                                    <?php endif; ?>
-                                </td> -->
+                                <td class="text-center"><?=$row->nama_tahapan?></td>
                                 <td class="text-center">
                                     <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('kota.destroy', $row->id_kota) }}" method="POST">
-                                        <a class="detail" href="{{ route('kota.detail', $row->id_kota) }}"><i class="nav-icon fas fa-eye" style="color: gray;"></i></a>
-                                        <a class="edit" href="{{ route('kota.edit', $row->id_kota) }}"><i class="nav-icon fas fa-pen" style="color: blue;"></i></a>                     
-                                        <a href="#" class="destroy" data-toggle="modal" data-target="#deleteKotaModal-{{ $row->id_kota }}">
+                                        <a class="detail" href="{{ route('kota.detail', $row->id_kota) }}"  data-toggle="tooltip" data-placement="top" title="Detail KoTA">
+                                            <i class="nav-icon fas fa-eye" style="color: gray;"></i>
+                                        </a>
+                                        <a class="edit" href="{{ route('kota.edit', $row->id_kota) }}"  data-toggle="tooltip" data-placement="top" title="Edit KoTA">
+                                            <i class="nav-icon fas fa-pen" style="color: blue;"></i>
+                                        </a>                     
+                                        <a href="#" class="destroy"  data-toggle="tooltip" data-placement="top" title="Delete KoTA" data-toggle="modal" data-target="#deleteKotaModal-{{ $row->id_kota }}">
                                             <i class="nav-icon fas fa-trash" style="color: red;"></i>
                                         </a>
                                     </form>

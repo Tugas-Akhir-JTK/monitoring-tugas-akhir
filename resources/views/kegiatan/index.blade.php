@@ -76,7 +76,7 @@
                                                 @endfor
                                             @endfor
                                             <td>
-                                                <a href="#" class="edit-kegiatan" data-bs-toggle="modal" data-bs-target="#editKegiatanModal{{ $kegiatan->id }}">
+                                                <a href="#" class="edit-kegiatan"  data-toggle="tooltip" data-placement="top" title="Edit Kegiatan" data-bs-toggle="modal" data-bs-target="#editKegiatanModal{{ $kegiatan->id }}">
                                                     <i class="nav-icon fas fa-pen" style="color: blue;"></i>
                                                 </a>
                                             </td>

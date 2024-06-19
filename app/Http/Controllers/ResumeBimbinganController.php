@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\ResumeBimbinganModel;
+use App\Models\KotaHasResumeBimbinganModel;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class ResumeBimbinganController extends Controller
 {
@@ -54,8 +57,24 @@ class ResumeBimbinganController extends Controller
 
     public function create()
     {
-        return view('bimbingan/resume/create');
+        $user = auth()->user();
+    
+        // Mendapatkan id_kota dari user yang sedang login
+        $id_kota = DB::table('tbl_kota_has_user')
+                    ->where('id_user', $user->id)
+                    ->value('id_kota');
+    
+        // Query untuk mencari user dengan role 2 yang ada dalam kota yang sama
+        $dosen = DB::table('users')
+                  ->join('tbl_kota_has_user', 'users.id', '=', 'tbl_kota_has_user.id_user')
+                  ->where('users.role', 2)
+                  ->where('tbl_kota_has_user.id_kota', $id_kota)
+                  ->select('users.*')
+                  ->get();
+    
+        return view('bimbingan/resume/create', compact('dosen'));
     }
+    
 
     public function store(Request $request)
     {
@@ -69,11 +88,36 @@ class ResumeBimbinganController extends Controller
         ]);
 
         if ($request->all()) {
-            ResumeBimbinganModel::create($request->all());
-            session()->flash('success', 'Data resume berhasil ditambahkan');
+            $resume = ResumeBimbinganModel::create($request->all());
+            $id_resume_bimbingan = $resume->id_resume_bimbingan;
         }
 
-        return redirect()->route('resume');
+        // Mendapatkan id_kota dari user yang sedang login
+        $user = auth()->user();
+
+        // Query untuk mencari id_kota dari tbl_kota_has_user
+        $id_kota = DB::table('tbl_kota_has_user')
+                    ->where('id_user', $user->id)
+                    ->value('id_kota');
+
+        // Query untuk mencari id_user dengan role '2'
+        $id_user_role_2 = DB::table('users')
+                        ->where('role', 2)
+                        ->value('id');
+
+        // Pastikan id_kota dan id_user_role_2 valid sebelum menyimpan
+        if ($id_kota && $id_user_role_2) {
+            KotaHasResumeBimbinganModel::create([
+                'id_kota' => $id_kota,
+                'id_user' => $id_user_role_2, // Menggunakan id_user dengan role '2'
+                'id_resume_bimbingan' => $id_resume_bimbingan,
+            ]);
+
+            return redirect()->route('resume')->with('success', 'Tugas berhasil dikumpulkan!');
+        } else {
+            // Handle jika id_kota atau id_user_role_2 tidak ditemukan atau tidak valid
+            return redirect()->route('resume')->with('error', 'Gagal menyimpan data: id_kota atau id_user dengan role 2 tidak valid.');
+        }
     }
 
     public function detail($id)
@@ -91,7 +135,7 @@ class ResumeBimbinganController extends Controller
             $tahapan_progres = "Unknown";
         }
 
-        return view('bimbingan/resume/detail', compact('resumes', 'tahapan_progres'));
+        return view('bimbingan/resume/detail', compact('resumes', 'tahapan_progres', 'dosen'));
     }
 
     public function edit($id)
@@ -112,7 +156,14 @@ class ResumeBimbinganController extends Controller
             $tahapan_progres = "Unknown";
         }
 
-        return view('bimbingan/resume/edit', compact('resume', 'tahapan_progres'));
+        $dosen =DB::table('tbl_resume_bimbingan as rb')
+                    ->join('tbl_kota_has_resume_bimbingan as krb', 'rb.id_resume_bimbingan', '=', 'krb.id_resume_bimbingan')
+                    ->join('users as u', 'krb.id_user', '=', 'u.id')
+                    ->select('rb.*', 'u.name as nama_dosen')
+                    ->where('rb.id_resume_bimbingan', $id)
+                    ->first();
+                    
+        return view('bimbingan/resume/edit', compact('resume', 'tahapan_progres', 'dosen'));
     }
 
 

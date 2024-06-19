@@ -98,7 +98,7 @@
                                     <div class="col d-flex justify-content-end">
                                         <div class="mr-2">
                                             <!-- Button edit -->
-                                            <a href="#" class="edit-artefak" data-toggle="modal" data-target="#editArtefakModal{{ $artefak->id_artefak }}">
+                                            <a href="#" class="edit-artefak"  data-toggle="tooltip" data-placement="top" title="Edit Artefak" data-toggle="modal" data-target="#editArtefakModal{{ $artefak->id_artefak }}">
                                                 <i class="nav-icon fas fa-pen" style="color: blue;"></i>
                                             </a>
                                             <!-- Modal Edit Artefak -->
@@ -143,7 +143,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a href="#" data-toggle="modal" data-target="#deleteArtefakModal-{{ $artefak->id_artefak }}">
+                                            <a href="#"  data-toggle="tooltip" data-placement="top" title="Delete Artefak" data-toggle="modal" data-target="#deleteArtefakModal-{{ $artefak->id_artefak }}">
                                                 <i class="nav-icon fas fa-trash" style="color: red;"></i>
                                             </a>
                                             <!-- Delete Modal -->
