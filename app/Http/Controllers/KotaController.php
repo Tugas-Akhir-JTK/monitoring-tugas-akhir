@@ -33,12 +33,6 @@ class KotaController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    // public function index()
-    // {
-    //     $kotas = KotaModel::with('users')->paginate(10);
-
-    //     return view('kota.index', compact('kotas'));
-    // }
 
     public function index(Request $request)
     {
@@ -199,6 +193,7 @@ class KotaController extends Controller
                     break;
             }
         }
+        
 
         return view('kota.detail', compact('kota', 'progressStage1Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota'));
     }

@@ -2,91 +2,377 @@
 
 @section('content')
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Dashboard Mahasiswa</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Starter Page</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col">
+                        <h1 class="m-0">Detail Kelompok Tugas Akhir</h1>
+                    </div>
+                    @if (auth()->user()->role == "1" || auth()->user()->role == "3")
+                    <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
+                        <span class="badge badge-pill badge-success" style="font-size: 1.0em;">
+                            <i class="nav-icon fas fa-check"></i>
+                            Sudah Mengumpulkan
+                        </span>
+                        <span class="badge badge-pill badge-secondary" style="font-size: 1.0em;">
+                            <i class="nav-icon fas fa-times"></i>
+                            Belum Mengumpulkan
+                        </span>
+                    </div>
+                    @endif
+                </div><!-- /.row -->
+            <hr/>
+        </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
 
     <!-- Main content -->
     <div class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
-                </p>
-
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
-            </div>
-
-            <div class="card card-primary card-outline">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
-                </p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
-            </div><!-- /.card -->
-          </div>
-          <!-- /.col-md-6 -->
-          <div class="col-lg-6">
-            <div class="card">
-              <div class="card-header">
-                <h5 class="m-0">Featured</h5>
-              </div>
-              <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h5 class="m-0">Featured</h5>
-              </div>
-              <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-          </div>
-          <!-- /.col-md-6 -->
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+            @foreach ($kotas as $kota)
+                <h3><strong>KoTA {{ $kota->nama_kota }}</strong></h3>
+                <h4>{{ $kota->judul }}</h4>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <h4>Mahasiswa</h4>
+                        <ul>
+                            @foreach($mahasiswa as $mhs)
+                                <li><h5>{{ $mhs->name }}</h5></li>
+                            @endforeach
+                        </ul>
+                    </div> 
+                    <div class="col">
+                        <h4>NIM</h4>
+                        <ul>
+                            @foreach($mahasiswa as $mhs)
+                                <li><h5>{{ $mhs->nomor_induk }}</h5></li>
+                            @endforeach
+                        </ul>
+                    </div>  
+                    <div class="col">
+                        <h4>Dosen Pembimbing</h4>
+                        <ul>
+                            @foreach($dosen as $dsn)
+                                @if($dsn)
+                                    <li><h5>{{ $dsn->name }}</h5></li>
+                                @else
+                                    <li>Data tidak ditemukan</li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <h4>NIP</h4>
+                        <ul>
+                            @foreach($dosen as $dsn)
+                                @if($dsn)
+                                    <li><h5>{{ $dsn->nomor_induk }}</h5></li>
+                                @else
+                                    <li>Data tidak ditemukan</li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                <br>
+                <br> 
+            @endforeach
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
     </div>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+        <div class="alert" role="alert" style="background-color: #D2DCF2;">
+            <div class="row">
+                <div class="col">
+                    Seminar 1
+                </div>
+                <div class="col-5 d-md-flex justify-content-md-end">
+                @if (auth()->user()->role == "2")
+                    <div class="form-group">
+                        <select class="form-control-sm" id="statusControlSelect" onchange="changeBackgroundColor()">
+                            <option value="belum-disetujui" class="badge badge-danger selected">Belum Disetujui</option>
+                            <option value="disetujui" class="badge badge-success">Disetujui</option>
+                            <option value="selesai" class="badge badge-primary">Selesai</option>
+                        </select>
+                    </div>
+                @endif
+                @if (auth()->user()->role == "1" || auth()->user()->role == "3")
+                    <div>
+                        <span id="selectedBadge" class="badge bg-primary">Selesai</span>
+                    </div>
+                @endif
+                </div>
+                <div class="col justify-content-md-end">
+                    <div class="progress"  style="height: 25px;">
+                        <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">100%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (auth()->user()->role == "1" || auth()->user()->role == "3")
+        <div class="container-fluid">
+            <div class="row row-cols-auto">
+                @foreach ($seminar1 as $masterArtefak)
+                    @php
+                        $isSubmitted = false;
+                        foreach ($artefakKota as $artefak) {
+                            if ($artefak->id_artefak == $masterArtefak->id) {
+                                $isSubmitted = true;
+                                break;
+                            }
+                        }
+                    @endphp
+                    <div class="row">
+                        <div class="col mr-2">
+                            @if ($isSubmitted)
+                                <span class="badge badge-pill badge-success">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @else
+                                <span class="badge badge-pill badge-secondary">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+        
+        <br>
+        
+        <div class="alert" role="alert" style="background-color: #D2DCF2;">
+            <div class="row">
+                <div class="col">
+                    Seminar 2
+                </div>
+                <div class="col-5 d-md-flex justify-content-md-end">
+                    <div class="mr-2">
+                        <span class="badge bg-light text-dark me-3">
+                            Jumlah Bimbingan : {{ $progressStage1Count }}
+                        </span>
+                    </div>
+                    @if (auth()->user()->role == "2")
+                        <div class="form-group">
+                            <select class="form-control-sm" id="statusControlSelect" onchange="changeBackgroundColor1()">
+                                <option value="belum-disetujui" class="badge badge-danger selected">Belum Disetujui</option>
+                                <option value="disetujui" class="badge badge-success">Disetujui</option>
+                                <option value="selesai" class="badge badge-primary">Selesai</option>
+                            </select>
+                        </div>
+                    @endif
+                    @if (auth()->user()->role == "1" || auth()->user()->role == "3")
+                        <div>
+                            <span id="selectedBadge" class="badge bg-success">Disetujui</span>
+                        </div>
+                    @endif
+                    </div>
+                <div class="col justify-content-md-end">
+                    <div class="progress"  style="height: 25px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">100%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (auth()->user()->role == "1" || auth()->user()->role == "3")
+        <div class="container-fluid">
+            <div class="row row-cols-auto">
+                @foreach ($seminar2 as $masterArtefak)
+                    @php
+                        $isSubmitted = false;
+                        foreach ($artefakKota as $artefak) {
+                            if ($artefak->id_artefak == $masterArtefak->id) {
+                                $isSubmitted = true;
+                                break;
+                            }
+                        }
+                    @endphp
+                    <div class="row">
+                        <div class="col mr-2">
+                            @if ($isSubmitted)
+                                <span class="badge badge-pill badge-success">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @else
+                                <span class="badge badge-pill badge-secondary">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+        
+        <br>
+        
+        <div class="alert" role="alert" style="background-color: #D2DCF2;">
+            <div class="row">
+                <div class="col">
+                    Seminar 3
+                </div>
+                <div class="col-5 d-md-flex justify-content-md-end">
+                    <div class="mr-2">
+                        <span class="badge bg-light text-dark me-3">
+                            Jumlah Bimbingan : {{ $progressStage2Count }}
+                        </span>
+                    </div>
+                    @if (auth()->user()->role == "2")
+                        <div class="form-group">
+                            <select class="form-control-sm" id="statusControlSelect" onchange="changeBackgroundColor1()">
+                                <option value="belum-disetujui" class="badge badge-danger selected">Belum Disetujui</option>
+                                <option value="disetujui" class="badge badge-success">Disetujui</option>
+                                <option value="selesai" class="badge badge-primary">Selesai</option>
+                            </select>
+                        </div>
+                    @endif
+                    @if (auth()->user()->role == "1" || auth()->user()->role == "3")
+                        <div>
+                            <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
+                        </div>
+                    @endif
+                </div>
+                <div class="col justify-content-md-end">
+                    <div class="progress"  style="height: 25px;">
+                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (auth()->user()->role=="1" || auth()->user()->role == "3")
+        <div class="container-fluid">
+            <div class="row row-cols-auto">
+                @foreach ($seminar3 as $masterArtefak)
+                    @php
+                        $isSubmitted = false;
+                        foreach ($artefakKota as $artefak) {
+                            if ($artefak->id_artefak == $masterArtefak->id) {
+                                $isSubmitted = true;
+                                break;
+                            }
+                        }
+                    @endphp
+                    <div class="row">
+                        <div class="col mr-2">
+                            @if ($isSubmitted)
+                                <span class="badge badge-pill badge-success">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @else
+                                <span class="badge badge-pill badge-secondary">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
 
+        <br>
+
+        <div class="alert" role="alert" style="background-color: #D2DCF2;">
+            <div class="row">
+                <div class="col">
+                    Sidang
+                </div>
+                <div class="col-5 d-md-flex justify-content-md-end">
+                    <div class="mr-2">
+                        <span class="badge bg-light text-dark me-3">
+                            Jumlah Bimbingan : {{ $progressStage3Count }}
+                        </span>
+                    </div>
+                    @if (auth()->user()->role == "2")
+                        <div class="form-group">
+                            <select class="form-control-sm" id="statusControlSelect" onchange="changeBackgroundColor3()">
+                                <option value="belum-disetujui" class="badge badge-danger selected">Belum Disetujui</option>
+                                <option value="disetujui" class="badge badge-success">Disetujui</option>
+                                <option value="selesai" class="badge badge-primary">Selesai</option>
+                            </select>
+                        </div>
+                    @endif
+                    @if (auth()->user()->role == "1" || auth()->user()->role == "3")
+                        <div>
+                            <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
+                        </div>
+                    @endif
+                </div>
+                <div class="col justify-content-md-end">
+                    <div class="progress"  style="height: 25px;">
+                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (auth()->user()->role=="1" || auth()->user()->role == "3")
+        <div class="container-fluid">
+            <div class="row row-cols-auto">
+                @foreach ($sidang as $masterArtefak)
+                    @php
+                        $isSubmitted = false;
+                        foreach ($artefakKota as $artefak) {
+                            if ($artefak->id_artefak == $masterArtefak->id) {
+                                $isSubmitted = true;
+                                break;
+                            }
+                        }
+                    @endphp
+                    <div class="row">
+                        <div class="col mr-2">
+                            @if ($isSubmitted)
+                                <span class="badge badge-pill badge-success">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @else
+                                <span class="badge badge-pill badge-secondary">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+        <br>
+        <br>
+        <br>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        changeBackgroundColor(); // Memanggil fungsi untuk mengatur warna latar belakang awal
+    });
+
+    function changeBackgroundColor() {
+        var selectElement = document.getElementById("statusControlSelect");
+        var selectedOption = selectElement.options[selectElement.selectedIndex];
+        
+        // Menghapus kelas latar belakang sebelumnya
+        selectElement.classList.remove("bg-danger", "bg-success", "bg-primary");
+        
+        // Menambahkan kelas latar belakang sesuai dengan opsi yang dipilih
+        if (selectedOption.value === "belum-disetujui") {
+            selectElement.classList.add("bg-danger");
+        } else if (selectedOption.value === "disetujui") {
+            selectElement.classList.add("bg-success");
+        } else if (selectedOption.value === "selesai") {
+            selectElement.classList.add("bg-primary");
+        }
+    }
+
+</script>
 @endsection
