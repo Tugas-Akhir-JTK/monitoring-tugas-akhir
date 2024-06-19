@@ -12,11 +12,11 @@
                         <h1 class="m-0">Detail Kelompok Tugas Akhir</h1>
                     </div>
                     <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
-                        <span class="badge rounded-pill bg-success" style="font-size: 1.0em;">
+                        <span class="badge badge-pill badge-success" style="font-size: 1.0em;">
                             <i class="nav-icon fas fa-check"></i>
                             Sudah Mengumpulkan
                         </span>
-                        <span class="badge rounded-pill bg-secondary" style="font-size: 1.0em;">
+                        <span class="badge badge-pill badge-secondary" style="font-size: 1.0em;">
                             <i class="nav-icon fas fa-times"></i>
                             Belum Mengumpulkan
                         </span>
@@ -108,7 +108,7 @@
             <br> 
         </div>
     </div>
-        <div class="alert alert-primary" role="alert">
+        <div class="alert" role="alert" style="background-color: #D2DCF2;">
             <div class="row">
                 <div class="col">
                     Seminar 1
@@ -127,54 +127,44 @@
         </div>
         <div class="container-fluid">
             <div class="row row-cols-auto">
-                <div class="col">
-                    <span class="badge rounded-pill bg-success">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 01
-                    </span>
-                </div>
-                <div class="col">
-                    <span class="badge rounded-pill bg-success">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 02
-                    </span>
-                </div>
-                <div class="col">
-                    <span class="badge rounded-pill bg-success">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 03
-                    </span>
-                </div>
-                <div class="col">
-                    <span class="badge rounded-pill bg-success">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 04
-                    </span>
-                </div>
-                <div class="col">
-                    <span class="badge rounded-pill bg-success">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 05
-                    </span>
-                </div>
-                <div class="col">
-                    <span class="badge rounded-pill bg-success">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 05a
-                    </span>
-                </div>
+                @foreach ($seminar1 as $masterArtefak)
+                    @php
+                        $isSubmitted = false;
+                        foreach ($artefakKota as $artefak) {
+                            if ($artefak->id_artefak == $masterArtefak->id) {
+                                $isSubmitted = true;
+                                break;
+                            }
+                        }
+                    @endphp
+                    <div class="row">
+                        <div class="col mr-2">
+                            @if ($isSubmitted)
+                                <span class="badge badge-pill badge-success">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @else
+                                <span class="badge badge-pill badge-secondary">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
         
         <br>
         
-        <div class="alert alert-primary" role="alert">
+        <div class="alert" role="alert" style="background-color: #D2DCF2;">
             <div class="row">
                 <div class="col">
                     Seminar 2
                 </div>
                 <div class="col-5 d-md-flex justify-content-md-end">
-                    <div>
+                    <div class="mr-2">
                         <span class="badge bg-light text-dark me-3">
                             Jumlah Bimbingan : {{ $progressStage1Count }}
                         </span>
@@ -194,54 +184,43 @@
         </div>
         <div class="container-fluid">
             <div class="row row-cols-auto">
-                <div class="col">
-                    <span class="badge rounded-pill bg-success">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 06
-                    </span>
-                </div>
-                <div class="col">
-                    <span class="badge rounded-pill bg-success">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 06 (Revisi)
-                    </span>
-                </div>
-                <div class="col">
-                    <span class="badge rounded-pill bg-success">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 07
-                    </span>
-                </div>
-                <div class="col">
-                    <span class="badge rounded-pill bg-success">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 08
-                    </span>
-                </div>
-                <div class="col">
-                    <span class="badge rounded-pill bg-success">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 09
-                    </span>
-                </div>
-                <div class="col">
-                    <span class="badge rounded-pill bg-success">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 09a
-                    </span>
-                </div>
+                @foreach ($seminar2 as $masterArtefak)
+                    @php
+                        $isSubmitted = false;
+                        foreach ($artefakKota as $artefak) {
+                            if ($artefak->id_artefak == $masterArtefak->id) {
+                                $isSubmitted = true;
+                                break;
+                            }
+                        }
+                    @endphp
+                    <div class="row">
+                        <div class="col mr-2">
+                            @if ($isSubmitted)
+                                <span class="badge badge-pill badge-success">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @else
+                                <span class="badge badge-pill badge-secondary">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
-
         <br>
 
-        <div class="alert alert-primary" role="alert">
+        <div class="alert" role="alert" style="background-color: #D2DCF2;">
             <div class="row">
                 <div class="col">
                     Seminar 3
                 </div>
                 <div class="col-5 d-md-flex justify-content-md-end">
-                    <div>
+                    <div class="mr-2">
                         <span class="badge bg-light text-dark me-3">
                             Jumlah Bimbingan : {{ $progressStage2Count }}
                         </span>
@@ -261,42 +240,44 @@
         </div>
         <div class="container-fluid">
             <div class="row row-cols-auto">
-                <div class="col">
-                    <span class="badge rounded-pill bg-secondary">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 10
-                    </span>
-                </div>
-                <div class="col">
-                    <span class="badge rounded-pill bg-secondary">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 10 (Revisi)
-                    </span>
-                </div>
-                <div class="col">
-                    <span class="badge rounded-pill bg-secondary">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 11
-                    </span>
-                </div>
-                <div class="col">
-                    <span class="badge rounded-pill bg-secondary">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 12
-                    </span>
-                </div>
+                @foreach ($seminar3 as $masterArtefak)
+                    @php
+                        $isSubmitted = false;
+                        foreach ($artefakKota as $artefak) {
+                            if ($artefak->id_artefak == $masterArtefak->id) {
+                                $isSubmitted = true;
+                                break;
+                            }
+                        }
+                    @endphp
+                    <div class="row">
+                        <div class="col mr-2">
+                            @if ($isSubmitted)
+                                <span class="badge badge-pill badge-success">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @else
+                                <span class="badge badge-pill badge-secondary">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
 
         <br>
 
-        <div class="alert alert-primary" role="alert">
+        <div class="alert" role="alert" style="background-color: #D2DCF2;">
             <div class="row">
                 <div class="col">
                     Sidang
                 </div>
                 <div class="col-5 d-md-flex justify-content-md-end">
-                    <div>
+                    <div class="mr-2">
                         <span class="badge bg-light text-dark me-3">
                             Jumlah Bimbingan : {{ $progressStage3Count }}
                         </span>
@@ -316,48 +297,32 @@
         </div>
         <div class="container-fluid">
             <div class="row row-cols-auto">
-                <div class="col">
-                    <span class="badge rounded-pill bg-secondary">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 13
-                    </span>
-                </div>
-                <div class="col">
-                    <span class="badge rounded-pill bg-secondary">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 14
-                    </span>
-                </div>
-                <div class="col">
-                    <span class="badge rounded-pill bg-secondary">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 15
-                    </span>
-                </div>
-                <div class="col">
-                    <span class="badge rounded-pill bg-secondary">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 16
-                    </span>
-                </div>
-                <div class="col">
-                    <span class="badge rounded-pill bg-secondary">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 17
-                    </span>
-                </div>
-                <div class="col">
-                    <span class="badge rounded-pill bg-secondary">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 18
-                    </span>
-                </div>
-                <div class="col">
-                    <span class="badge rounded-pill bg-secondary">
-                        <i class="nav-icon fas fa-file"></i>
-                        FTA 19
-                    </span>
-                </div>
+                @foreach ($sidang as $masterArtefak)
+                    @php
+                        $isSubmitted = false;
+                        foreach ($artefakKota as $artefak) {
+                            if ($artefak->id_artefak == $masterArtefak->id) {
+                                $isSubmitted = true;
+                                break;
+                            }
+                        }
+                    @endphp
+                    <div class="row">
+                        <div class="col mr-2">
+                            @if ($isSubmitted)
+                                <span class="badge badge-pill badge-success">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @else
+                                <span class="badge badge-pill badge-secondary">
+                                    <i class="nav-icon fas fa-file"></i>
+                                    {{ $masterArtefak->nama_artefak }}
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
 

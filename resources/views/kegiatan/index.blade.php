@@ -12,7 +12,10 @@
                     </div>
                     <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
                         <!-- Tombol untuk membuka modal -->
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addKegiatanModal">Tambah Kegiatan</button>
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addKegiatanModal">
+                            Tambah
+                            <i class="nav-icon fas fa-plus"></i>
+                        </button>
                     </div>  
                 </div><!-- /.row -->
                 <hr/>

@@ -7,46 +7,50 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Resume Bimbingan</h1>
-          </div><!-- /.col -->
-          <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
-            <!-- Menu Dropdown Kelas -->
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="classesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                Kelas
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="classesDropdown">
-                <li><a class="dropdown-item" href="#">D3-A</a></li>
-                <li><a class="dropdown-item" href="#">D3-B</a></li>
-                <li><a class="dropdown-item" href="#">D4-A</a></li>
-                <li><a class="dropdown-item" href="#">D4-B</a></li>
-              </ul>
-            </div>
-
-            <!-- Menu Dropdown Seminar dan Sidang -->
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="seminarsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                Tahapan TA
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="seminarsDropdown">
-                <li><a href="{{ route('resume', ['sort' => 'tahapan_progres', 'direction' => 'asc', 'value' => 2]) }}" class="dropdown-item">Seminar 2</a></li>
-                <li><a href="{{ route('resume', ['sort' => 'tahapan_progres', 'direction' => 'asc', 'value' => 3]) }}" class="dropdown-item">Seminar 3</a></li>
-                <li><a href="{{ route('resume', ['sort' => 'tahapan_progres', 'direction' => 'asc', 'value' => 4]) }}" class="dropdown-item">Sidang</a></li>
-              </ul>
-            </div>
-
-            <a href="{{ route('resume.create') }}">
-              <button type="button" class="btn btn-success">
-                Tambah
-                <i class="nav-icon fas fa-plus"></i>
-              </button>
-            </a>
-          </div><!-- /.col -->
+        <div class="row">
+            <div class="col">
+                <h1 class="m-0">Resume Bimbingan</h1>
+            </div><!-- /.col -->
+            <div class="col d-flex justify-content-end">
+                <div class="btn-group mr-2">
+                    <!-- Menu Dropdown Kelas -->
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="classesDropdown" data-toggle="dropdown" aria-expanded="false">
+                            Kelas
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="classesDropdown">
+                            <li><a class="dropdown-item" href="#">D3-A</a></li>
+                            <li><a class="dropdown-item" href="#">D3-B</a></li>
+                            <li><a class="dropdown-item" href="#">D4-A</a></li>
+                            <li><a class="dropdown-item" href="#">D4-B</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="btn-group mr-2">
+                    <!-- Menu Dropdown Seminar dan Sidang -->
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="seminarsDropdown" data-toggle="dropdown" aria-expanded="false">
+                            Tahapan TA
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="seminarsDropdown">
+                            <li><a href="{{ route('resume', ['sort' => 'tahapan_progres', 'direction' => 'asc', 'value' => 2]) }}" class="dropdown-item">Seminar 2</a></li>
+                            <li><a href="{{ route('resume', ['sort' => 'tahapan_progres', 'direction' => 'asc', 'value' => 3]) }}" class="dropdown-item">Seminar 3</a></li>
+                            <li><a href="{{ route('resume', ['sort' => 'tahapan_progres', 'direction' => 'asc', 'value' => 4]) }}" class="dropdown-item">Sidang</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <a href="{{ route('resume.create') }}">
+                        <button type="button" class="btn btn-success">
+                            Tambah
+                            <i class="nav-icon fas fa-plus"></i>
+                        </button>
+                    </a>
+                </div>
+            </div><!-- /.col -->
         </div><!-- /.row -->
         <hr/>
-      </div><!-- /.container-fluid -->
+    </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
 

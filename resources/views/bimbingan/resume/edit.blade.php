@@ -78,7 +78,7 @@
                                 <!-- TAHAPAN PROGRES -->
                                 <div class="col mb-3">
                                     <label for="tahapan_progres" class="form-label">Tahapan Progres</label>
-                                    <select name="tahapan_progres" class="form-select" id="tahapan_progres" value="{{ old('progres_pengerjaan', $resume->progres_pengerjaan) }}" required>
+                                    <select name="tahapan_progres" class="form-control" id="tahapan_progres" value="{{ old('progres_pengerjaan', $resume->progres_pengerjaan) }}" required>
                                         <option value="" disabled selected>{{ $tahapan_progres }}</option>
                                         <option value="1" {{ old('tahapan_progres', $resume->tahapan_progres) == 1 ? 'selected' : '' }}>Seminar 2</option>
                                         <option value="2" {{ old('tahapan_progres', $resume->tahapan_progres) == 2 ? 'selected' : '' }}>Seminar 3</option>

@@ -34,6 +34,15 @@ Route::delete('/kota/{id}', [App\Http\Controllers\KotaController::class, 'destro
 
 
 //Timeline
+Route::get('/timeline', [App\Http\Controllers\TimelineController::class, 'index'])->middleware(['auth', 'role:1,2,3'])->name('timeline');
+Route::get('/timeline/detail/{id}', [App\Http\Controllers\TimelineController::class, 'detail'])->middleware(['auth', 'role:1'])->name('timeline.detail');
+Route::get('/timeline/create', [App\Http\Controllers\TimelineController::class, 'create'])->middleware(['auth', 'role:1'])->name('timeline.create'); //menambahkan data
+Route::get('/timeline/{id}', [App\Http\Controllers\TimelineController::class, 'detail'])->middleware(['auth', 'role:1'])->name('timeline.detail');
+Route::post('/timeline/store', [App\Http\Controllers\TimelineController::class, 'store'])->middleware(['auth', 'role:1'])->name('timeline.store');
+Route::get('/timeline/edit/{id}', [App\Http\Controllers\TimelineController::class, 'edit'])->middleware(['auth', 'role:1'])->name('timeline.edit');
+Route::put('/timeline/update/{id}', [App\Http\Controllers\TimelineController::class, 'update'])->middleware(['auth', 'role:1'])->name('timeline.update');
+Route::get('/timeline/search', [App\Http\Controllers\TimelineController::class, 'search'])->middleware(['auth', 'role:1'])->name('timeline.search');
+Route::delete('/timeline/{id}', [App\Http\Controllers\TimelineController::class, 'destroy'])->middleware(['auth', 'role:1'])->name('timeline.destroy');
 Route::get('/timeline', [App\Http\Controllers\TimelineController::class, 'index'])->name('timeline');
 Route::get('/timeline/store', [App\Http\Controllers\TimelineController::class, 'store'])->name('timeline.store');
 
@@ -55,6 +64,11 @@ Route::get('/artefak/edit/{id}', [App\Http\Controllers\ArtefakController::class,
 Route::put('/artefak/update{id}', [App\Http\Controllers\ArtefakController::class, 'update'])->middleware(['auth', 'role:1'])->name('artefak.update');
 Route::post('/artefak/search', [App\Http\Controllers\ArtefakController::class, 'search'])->middleware(['auth', 'role:1'])->name('artefak.search');
 Route::delete('/artefak/{id}', [App\Http\Controllers\ArtefakController::class, 'destroy'])->middleware(['auth', 'role:1'])->name('artefak.destroy');
+//Pengumpulan Artefak
+Route::get('/artefak/{artefak_id}/submit', [App\Http\Controllers\SubmissionController::class, 'create'])->middleware(['auth', 'role:3'])->name('submissions.create');
+Route::post('/artefak/{artefak_id}/submit', [App\Http\Controllers\SubmissionController::class, 'store'])->middleware(['auth', 'role:3'])->name('submissions.store');
+Route::delete('submissions/{id}', [App\Http\Controllers\SubmissionController::class, 'destroy'])->middleware(['auth', 'role:3'])->name('submissions.destroy');
+
 
 //Jadwal
 Route::get('/jadwal', [App\Http\Controllers\JadwalController::class, 'index'])->middleware(['auth', 'role:1,3'])->name('jadwal');
