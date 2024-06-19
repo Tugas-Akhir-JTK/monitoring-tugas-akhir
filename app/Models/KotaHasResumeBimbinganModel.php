@@ -10,7 +10,7 @@ class KotaHasResumeBimbinganModel extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $table = 'tbl_kota';
+    protected $table = 'tbl_kota_has_resume_bimbingan';
     protected $primaryKey = 'id';
     protected $fillable = [
         'id_kota',

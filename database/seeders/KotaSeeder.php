@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\KotaModel;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class KotaSeeder extends Seeder
 {
@@ -36,13 +37,35 @@ class KotaSeeder extends Seeder
 
         foreach ($classes as $class => $startId) {
             for ($i = 0; $i < 10; $i++) {
-                KotaModel::create([
+                $kota = KotaModel::create([
                     'nama_kota' => $startId + $i,
                     'judul' => $judulList[$i % count($judulList)],
                     'kelas' => $class,
                     'periode' => 2024,
                 ]);
+
+                // Pastikan kota sudah dibuat
+                if ($kota) {
+                    // Cari kota berdasarkan id_kota yang baru dibuat
+                    $existingKota = KotaModel::find($kota->id_kota);
+
+                    // Jika kota ada, masukkan ke tbl_kota_has_tahapan_progres
+                    if ($existingKota) {
+                        DB::table('tbl_kota_has_tahapan_progres')->insert([
+                            'id_kota' => $existingKota->id_kota,
+                            'id_master_tahapan_progres' => 1, // id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
+                            'status' => 'on_progres',
+                        ]);
+                    } else {
+                        // Handle jika kota tidak ditemukan
+                        echo "Kota dengan id {$kota->id_kota} tidak ditemukan.";
+                    }
+                } else {
+                    // Handle jika kota gagal dibuat
+                    echo "Gagal membuat kota.";
+                }
             }
         }
+        
     }
 }

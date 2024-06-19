@@ -7,6 +7,7 @@ use App\Models\KotaModel;
 use App\Models\User;
 use App\Models\KotaHasUserModel;
 use App\Models\KotaHasArtefakModel;
+use App\Models\KotaHasTahapanProgresModel;
 use App\Models\ResumeBimbinganModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
@@ -41,22 +42,31 @@ class KotaController extends Controller
 
     public function index(Request $request)
     {
-        $query = KotaModel::query();
+         // Query awal untuk mengambil data dari KotaModel
+    $query = KotaModel::query();
 
-        if ($request->has('sort') && $request->has('value')) {
-            $sort = $request->input('sort');
-            $value = $request->input('value');
-            
-            // Tambahkan filter berdasarkan nilai yang dipilih
-            $query->where($sort, $value);
-        }
+    // Menambahkan filter berdasarkan parameter 'sort' dan 'value'
+    if ($request->has('sort') && $request->has('value')) {
+        $sort = $request->input('sort');
+        $value = $request->input('value');
+        
+        // Tambahkan filter berdasarkan nilai yang dipilih
+        $query->where($sort, $value);
+    }
 
-        // Tambahkan logika sorting berdasarkan parameter 'sort' dan 'direction'
-        if ($request->has('sort') && $request->has('direction')) {
-            $query->orderBy($request->input('sort'), $request->input('direction'));
-        }
+    // Menambahkan logika sorting berdasarkan parameter 'sort' dan 'direction'
+    if ($request->has('sort') && $request->has('direction')) {
+        $query->orderBy($request->input('sort'), $request->input('direction'));
+    }
 
-        $kotas = $query->paginate(10);
+    // Lakukan join dengan tabel tahapan_progres dan master_tahapan_progres
+    $query->leftJoin('tbl_kota_has_tahapan_progres', 'tbl_kota.id_kota', '=', 'tbl_kota_has_tahapan_progres.id_kota')
+          ->leftJoin('tbl_master_tahapan_progres', 'tbl_kota_has_tahapan_progres.id_master_tahapan_progres', '=', 'tbl_master_tahapan_progres.id')
+          ->select('tbl_kota.*', 'tbl_master_tahapan_progres.nama_progres AS nama_tahapan', 'tbl_kota_has_tahapan_progres.status AS status')
+          ->where('tbl_kota_has_tahapan_progres.status', 'on_progres'); // Menambahkan filter status
+
+    // Ambil data dengan pagination
+    $kotas = $query->paginate(10);
 
 
         return view('kota.index', compact('kotas'));
@@ -110,6 +120,13 @@ class KotaController extends Controller
                 'id_user' => $id_user[0]->id
             ]);
         }
+           
+        // Tambahkan data ke tabel tbl_kota_has_tahapan_progres
+        DB::table('tbl_kota_has_tahapan_progres')->insert([
+            'id_kota' => $id_kota,
+            'id_master_tahapan_progres' => 1, // Mengambil id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
+            'status' => 'on_progres'
+        ]);
         
         session()->flash('success', 'Data KoTA berhasil disimpan');
         

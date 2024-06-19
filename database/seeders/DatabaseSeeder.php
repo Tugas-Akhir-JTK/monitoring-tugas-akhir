@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(3)->create();
         $this->call([
             UserSeeder::class,
+            MasterTahapanProgresSeeder::class,
             KotaSeeder::class,
             MasterArtefakSeeder::class,
             ArtefakSeeder::class,

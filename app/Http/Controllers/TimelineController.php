@@ -7,6 +7,7 @@ use App\Models\MasterArterfakModel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\EventModel;
 use Illuminate\Support\Facades\Storage;
 
 class TimelineController extends Controller

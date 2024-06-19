@@ -2,9 +2,9 @@
 
 @section('content')
 
-  <!-- Content Wrapper. Contains page content -->
+  <!-- Content Wrapper. Berisi konten halaman -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+    <!-- Header Konten (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
         <div class="row">
@@ -54,11 +54,11 @@
     </div>
     <!-- /.content-header -->
 
-    <!-- Main content -->
+    <!-- Konten utama -->
     <div class="content">
-      <!-- Begin Page Content -->
+      <!-- Mulai Konten Halaman -->
       <div class="container-fluid">
-        <!-- DataTables Example -->
+        <!-- Contoh DataTables -->
         <div class="card shadow mb-4">
           <div class="card-body">
             <div class="row mt-4">
@@ -68,7 +68,7 @@
                   <h5 class="card-header d-flex justify-content-between align-items-center">
                     <div class="col">Resume Bimbingan Ke-{{ $resume->id_resume_bimbingan }}</div>
                     <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
-                      <a href="{{ route('resume.edit', $resume->id_resume_bimbingan) }}">
+                      <a href="{{ route('resume.edit', $resume->id_resume_bimbingan) }}"  data-toggle="tooltip" data-placement="top" title="Edit Resume Bimbingan">
                         <i class="nav-icon fas fa-pen" style="color: blue;"></i>
                       </a>
                     </div>
@@ -89,7 +89,7 @@
                         <small>
                           {{ $shortContent }}
                           @if(strlen($content) > $maxLength)
-                            <a href="{{ route('resume.detail', ['id' => $resume->id_resume_bimbingan]) }}">Read More</a>
+                            <a href="{{ route('resume.detail', ['id' => $resume->id_resume_bimbingan]) }}">Baca Selengkapnya</a>
                           @endif
                         </small>
                       </div>
@@ -101,13 +101,23 @@
                         @endphp
                         <h5>Revisi</h5>
                         <small>
-                          {{ $shortContent }}
-                          @if(strlen($content) > $maxLength)
-                            <a href="{{ route('resume.detail', ['id' => $resume->id_resume_bimbingan]) }}">Read More</a>
+                          @if($content != '-')
+                            {{ $shortContent }}
+                            @if(strlen($content) > $maxLength)
+                              <a href="{{ route('resume.detail', ['id' => $resume->id_resume_bimbingan]) }}">Baca Selengkapnya</a>
+                            @endif
+                          @else
+                            Belum Direvisi
                           @endif
                         </small>
                       </div>
                     </div>
+                  </div>
+                  <!-- Ikon tanda ceklis hanya muncul jika ada revisi bimbingan, dan bukan default '-' -->
+                  <div class="card-footer">
+                    @if($resume->isi_revisi_bimbingan != '-' && $resume->isi_revisi_bimbingan != '')
+                      <i class="fas fa-check-circle text-success"></i> Telah Direvisi
+                    @endif
                   </div>
                 </div>
               </div>
