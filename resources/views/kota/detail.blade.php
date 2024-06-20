@@ -99,8 +99,8 @@
                         <input type="hidden" name="id_kota" value="{{ $item->id_kota }}">
                         <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
                         <div class="form-group">
-                             @if($item->id_master_tahapan_progres == 1)
-                             <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm({{ $item->id }})">
+                            @if($item->id_master_tahapan_progres == 1)
+                            <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm({{ $item->id }})">
                                 <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
                                 <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
                                 <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
@@ -132,7 +132,7 @@
                 </div>
                 <div class="col justify-content-md-end">
                     <div class="progress"  style="height: 25px;">
-                        <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">100%</div>
+                        <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">70%</div>
                     </div>
                 </div>
             </div>
@@ -194,7 +194,7 @@
                         <input type="hidden" name="id_kota" value="{{ $item->id_kota }}">
                         <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
                         <div class="form-group">
-                             @if($item->id_master_tahapan_progres == 2)
+                            @if($item->id_master_tahapan_progres == 2)
                             <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm({{ $item->id }})">
                                 <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
                                 <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
@@ -226,7 +226,7 @@
                     </div>
                 <div class="col justify-content-md-end">
                     <div class="progress"  style="height: 25px;">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">100%</div>
+                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
                     </div>
                 </div>
             </div>
@@ -287,7 +287,7 @@
                         <input type="hidden" name="id_kota" value="{{ $item->id_kota }}">
                         <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
                         <div class="form-group">
-                             @if($item->id_master_tahapan_progres == 3)
+                            @if($item->id_master_tahapan_progres == 3)
                             <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm({{ $item->id }})">
                                 <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
                                 <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
@@ -381,7 +381,7 @@
                         <input type="hidden" name="id_kota" value="{{ $item->id_kota }}">
                         <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
                         <div class="form-group">
-                             @if($item->id_master_tahapan_progres == 4)
+                            @if($item->id_master_tahapan_progres == 4)
                             <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm({{ $item->id }})">
                                 <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
                                 <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
@@ -487,13 +487,6 @@
     function submitForm(id) {
         document.getElementById('statusForm_' + id).submit();
     }
-</script>
-
-
-    function submitForm(id) {
-        document.getElementById('statusForm_' + id).submit();
-    }
-</script>
 
 </script>
 

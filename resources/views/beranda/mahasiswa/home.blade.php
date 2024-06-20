@@ -119,7 +119,7 @@
                 </div>
                 <div class="col justify-content-md-end">
                     <div class="progress"  style="height: 25px;">
-                        <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">100%</div>
+                        <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">70%</div>
                     </div>
                 </div>
             </div>
@@ -199,7 +199,7 @@
                     </div>
                 <div class="col justify-content-md-end">
                     <div class="progress"  style="height: 25px;">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">100%</div>
+                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
                     </div>
                 </div>
             </div>

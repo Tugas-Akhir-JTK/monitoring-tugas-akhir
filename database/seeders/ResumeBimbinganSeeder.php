@@ -38,7 +38,7 @@ class ResumeBimbinganSeeder extends Seeder
             'isi_resume_bimbingan' => 'Revisi proposal dan persiapan seminar.',
             'isi_revisi_bimbingan' => '-', // Tambahkan nilai default di sini
             'progres_pengerjaan' => 60,
-            'tahapan_progres' => 3,
+            'tahapan_progres' => 2,
         ]);
     }
 }

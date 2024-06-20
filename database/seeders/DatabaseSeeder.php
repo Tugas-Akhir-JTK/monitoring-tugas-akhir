@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             KotaSeeder::class,
             MasterArtefakSeeder::class,
             ArtefakSeeder::class,
-            ResumeBimbinganSeeder::class,
+            // ResumeBimbinganSeeder::class,
             KotaHasUserSeeder::class,
             JadwalKegiatanSeeder::class,
             TimelineSeeder::class,

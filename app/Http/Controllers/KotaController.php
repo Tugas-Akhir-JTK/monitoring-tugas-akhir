@@ -120,7 +120,7 @@ class KotaController extends Controller
         DB::table('tbl_kota_has_tahapan_progres')->insert([
             'id_kota' => $id_kota,
             'id_master_tahapan_progres' => 1, // Mengambil id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
-            'status' => 'on_progres'
+            'status' => 'selesai'
         ]);
 
         DB::table('tbl_kota_has_tahapan_progres')->insert([
@@ -171,10 +171,8 @@ class KotaController extends Controller
         // Looping untuk membagi artefak sesuai dengan tahapan
         foreach ($masterArtefaks as $artefak) {
             switch ($artefak->nama_artefak) {
-                case 'FTA 01':
                 case 'FTA 02':
                 case 'FTA 03':
-                case 'FTA 04':
                 case 'FTA 05':
                 case 'FTA 05a':
                 case 'Proposal Tugas Akhir':
