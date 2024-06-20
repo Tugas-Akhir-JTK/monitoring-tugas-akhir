@@ -84,22 +84,49 @@
     </div>
         <div class="alert" role="alert" style="background-color: #D2DCF2;">
             <div class="row">
-                <div class="col">
-                    Seminar 1
-                </div>
+                @foreach($mastertahapan as $tahapan)
+                    @if($tahapan->id == 1)
+                        <div class="col">
+                            {{$tahapan->nama_progres}}
+                        </div>
+                    @endif
+                @endforeach
                 <div class="col-5 d-md-flex justify-content-md-end">
                 @if (auth()->user()->role == "2")
-                    <div class="form-group">
-                        <select class="form-control-sm" id="statusControlSelect" onchange="changeBackgroundColor()">
-                            <option value="belum-disetujui" class="badge badge-danger selected">Belum Disetujui</option>
-                            <option value="disetujui" class="badge badge-success">Disetujui</option>
-                            <option value="selesai" class="badge badge-primary">Selesai</option>
-                        </select>
-                    </div>
+                @foreach($tahapan_progres as $item)
+                    <form action="{{ route('store_status') }}" method="POST" id="statusForm_{{ $item->id }}">
+                        @csrf
+                        <input type="hidden" name="id_kota" value="{{ $item->id_kota }}">
+                        <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
+                        <div class="form-group">
+                             @if($item->id_master_tahapan_progres == 1)
+                             <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm({{ $item->id }})">
+                                <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
+                                <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+                                <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                                <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
+                            </select>
+
+                            @endif
+                        </div>
+                    </form>
+                @endforeach
                 @endif
                 @if (auth()->user()->role == "1" || auth()->user()->role == "3")
                     <div>
+                    @foreach($tahapan_progres as $item)
+                    @if($item->id_master_tahapan_progres == 1)
+                        @if($item->status == 'belum-disetujui')
+                        <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
+                        @elseif($item->status == 'disetujui')
+                        <span id="selectedBadge" class="badge bg-success">Disetujui</span>
+                        @elseif($item->status == 'selesai')
                         <span id="selectedBadge" class="badge bg-primary">Selesai</span>
+                        @elseif($item->status == 'on_progres')
+                        <span id="selectedBadge" class="badge bg-warning">On Progres</span>
+                        @endif
+                    @endif
+                    @endforeach
                     </div>
                 @endif
                 </div>
@@ -147,9 +174,13 @@
         
         <div class="alert" role="alert" style="background-color: #D2DCF2;">
             <div class="row">
-                <div class="col">
-                    Seminar 2
-                </div>
+                @foreach($mastertahapan as $tahapan)
+                    @if($tahapan->id == 2)
+                        <div class="col">
+                            {{$tahapan->nama_progres}}
+                        </div>
+                    @endif
+                @endforeach
                 <div class="col-5 d-md-flex justify-content-md-end">
                     <div class="mr-2">
                         <span class="badge bg-light text-dark me-3">
@@ -157,17 +188,39 @@
                         </span>
                     </div>
                     @if (auth()->user()->role == "2")
+                    @foreach($tahapan_progres as $item)
+                    <form action="{{ route('store_status') }}" method="POST" id="statusForm_{{ $item->id }}">
+                        @csrf
+                        <input type="hidden" name="id_kota" value="{{ $item->id_kota }}">
+                        <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
                         <div class="form-group">
-                            <select class="form-control-sm" id="statusControlSelect" onchange="changeBackgroundColor1()">
-                                <option value="belum-disetujui" class="badge badge-danger selected">Belum Disetujui</option>
-                                <option value="disetujui" class="badge badge-success">Disetujui</option>
-                                <option value="selesai" class="badge badge-primary">Selesai</option>
+                             @if($item->id_master_tahapan_progres == 2)
+                            <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm({{ $item->id }})">
+                                <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
+                                <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+                                <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                                <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
                             </select>
+                            @endif
                         </div>
+                    </form>
+                    @endforeach
                     @endif
                     @if (auth()->user()->role == "1" || auth()->user()->role == "3")
                         <div>
+                        @foreach($tahapan_progres as $item)
+                        @if($item->id_master_tahapan_progres == 2)
+                            @if($item->status == 'belum-disetujui')
+                            <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
+                            @elseif($item->status == 'disetujui')
                             <span id="selectedBadge" class="badge bg-success">Disetujui</span>
+                            @elseif($item->status == 'selesai')
+                            <span id="selectedBadge" class="badge bg-primary">Selesai</span>
+                            @elseif($item->status == 'on_progres')
+                            <span id="selectedBadge" class="badge bg-warning">On Progres</span>
+                            @endif
+                        @endif
+                        @endforeach
                         </div>
                     @endif
                     </div>
@@ -214,9 +267,13 @@
 
         <div class="alert" role="alert" style="background-color: #D2DCF2;">
             <div class="row">
-                <div class="col">
-                    Seminar 3
-                </div>
+                @foreach($mastertahapan as $tahapan)
+                    @if($tahapan->id == 3)
+                        <div class="col">
+                            {{$tahapan->nama_progres}}
+                        </div>
+                    @endif
+                @endforeach
                 <div class="col-5 d-md-flex justify-content-md-end">
                     <div class="mr-2">
                         <span class="badge bg-light text-dark me-3">
@@ -224,17 +281,39 @@
                         </span>
                     </div>
                     @if (auth()->user()->role == "2")
+                    @foreach($tahapan_progres as $item)
+                    <form action="{{ route('store_status') }}" method="POST" id="statusForm_{{ $item->id }}">
+                        @csrf
+                        <input type="hidden" name="id_kota" value="{{ $item->id_kota }}">
+                        <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
                         <div class="form-group">
-                            <select class="form-control-sm" id="statusControlSelect" onchange="changeBackgroundColor1()">
-                                <option value="belum-disetujui" class="badge badge-danger selected">Belum Disetujui</option>
-                                <option value="disetujui" class="badge badge-success">Disetujui</option>
-                                <option value="selesai" class="badge badge-primary">Selesai</option>
+                             @if($item->id_master_tahapan_progres == 3)
+                            <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm({{ $item->id }})">
+                                <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
+                                <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+                                <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                                <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
                             </select>
+                            @endif
                         </div>
+                    </form>
+                    @endforeach
                     @endif
                     @if (auth()->user()->role == "1" || auth()->user()->role == "3")
                         <div>
+                        @foreach($tahapan_progres as $item)
+                        @if($item->id_master_tahapan_progres == 3)
+                            @if($item->status == 'belum-disetujui')
                             <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
+                            @elseif($item->status == 'disetujui')
+                            <span id="selectedBadge" class="badge bg-success">Disetujui</span>
+                            @elseif($item->status == 'selesai')
+                            <span id="selectedBadge" class="badge bg-primary">Selesai</span>
+                            @elseif($item->status == 'on_progres')
+                            <span id="selectedBadge" class="badge bg-warning">On Progres</span>
+                            @endif
+                        @endif
+                        @endforeach
                         </div>
                     @endif
                 </div>
@@ -282,9 +361,13 @@
 
         <div class="alert" role="alert" style="background-color: #D2DCF2;">
             <div class="row">
-                <div class="col">
-                    Sidang
-                </div>
+                @foreach($mastertahapan as $tahapan)
+                    @if($tahapan->id == 4)
+                        <div class="col">
+                            {{$tahapan->nama_progres}}
+                        </div>
+                    @endif
+                @endforeach
                 <div class="col-5 d-md-flex justify-content-md-end">
                     <div class="mr-2">
                         <span class="badge bg-light text-dark me-3">
@@ -292,17 +375,39 @@
                         </span>
                     </div>
                     @if (auth()->user()->role == "2")
+                    @foreach($tahapan_progres as $item)
+                    <form action="{{ route('store_status') }}" method="POST" id="statusForm_{{ $item->id }}">
+                        @csrf
+                        <input type="hidden" name="id_kota" value="{{ $item->id_kota }}">
+                        <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
                         <div class="form-group">
-                            <select class="form-control-sm" id="statusControlSelect" onchange="changeBackgroundColor3()">
-                                <option value="belum-disetujui" class="badge badge-danger selected">Belum Disetujui</option>
-                                <option value="disetujui" class="badge badge-success">Disetujui</option>
-                                <option value="selesai" class="badge badge-primary">Selesai</option>
+                             @if($item->id_master_tahapan_progres == 4)
+                            <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm({{ $item->id }})">
+                                <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
+                                <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+                                <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                                <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
                             </select>
+                            @endif
                         </div>
+                    </form>
+                    @endforeach
                     @endif
                     @if (auth()->user()->role == "1" || auth()->user()->role == "3")
                         <div>
+                        @foreach($tahapan_progres as $item)
+                        @if($item->id_master_tahapan_progres == 4)
+                            @if($item->status == 'belum-disetujui')
                             <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
+                            @elseif($item->status == 'disetujui')
+                            <span id="selectedBadge" class="badge bg-success">Disetujui</span>
+                            @elseif($item->status == 'selesai')
+                            <span id="selectedBadge" class="badge bg-primary">Selesai</span>
+                            @elseif($item->status == 'on_progres')
+                            <span id="selectedBadge" class="badge bg-warning">On Progres</span>
+                            @endif
+                        @endif
+                        @endforeach
                         </div>
                     @endif
                 </div>
@@ -351,25 +456,44 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        changeBackgroundColor(); // Memanggil fungsi untuk mengatur warna latar belakang awal
+        // Panggil fungsi changeBackgroundColor() untuk setiap elemen select dengan ID dinamis
+        var selects = document.querySelectorAll('[id^="statusControlSelect_"]');
+        selects.forEach(function(select) {
+            select.addEventListener('change', function() {
+                changeBackgroundColor(select); // Kirim elemen select sebagai parameter
+            });
+            changeBackgroundColor(select); // Panggil fungsi sekali saat halaman dimuat
+        });
     });
 
-    function changeBackgroundColor() {
-        var selectElement = document.getElementById("statusControlSelect");
+    function changeBackgroundColor(selectElement) {
         var selectedOption = selectElement.options[selectElement.selectedIndex];
-        
-        // Menghapus kelas latar belakang sebelumnya
+
+        // Hapus kelas latar belakang sebelumnya
         selectElement.classList.remove("bg-danger", "bg-success", "bg-primary");
-        
-        // Menambahkan kelas latar belakang sesuai dengan opsi yang dipilih
+
+        // Tambahkan kelas latar belakang sesuai dengan opsi yang dipilih
         if (selectedOption.value === "belum-disetujui") {
             selectElement.classList.add("bg-danger");
         } else if (selectedOption.value === "disetujui") {
             selectElement.classList.add("bg-success");
         } else if (selectedOption.value === "selesai") {
             selectElement.classList.add("bg-primary");
+        } else if (selectedOption.value === "on_progres") {
+            selectElement.classList.add("bg-warning");
         }
     }
+
+    function submitForm(id) {
+        document.getElementById('statusForm_' + id).submit();
+    }
+</script>
+
+
+    function submitForm(id) {
+        document.getElementById('statusForm_' + id).submit();
+    }
+</script>
 
 </script>
 

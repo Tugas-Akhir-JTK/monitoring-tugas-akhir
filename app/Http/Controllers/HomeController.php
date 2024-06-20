@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\KotaModel;
 use App\Models\ResumeBimbinganModel;
+use App\Models\KotaHasTahapanProgresModel;
 use App\Models\KotaHasArtefakModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -42,6 +43,10 @@ class HomeController extends Controller
                 })->get();
                 $dosen = $kotas->flatMap->users->where('role', 2);
                 $mahasiswa = $kotas->flatMap->users->where('role', 3);
+                // $kotaIds = $kotas->pluck('id'); 
+                $id_kota = DB::table('tbl_kota_has_user')
+                            ->where('id_user', $user->id)
+                            ->value('id_kota');
 
                 // Menghitung progress tahapan bimbingan
                 $progressStage1Count = ResumeBimbinganModel::where('tahapan_progres', '2')->count();
@@ -51,6 +56,7 @@ class HomeController extends Controller
                 // Menyiapkan data artefak untuk ditampilkan
                 $masterArtefaks = DB::table('tbl_master_artefak')->get();
                 $artefakKota = KotaHasArtefakModel::whereIn('id_kota', $kotas->pluck('id'))->get();
+                $tahapan_progres = KotaHasTahapanProgresModel::where('id_kota',$id_kota)->get();
 
                 // Inisialisasi array kosong untuk menyimpan artefak sesuai dengan tahapan
                 $seminar1 = [];
@@ -106,7 +112,7 @@ class HomeController extends Controller
                     }
                 }
 
-                return view('beranda.mahasiswa.home', compact('kotas', 'progressStage1Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota'));
+                return view('beranda.mahasiswa.home', compact('kotas', 'progressStage1Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota','tahapan_progres'));
             }
         }
 
