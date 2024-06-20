@@ -31,6 +31,7 @@ Route::get('/kota/edit/{id}', [App\Http\Controllers\KotaController::class, 'edit
 Route::put('/kota/update/{id}', [App\Http\Controllers\KotaController::class, 'update'])->middleware(['auth', 'role:1,2'])->name('kota.update');
 Route::get('/kota/search', [App\Http\Controllers\KotaController::class, 'search'])->middleware(['auth', 'role:1,2'])->name('kota.search');
 Route::delete('/kota/{id}', [App\Http\Controllers\KotaController::class, 'destroy'])->middleware(['auth', 'role:1,2'])->name('kota.destroy');
+Route::post('/store_status', [App\Http\Controllers\KotaController::class, 'store_status'])->middleware(['auth', 'role:2'])->name('store_status');
 
 
 //Timeline
@@ -76,6 +77,8 @@ Route::get('/jadwal', [App\Http\Controllers\JadwalController::class, 'index'])->
 
 //Bimbingan
 Route::get('/bimbingan', [App\Http\Controllers\BimbinganController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('bimbingan');
+
+
 
 //Resume Bimbingan
 Route::get('/resume', [App\Http\Controllers\ResumeBimbinganController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('resume');

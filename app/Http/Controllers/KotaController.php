@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\KotaHasUserModel;
 use App\Models\KotaHasArtefakModel;
 use App\Models\KotaHasTahapanProgresModel;
+use App\Models\MasterArterfakModel;
 use App\Models\ResumeBimbinganModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
@@ -121,6 +122,24 @@ class KotaController extends Controller
             'id_master_tahapan_progres' => 1, // Mengambil id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
             'status' => 'on_progres'
         ]);
+
+        DB::table('tbl_kota_has_tahapan_progres')->insert([
+            'id_kota' => $id_kota,
+            'id_master_tahapan_progres' => 2, // Mengambil id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
+            'status' => 'belum-disetujui'
+        ]);
+
+        DB::table('tbl_kota_has_tahapan_progres')->insert([
+            'id_kota' => $id_kota,
+            'id_master_tahapan_progres' => 3, // Mengambil id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
+            'status' => 'belum-disetujui'
+        ]);
+
+        DB::table('tbl_kota_has_tahapan_progres')->insert([
+            'id_kota' => $id_kota,
+            'id_master_tahapan_progres' => 4, // Mengambil id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
+            'status' => 'belum-disetujui'
+        ]);
         
         session()->flash('success', 'Data KoTA berhasil disimpan');
         
@@ -135,6 +154,9 @@ class KotaController extends Controller
         $kota = KotaModel::with('users')->findOrFail($id);
         $dosen = $kota->users->where('role', 2);
         $mahasiswa = $kota->users->where('role', 3);
+
+        $mastertahapan = DB::table('tbl_master_tahapan_progres')->get();
+        $tahapan_progres = KotaHasTahapanProgresModel::where('id_kota', $id)->get();
 
         $masterArtefaks = DB::table('tbl_master_artefak')->get();
         $artefakKota = KotaHasArtefakModel::where('id_kota', $id)->get();
@@ -195,8 +217,33 @@ class KotaController extends Controller
         }
         
 
-        return view('kota.detail', compact('kota', 'progressStage1Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota'));
+        return view('kota.detail', compact('kota', 'progressStage1Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota', 'mastertahapan', 'tahapan_progres'));
     }
+
+    public function store_status(Request $request)
+    {
+        $status = $request->input('status');
+        $id_kota = $request->input('id_kota');
+        $id_master_tahapan_progres = $request->input('id_master_tahapan_progres');
+
+        // \Log::info('Data received', [
+        //     'status' => $status,
+        //     'id_kota' => $id_kota,
+        //     'id_master_tahapan_progres' => $id_master_tahapan_progres
+        // ]);
+    
+        $kotaTahapanProgres = KotaHasTahapanProgresModel::where('id_kota', $id_kota)
+                                                         ->where('id_master_tahapan_progres', $id_master_tahapan_progres)
+                                                         ->first();
+    
+        if ($kotaTahapanProgres) {
+            $kotaTahapanProgres->status = $status;
+            $kotaTahapanProgres->save();
+        }
+    
+        return redirect()->back();
+    }
+    
 
     
     public function edit($id)

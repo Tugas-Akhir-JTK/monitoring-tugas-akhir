@@ -94,7 +94,7 @@
                                             <i class="nav-icon fas fa-pen" style="color: blue;"></i>
                                         </a>
                                         <!-- Delete Button trigger modal -->
-                                        <a href="#" data-toggle="modal"  data-toggle="tooltip" data-placement="top" title="Delete Timeline" data-target="#deleteTimelineModal-{{ $timeline->id_timeline }}">
+                                        <a href="#" data-toggle="modal" data-placement="top" title="Delete Timeline" data-target="#deleteTimelineModal-{{ $timeline->id_timeline }}">
                                             <i class="nav-icon fas fa-trash" style="color: red;"></i>
                                         </a>
                                     </div>

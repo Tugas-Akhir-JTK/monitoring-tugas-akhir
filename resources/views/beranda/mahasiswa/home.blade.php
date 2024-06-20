@@ -101,7 +101,19 @@
                 @endif
                 @if (auth()->user()->role == "1" || auth()->user()->role == "3")
                     <div>
+                    @foreach($tahapan_progres as $item)
+                    @if($item->id_master_tahapan_progres == 1)
+                        @if($item->status == 'belum-disetujui')
+                        <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
+                        @elseif($item->status == 'disetujui')
+                        <span id="selectedBadge" class="badge bg-success">Disetujui</span>
+                        @elseif($item->status == 'selesai')
                         <span id="selectedBadge" class="badge bg-primary">Selesai</span>
+                        @elseif($item->status == 'on_progres')
+                        <span id="selectedBadge" class="badge bg-warning">On Progres</span>
+                        @endif
+                    @endif
+                    @endforeach
                     </div>
                 @endif
                 </div>
@@ -169,7 +181,19 @@
                     @endif
                     @if (auth()->user()->role == "1" || auth()->user()->role == "3")
                         <div>
+                        @foreach($tahapan_progres as $item)
+                        @if($item->id_master_tahapan_progres == 2)
+                            @if($item->status == 'belum-disetujui')
+                            <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
+                            @elseif($item->status == 'disetujui')
                             <span id="selectedBadge" class="badge bg-success">Disetujui</span>
+                            @elseif($item->status == 'selesai')
+                            <span id="selectedBadge" class="badge bg-primary">Selesai</span>
+                            @elseif($item->status == 'on_progres')
+                            <span id="selectedBadge" class="badge bg-warning">On Progres</span>
+                            @endif
+                        @endif
+                        @endforeach
                         </div>
                     @endif
                     </div>
@@ -237,7 +261,19 @@
                     @endif
                     @if (auth()->user()->role == "1" || auth()->user()->role == "3")
                         <div>
+                        @foreach($tahapan_progres as $item)
+                        @if($item->id_master_tahapan_progres == 3)
+                            @if($item->status == 'belum-disetujui')
                             <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
+                            @elseif($item->status == 'disetujui')
+                            <span id="selectedBadge" class="badge bg-success">Disetujui</span>
+                            @elseif($item->status == 'selesai')
+                            <span id="selectedBadge" class="badge bg-primary">Selesai</span>
+                            @elseif($item->status == 'on_progres')
+                            <span id="selectedBadge" class="badge bg-warning">On Progres</span>
+                            @endif
+                        @endif
+                        @endforeach
                         </div>
                     @endif
                 </div>
@@ -305,7 +341,19 @@
                     @endif
                     @if (auth()->user()->role == "1" || auth()->user()->role == "3")
                         <div>
+                        @foreach($tahapan_progres as $item)
+                        @if($item->id_master_tahapan_progres == 4)
+                            @if($item->status == 'belum-disetujui')
                             <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
+                            @elseif($item->status == 'disetujui')
+                            <span id="selectedBadge" class="badge bg-success">Disetujui</span>
+                            @elseif($item->status == 'selesai')
+                            <span id="selectedBadge" class="badge bg-primary">Selesai</span>
+                            @elseif($item->status == 'on_progres')
+                            <span id="selectedBadge" class="badge bg-warning">On Progres</span>
+                            @endif
+                        @endif
+                        @endforeach
                         </div>
                     @endif
                 </div>

@@ -56,6 +56,21 @@ class KotaSeeder extends Seeder
                             'id_master_tahapan_progres' => 1, // id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
                             'status' => 'on_progres',
                         ]);
+                        DB::table('tbl_kota_has_tahapan_progres')->insert([
+                            'id_kota' => $existingKota->id_kota,
+                            'id_master_tahapan_progres' => 2, // id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
+                            'status' => 'belum-disetujui',
+                        ]);
+                        DB::table('tbl_kota_has_tahapan_progres')->insert([
+                            'id_kota' => $existingKota->id_kota,
+                            'id_master_tahapan_progres' => 3, // id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
+                            'status' => 'belum-disetujui',
+                        ]);
+                        DB::table('tbl_kota_has_tahapan_progres')->insert([
+                            'id_kota' => $existingKota->id_kota,
+                            'id_master_tahapan_progres' => 4, // id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
+                            'status' => 'belum-disetujui',
+                        ]);
                     } else {
                         // Handle jika kota tidak ditemukan
                         echo "Kota dengan id {$kota->id_kota} tidak ditemukan.";

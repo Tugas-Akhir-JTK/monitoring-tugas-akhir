@@ -19,13 +19,13 @@ class TimelineSeeder extends Seeder
                 'nama_kegiatan' => 'Seminar 1',
                 'tanggal_mulai' => '2024-02-25',
                 'tanggal_selesai' => '2024-03-14',
-                'deskripsi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel luctus lectus. Curabitur egestas augue eu est tincidunt, vel malesuada tellus.',
+                'deskripsi' => 'Seminar 1 dilaksanakan pada minggu pertama pada bulan maret dengan evaluator dari koordinator TA',
             ],
             [
                 'nama_kegiatan' => 'Seminar 2',
                 'tanggal_mulai' => '2024-03-05',
                 'tanggal_selesai' => '2024-03-14',
-                'deskripsi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel luctus lectus. Curabitur egestas augue eu est tincidunt, vel malesuada tellus.',
+                'deskripsi' => 'Seminar 2 dilaksanakan pada minggu pertama pada bulan april dengan evaluator dari koordinator TA',
             ],
         ];
 
