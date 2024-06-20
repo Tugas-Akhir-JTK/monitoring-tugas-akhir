@@ -87,6 +87,12 @@ class ResumeBimbinganController extends Controller
             'tahapan_progres' => 'required',
         ]);
 
+        // Set default value for isi_revisi_bimbingan if it's not provided
+        $requestData = $request->all();
+        if (empty($requestData['isi_revisi_bimbingan'])) {
+            $requestData['isi_revisi_bimbingan'] = '-';
+        }
+
         if ($request->all()) {
             $resume = ResumeBimbinganModel::create($request->all());
             $id_resume_bimbingan = $resume->id_resume_bimbingan;
