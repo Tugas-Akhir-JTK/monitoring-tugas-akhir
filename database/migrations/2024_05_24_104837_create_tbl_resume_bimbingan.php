@@ -16,7 +16,7 @@ return new class extends Migration
             $table->date('tanggal_bimbingan');
             $table->time('waktu_bimbingan');
             $table->text('isi_resume_bimbingan');
-            $table->text('isi_revisi_bimbingan');
+            $table->text('isi_revisi_bimbingan')->nullable();
             $table->integer('progres_pengerjaan');
             $table->integer('tahapan_progres');
             $table->timestamps();

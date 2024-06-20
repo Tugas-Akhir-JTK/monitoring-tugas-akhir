@@ -119,7 +119,7 @@ class ResumeBimbinganController extends Controller
                 'id_resume_bimbingan' => $id_resume_bimbingan,
             ]);
 
-            return redirect()->route('resume')->with('success', 'Tugas berhasil dikumpulkan!');
+            return redirect()->route('resume')->with('success', 'Data resume berhasil ditambahkan!');
         } else {
             // Handle jika id_kota atau id_user_role_2 tidak ditemukan atau tidak valid
             return redirect()->route('resume')->with('error', 'Gagal menyimpan data: id_kota atau id_user dengan role 2 tidak valid.');
