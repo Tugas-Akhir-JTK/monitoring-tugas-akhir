@@ -100,7 +100,7 @@
                         <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
                         <div class="form-group">
                             @if($item->id_master_tahapan_progres == 1)
-                            <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm({{ $item->id }})">
+                            <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
                                 <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
                                 <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
                                 <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
@@ -195,7 +195,7 @@
                         <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
                         <div class="form-group">
                             @if($item->id_master_tahapan_progres == 2)
-                            <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm({{ $item->id }})">
+                            <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
                                 <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
                                 <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
                                 <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
@@ -288,7 +288,7 @@
                         <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
                         <div class="form-group">
                             @if($item->id_master_tahapan_progres == 3)
-                            <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm({{ $item->id }})">
+                            <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
                                 <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
                                 <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
                                 <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
@@ -382,7 +382,7 @@
                         <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
                         <div class="form-group">
                             @if($item->id_master_tahapan_progres == 4)
-                            <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm({{ $item->id }})">
+                            <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
                                 <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
                                 <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
                                 <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
