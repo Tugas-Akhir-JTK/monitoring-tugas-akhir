@@ -158,6 +158,7 @@ class KotaController extends Controller
         $mastertahapan = DB::table('tbl_master_tahapan_progres')->get();
         $tahapan_progres = KotaHasTahapanProgresModel::where('id_kota', $id)->get();
 
+
         $masterArtefaks = DB::table('tbl_master_artefak')->get();
         $artefakKota = KotaHasArtefakModel::where('id_kota', $id)->get();
 
@@ -233,9 +234,9 @@ class KotaController extends Controller
         // ]);
     
         $kotaTahapanProgres = KotaHasTahapanProgresModel::where('id_kota', $id_kota)
-                                                         ->where('id_master_tahapan_progres', $id_master_tahapan_progres)
-                                                         ->first();
-    
+            ->where('id_master_tahapan_progres', $id_master_tahapan_progres)
+            ->first();
+
         if ($kotaTahapanProgres) {
             $kotaTahapanProgres->status = $status;
             $kotaTahapanProgres->save();

@@ -117,7 +117,7 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            @if (auth()->user()->role=="1" || auth()->user()->role == "2" || auth()->user()->role == "3")
+            @if (auth()->user()->role=="1" || auth()->user()->role == "2" || auth()->user()->role == "3" || auth()->user()->role == "4")
             <li class="nav-item">
               <a href="{{ route('home') }}" class="nav-link">
                 <i class="nav-icon fas fa-home"></i>
@@ -139,7 +139,7 @@
               </a>
             </li>
             @endif
-            @if (auth()->user()->role == "1" ||  auth()->user()->role == "2" || auth()->user()->role == "3" )
+            @if (auth()->user()->role == "1" ||  auth()->user()->role == "2" || auth()->user()->role == "3" || auth()->user()->role == "4")
             <li class="nav-item">
               <a href="{{ route('timeline') }}" class="nav-link">
                 <i class="nav-icon fas fa-calendar"></i>

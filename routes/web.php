@@ -35,7 +35,7 @@ Route::post('/store_status', [App\Http\Controllers\KotaController::class, 'store
 
 
 //Timeline
-Route::get('/timeline', [App\Http\Controllers\TimelineController::class, 'index'])->middleware(['auth', 'role:1,2,3'])->name('timeline');
+Route::get('/timeline', [App\Http\Controllers\TimelineController::class, 'index'])->middleware(['auth', 'role:1,2,3,4'])->name('timeline');
 Route::get('/timeline/detail/{id}', [App\Http\Controllers\TimelineController::class, 'detail'])->middleware(['auth', 'role:1'])->name('timeline.detail');
 Route::get('/timeline/create', [App\Http\Controllers\TimelineController::class, 'create'])->middleware(['auth', 'role:1'])->name('timeline.create'); //menambahkan data
 Route::get('/timeline/{id}', [App\Http\Controllers\TimelineController::class, 'detail'])->middleware(['auth', 'role:1'])->name('timeline.detail');
