@@ -39,6 +39,7 @@
                         </ul>
                     </div>
                 </div>
+                @if (auth()->user()->role == "3")
                 <div class="btn-group">
                     <a href="{{ route('resume.create') }}">
                         <button type="button" class="btn btn-success">
@@ -47,6 +48,7 @@
                         </button>
                     </a>
                 </div>
+                @endif
             </div><!-- /.col -->
         </div><!-- /.row -->
         <hr/>
@@ -67,11 +69,13 @@
                 <div class="card">
                   <h5 class="card-header d-flex justify-content-between align-items-center">
                     <div class="col">Resume Bimbingan Ke-{{ $resume->id_resume_bimbingan }}</div>
+                    @if (auth()->user()->role == "3")
                     <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
                       <a href="{{ route('resume.edit', $resume->id_resume_bimbingan) }}"  data-toggle="tooltip" data-placement="top" title="Edit Resume Bimbingan">
                         <i class="nav-icon fas fa-pen" style="color: blue;"></i>
                       </a>
                     </div>
+                    @endif
                   </h5>
                   <div class="card-body">
                     <div class="row justify-content-start">

@@ -87,6 +87,12 @@ class ResumeBimbinganController extends Controller
             'tahapan_progres' => 'required',
         ]);
 
+        // Set default value for isi_revisi_bimbingan if it's not provided
+        $requestData = $request->all();
+        if (empty($requestData['isi_revisi_bimbingan'])) {
+            $requestData['isi_revisi_bimbingan'] = '-';
+        }
+
         if ($request->all()) {
             $resume = ResumeBimbinganModel::create($request->all());
             $id_resume_bimbingan = $resume->id_resume_bimbingan;
@@ -113,7 +119,7 @@ class ResumeBimbinganController extends Controller
                 'id_resume_bimbingan' => $id_resume_bimbingan,
             ]);
 
-            return redirect()->route('resume')->with('success', 'Tugas berhasil dikumpulkan!');
+            return redirect()->route('resume')->with('success', 'Data resume berhasil ditambahkan!');
         } else {
             // Handle jika id_kota atau id_user_role_2 tidak ditemukan atau tidak valid
             return redirect()->route('resume')->with('error', 'Gagal menyimpan data: id_kota atau id_user dengan role 2 tidak valid.');
@@ -135,7 +141,7 @@ class ResumeBimbinganController extends Controller
             $tahapan_progres = "Unknown";
         }
 
-        return view('bimbingan/resume/detail', compact('resumes', 'tahapan_progres', 'dosen'));
+        return view('bimbingan/resume/detail', compact('resumes', 'tahapan_progres'));
     }
 
     public function edit($id)

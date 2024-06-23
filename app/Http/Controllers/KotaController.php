@@ -120,7 +120,25 @@ class KotaController extends Controller
         DB::table('tbl_kota_has_tahapan_progres')->insert([
             'id_kota' => $id_kota,
             'id_master_tahapan_progres' => 1, // Mengambil id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
-            'status' => 'on_progres'
+            'status' => 'selesai'
+        ]);
+
+        DB::table('tbl_kota_has_tahapan_progres')->insert([
+            'id_kota' => $id_kota,
+            'id_master_tahapan_progres' => 2, // Mengambil id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
+            'status' => 'belum-disetujui'
+        ]);
+
+        DB::table('tbl_kota_has_tahapan_progres')->insert([
+            'id_kota' => $id_kota,
+            'id_master_tahapan_progres' => 3, // Mengambil id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
+            'status' => 'belum-disetujui'
+        ]);
+
+        DB::table('tbl_kota_has_tahapan_progres')->insert([
+            'id_kota' => $id_kota,
+            'id_master_tahapan_progres' => 4, // Mengambil id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
+            'status' => 'belum-disetujui'
         ]);
 
         DB::table('tbl_kota_has_tahapan_progres')->insert([
@@ -263,7 +281,7 @@ class KotaController extends Controller
     {
         
         $request->validate([
-            'nama_kota' => 'required',
+            'nama_kota' => '',
             'judul' => 'required',
             'kelas' => 'required', 
             'periode' => 'required',
