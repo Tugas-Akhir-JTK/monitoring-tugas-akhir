@@ -171,8 +171,10 @@ class KotaController extends Controller
         // Looping untuk membagi artefak sesuai dengan tahapan
         foreach ($masterArtefaks as $artefak) {
             switch ($artefak->nama_artefak) {
+                case 'FTA 01':
                 case 'FTA 02':
                 case 'FTA 03':
+                case 'FTA 04':
                 case 'FTA 05':
                 case 'FTA 05a':
                 case 'Proposal Tugas Akhir':
@@ -261,7 +263,7 @@ class KotaController extends Controller
     {
         
         $request->validate([
-            'nama_kota' => 'required',
+            'nama_kota' => '',
             'judul' => 'required',
             'kelas' => 'required', 
             'periode' => 'required',

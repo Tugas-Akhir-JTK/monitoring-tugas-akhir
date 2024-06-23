@@ -22,11 +22,19 @@ class TimelineHasArtefakSeeder extends Seeder
         $data = [
             [
                 'id_timeline' => $timelines->get(0)->id_timeline,
+                'id_master_artefak' => $artefaks->get(0)->id,
+            ],
+            [
+                'id_timeline' => $timelines->get(0)->id_timeline,
                 'id_master_artefak' => $artefaks->get(1)->id,
             ],
             [
                 'id_timeline' => $timelines->get(0)->id_timeline,
                 'id_master_artefak' => $artefaks->get(2)->id,
+            ],
+            [
+                'id_timeline' => $timelines->get(0)->id_timeline,
+                'id_master_artefak' => $artefaks->get(3)->id,
             ],
             [
                 'id_timeline' => $timelines->get(0)->id_timeline,

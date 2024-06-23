@@ -30,6 +30,22 @@
                     </div>             
                     @endif
                     <div class="col-md-12">
+                        <!-- Nama KoTA -->
+                        <div class="list-group-item p-3">
+                            <div class="row align-items-start">
+                                <div class="col-md-2 mb-8pt mb-md-0">
+                                    <div class="media align-items-left">
+                                        <div class="d-flex flex-column media-body media-middle">
+                                            <span class="card-title">Nama KoTA</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col mb-8pt mb-md-0">
+                                    <input name="nama_kota" value="{{ old('nama_kota', $kota->nama_kota) }}" type="text"
+                                        class="form-control" required disabled />
+                                </div>
+                            </div>
+                        </div>
                         <!-- Tambah Mahasiswa dan Dosen Pembimbing -->
                         <div class="list-group-item p-3">
                         <div class="row align-items-start">

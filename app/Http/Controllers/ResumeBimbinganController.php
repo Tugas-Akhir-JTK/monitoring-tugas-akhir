@@ -141,7 +141,7 @@ class ResumeBimbinganController extends Controller
             $tahapan_progres = "Unknown";
         }
 
-        return view('bimbingan/resume/detail', compact('resumes', 'tahapan_progres', 'dosen'));
+        return view('bimbingan/resume/detail', compact('resumes', 'tahapan_progres'));
     }
 
     public function edit($id)

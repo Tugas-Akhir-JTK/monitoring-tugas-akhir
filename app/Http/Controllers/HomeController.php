@@ -55,7 +55,7 @@ class HomeController extends Controller
 
                 // Menyiapkan data artefak untuk ditampilkan
                 $masterArtefaks = DB::table('tbl_master_artefak')->get();
-                $artefakKota = KotaHasArtefakModel::whereIn('id_kota', $kotas->pluck('id'))->get();
+                $artefakKota = KotaHasArtefakModel::where('id_kota', $id_kota)->get();
                 $tahapan_progres = KotaHasTahapanProgresModel::where('id_kota',$id_kota)->get();
 
                 // Inisialisasi array kosong untuk menyimpan artefak sesuai dengan tahapan

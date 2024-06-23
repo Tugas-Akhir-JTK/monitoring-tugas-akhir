@@ -15,6 +15,13 @@ class ArtefakSeeder extends Seeder
     {
 
         ArtefakModel::create([
+            'nama_artefak' => 'FTA 01',
+            'deskripsi' => 'Persetujuan menjadi Dosen Pembimbing',
+            'kategori_artefak' => 'FTA',
+            'tenggat_waktu' => '2024-06-30 23:59:00',
+        ]);
+
+        ArtefakModel::create([
             'nama_artefak' => 'FTA 02',
             'deskripsi' => 'Pengajuan Topik Tugas Akhir',
             'kategori_artefak' => 'FTA',
@@ -24,6 +31,13 @@ class ArtefakSeeder extends Seeder
         ArtefakModel::create([
             'nama_artefak' => 'FTA 03',
             'deskripsi' => 'Persetujuan Menjadi Pembimbing Tugas Akhir',
+            'kategori_artefak' => 'FTA',
+            'tenggat_waktu' => '2024-06-30 23:59:00',
+        ]);
+
+        ArtefakModel::create([
+            'nama_artefak' => 'FTA 04',
+            'deskripsi' => 'Penilaian Seminar 1',
             'kategori_artefak' => 'FTA',
             'tenggat_waktu' => '2024-06-30 23:59:00',
         ]);

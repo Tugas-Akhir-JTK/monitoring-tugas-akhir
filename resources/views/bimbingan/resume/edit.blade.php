@@ -39,7 +39,7 @@
                             <!-- DOSEN -->
                             <div class="mb-3">
                                 <label for="judul" class="form-label">Dosen</label>
-                                <input name="judul" value="{{ $dosen->nama_dosen }}" type="text" class="form-control" id="judul" placeholder="" required/>
+                                <input name="judul" value="{{ $dosen->nama_dosen }}" type="text" class="form-control" id="judul" placeholder="" required disabled/>
                             </div>
 
                             <div class="row g-2">
