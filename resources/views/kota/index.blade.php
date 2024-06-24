@@ -16,6 +16,24 @@
                             <!-- Messages Dropdown Menu -->
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    Periode
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2023]) }}" class="dropdown-item">2023</a></li>
+                                    <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2024]) }}" class="dropdown-item">2024</a></li>
+                                    <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2025]) }}" class="dropdown-item">2025</a></li>
+                                    <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2026]) }}" class="dropdown-item">2026</a></li>
+                                    <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2027]) }}" class="dropdown-item">2027</a></li>
+                                    <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2028]) }}" class="dropdown-item">2028</a></li>
+                                    <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2029]) }}" class="dropdown-item">2029</a></li>
+                                    <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2030]) }}" class="dropdown-item">2026</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="btn-group mr-2">
+                            <!-- Messages Dropdown Menu -->
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     Kelas
                                 </button>
                                 <ul class="dropdown-menu">
@@ -52,103 +70,91 @@
                 </div><!-- /.row -->
             <hr/>
         </div><!-- /.container-fluid -->
-    </div>
     <!-- /.content-header -->
 
-    <!-- Main content -->
+   <!-- Main content -->
     <div class="content">
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
-    <!-- <div class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body">
-                Hello, world! This is a toast message.
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-    </div>    -->
-
-    <!-- DataTables Example -->
-    <div class="card shadow mb-4">
-        <div class="card-body">
-            <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
-                <form class="me-m d-2" action="#" method="GET">
-                    <input type="text" name="keyword" placeholder="Cari Kota...">
-                    <button class="btn btn-secondary" type="submit"><i class="fas fa-search"></i></button>
-                </form>
-            </div>
-            <br>
-            <div class="table-responsive">
-                <table id="example" class="table table-bordered data-table"  width="100%" cellspacing="0">
-                    <thead class="text-center" style="background-color: gray; color: white;">
-                        <tr>
-                            <th>No</th>
-                            <th>Kode KoTA</th>
-                            <th>Judul KoTA</th>
-                            <th>Tahap Progres</th>
-                            <th>Opsi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php 
-                            $nomor = 1; 
-                            foreach($kotas as $row):
-                        ?>
-                            <tr>
-                                <td class="text-center"><?= $nomor++; ?></td>
-                                <td class="text-center"><?= $row->nama_kota; ?></td>
-                                <td><?= $row->judul;?></td>
-                                <td class="text-center"><?=$row->nama_tahapan?></td>
-                                <td class="text-center">
-                                    <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('kota.destroy', $row->id_kota) }}" method="POST">
-                                        <a class="detail" href="{{ route('kota.detail', $row->id_kota) }}"  data-toggle="tooltip" data-placement="top" title="Detail KoTA">
-                                            <i class="nav-icon fas fa-eye" style="color: gray;"></i>
-                                        </a>
-                                        <a class="edit" href="{{ route('kota.edit', $row->id_kota) }}"  data-toggle="tooltip" data-placement="top" title="Edit KoTA">
-                                            <i class="nav-icon fas fa-pen" style="color: blue;"></i>
-                                        </a>                     
-                                        <a href="#" class="destroy" data-placement="top" title="Delete KoTA" data-toggle="modal" data-target="#deleteKotaModal-{{ $row->id_kota }}">
-                                            <i class="nav-icon fas fa-trash" style="color: red;"></i>
-                                        </a>
-                                    </form>
-                                </td>
-                                <!-- Delete Modal -->
-                                <div class="modal fade" id="deleteKotaModal-{{ $row->id_kota }}" tabindex="-1" role="dialog" aria-labelledby="deleteKotaModalLabel-{{ $row->id_kota }}" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="deleteKotaModalLabel-{{ $row->id_kota }}">Konfirmasi Hapus</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Apakah Anda yakin ingin menghapus KoTA "<strong>{{ $row->nama_kota }}</strong>"?</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <form action="{{ route('kota.destroy', $row->id_kota) }}" method="POST" style="display:inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </form>
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+            <!-- DataTables Example -->
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example1" class="table table-bordered data-table" width="100%" cellspacing="0">
+                            <thead class="text-center" style="background-color: gray; color: white;">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kode KoTA</th>
+                                    <th>Judul KoTA</th>
+                                    <th>Tahap Progres</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $nomor = 1; ?>
+                                @foreach($kotas as $row)
+                                    <tr>
+                                        <td class="text-center">{{ $nomor++ }}</td>
+                                        <td class="text-center">{{ $row->nama_kota }}</td>
+                                        <td>{{ $row->judul }}</td>
+                                        <td class="text-center">{{ $row->nama_tahapan }}</td>
+                                        <td class="text-center">
+                                            <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('kota.destroy', $row->id_kota) }}" method="POST">
+                                                <a class="detail" href="{{ route('kota.detail', $row->id_kota) }}" data-toggle="tooltip" data-placement="top" title="Detail KoTA">
+                                                    <i class="nav-icon fas fa-eye" style="color: gray;"></i>
+                                                </a>
+                                                <a class="edit" href="{{ route('kota.edit', $row->id_kota) }}" data-toggle="tooltip" data-placement="top" title="Edit KoTA">
+                                                    <i class="nav-icon fas fa-pen" style="color: blue;"></i>
+                                                </a>
+                                                <a href="#" class="destroy" data-placement="top" title="Delete KoTA" data-toggle="modal" data-target="#deleteKotaModal-{{ $row->id_kota }}">
+                                                    <i class="nav-icon fas fa-trash" style="color: red;"></i>
+                                                </a>
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                        </td>
+                                        <!-- Delete Modal -->
+                                        <div class="modal fade" id="deleteKotaModal-{{ $row->id_kota }}" tabindex="-1" role="dialog" aria-labelledby="deleteKotaModalLabel-{{ $row->id_kota }}" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="deleteKotaModalLabel-{{ $row->id_kota }}">Konfirmasi Hapus</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Apakah Anda yakin ingin menghapus KoTA "<strong>{{ $row->nama_kota }}</strong>"?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form action="{{ route('kota.destroy', $row->id_kota) }}" method="POST" style="display:inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                            <button type="submit" class="btn btn-danger">Hapus</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </tr>
-                        <?php endforeach; ?>
-                        
-                    </tbody>
-                </table>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                    {{ $kotas->links() }}
-                </ul>
-            </nav>
         </div>
     </div>
-  </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        $("#example1").DataTable({
+            "responsive": true,
+            "lengthChange": true,
+            "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+</script>
 @endsection
