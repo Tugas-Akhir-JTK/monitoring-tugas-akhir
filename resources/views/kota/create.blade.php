@@ -209,7 +209,7 @@
                                 </div>
                             </div>
                             <div class="col mb-8pt mb-md-0">
-                                <input name="periode" value="{{ old('periode') }}" type="text" class="form-control" placeholder="Masukan Periode" required/>
+                                <input name="periode" value="{{ old('periode') }}" type="text" class="form-control" placeholder="Masukan Periode Tahun" required/>
                             </div>
                         </div>
                     </div>
