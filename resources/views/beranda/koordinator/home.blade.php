@@ -79,7 +79,7 @@
             </div>
             <div class="card-body">
               <div class="chart">
-                <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                <canvas id="barChart1" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
               </div>
             </div>
           </div>
@@ -88,18 +88,10 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title"><strong>Bar Chart</strong></h3>
-              <!-- <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div> -->
             </div>
             <div class="card-body">
               <div class="chart">
-                <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                <canvas id="barChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
               </div>
             </div>
           </div>
@@ -107,15 +99,7 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title"><strong>Line Chart</strong></h3>
-              <!-- <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                <i class="fas fa-times"></i>
-                </button>
-              </div> -->
+              <h3 class="card-title"><strong>Intensitas Bimbingan Setiap KoTA</strong></h3>
             </div>
             <div class="card-body">
               <div class="chart">
@@ -124,182 +108,110 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
 
-
-@push('scripts')
 <script>
-  $(function () {
-    //--------------
-    //- AREA CHART -
-    //--------------
-    var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
-    var areaChartData = {
-      labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label               : 'Digital Goods',
-          backgroundColor     : 'rgba(60,141,188,0.9)',
-          borderColor         : 'rgba(60,141,188,0.8)',
-          pointRadius         : false,
-          pointColor          : '#3b8bba',
-          pointStrokeColor    : 'rgba(60,141,188,1)',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: 'rgba(60,141,188,1)',
-          data                : [28, 48, 40, 19, 86, 27, 90]
-        },
-        {
-          label               : 'Electronics',
-          backgroundColor     : 'rgba(210, 214, 222, 1)',
-          borderColor         : 'rgba(210, 214, 222, 1)',
-          pointRadius         : false,
-          pointColor          : 'rgba(210, 214, 222, 1)',
-          pointStrokeColor    : '#c1c7d1',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: 'rgba(220,220,220,1)',
-          data                : [65, 59, 80, 81, 56, 55, 40]
-        },
-      ]
-    }
+    document.addEventListener('DOMContentLoaded', function () {      
+        var lineChartCanvas = document.getElementById('lineChart').getContext('2d');
+        var lineChartData = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [
+                {
+                    label: 'Dataset 1',
+                    data: [65, 59, 80, 81, 56, 55, 40],
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    fill: false
+                },
+                {
+                    label: 'Dataset 2',
+                    data: [28, 48, 40, 19, 86, 27, 90],
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    fill: false
+                }
+            ]
+        };
 
-    var areaChartOptions = {
-      maintainAspectRatio : false,
-      responsive : true,
-      legend: {
-        display: false
-      },
-      scales: {
-        xAxes: [{
-          gridLines : {
-            display : false,
-          }
-        }],
-        yAxes: [{
-          gridLines : {
-            display : false,
-          }
-        }]
-      }
-    }
+        var lineChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            datasetFill: false
+        };
 
-    new Chart(areaChartCanvas, {
-      type: 'line',
-      data: areaChartData,
-      options: areaChartOptions
-    })
+        // Create line chart
+        var lineChart = new Chart(lineChartCanvas, {
+            type: 'line',
+            data: lineChartData,
+            options: lineChartOptions
+        });
 
-    //-------------
-    //- LINE CHART -
-    //--------------
-    var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
-    var lineChartOptions = $.extend(true, {}, areaChartOptions)
-    var lineChartData = $.extend(true, {}, areaChartData)
-    lineChartData.datasets[0].fill = false;
-    lineChartData.datasets[1].fill = false;
-    lineChartOptions.datasetFill = false
+        //-------------
+        //- BAR CHART -
+        //-------------
+        var barChartCanvas1 = document.getElementById('barChart1').getContext('2d');
+        var barChartData1 = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [{
+                label: 'Dataset 1',
+                data: [65, 59, 80, 81, 56, 55, 40],
+                backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            },
+            {
+                label: 'Dataset 2',
+                data: [28, 48, 40, 19, 86, 27, 90],
+                backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        };
+        var barChartOptions1 = {
+            responsive: true,
+            maintainAspectRatio: false,
+            datasetFill: false
+        };
 
-    var lineChart = new Chart(lineChartCanvas, {
-      type: 'line',
-      data: lineChartData,
-      options: lineChartOptions
-    })
+        // Create bar chart
+        new Chart(barChartCanvas1, {
+            type: 'bar',
+            data: barChartData1,
+            options: barChartOptions1
+        });
 
-    //-------------
-    //- DONUT CHART -
-    //-------------
-    var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
-    var donutData        = {
-      labels: [
-          'Chrome',
-          'IE',
-          'FireFox',
-          'Safari',
-          'Opera',
-          'Navigator',
-      ],
-      datasets: [
-        {
-          data: [700,500,400,600,300,100],
-          backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
-        }
-      ]
-    }
-    var donutOptions     = {
-      maintainAspectRatio : false,
-      responsive : true,
-    }
-    new Chart(donutChartCanvas, {
-      type: 'doughnut',
-      data: donutData,
-      options: donutOptions
-    })
+        var barChartCanvas2 = document.getElementById('barChart2').getContext('2d');
+        var barChartData2 = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [{
+                label: 'Dataset 1',
+                data: [65, 59, 80, 81, 56, 55, 40],
+                backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            },
+            {
+                label: 'Dataset 2',
+                data: [28, 48, 40, 19, 86, 27, 90],
+                backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        };
+        var barChartOptions2 = {
+            responsive: true,
+            maintainAspectRatio: false,
+            datasetFill: false
+        };
 
-    //-------------
-    //- PIE CHART -
-    //-------------
-    var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
-    var pieData        = donutData;
-    var pieOptions     = {
-      maintainAspectRatio : false,
-      responsive : true,
-    }
-    new Chart(pieChartCanvas, {
-      type: 'pie',
-      data: pieData,
-      options: pieOptions
-    })
+        // Create bar chart
+        new Chart(barChartCanvas2, {
+            type: 'bar',
+            data: barChartData2,
+            options: barChartOptions2
+        });
 
-    //-------------
-    //- BAR CHART -
-    //-------------
-    var barChartCanvas = $('#barChart').get(0).getContext('2d')
-    var barChartData = $.extend(true, {}, areaChartData)
-    var temp0 = areaChartData.datasets[0]
-    var temp1 = areaChartData.datasets[1]
-    barChartData.datasets[0] = temp1
-    barChartData.datasets[1] = temp0
-
-    var barChartOptions = {
-      responsive              : true,
-      maintainAspectRatio     : false,
-      datasetFill             : false
-    }
-
-    new Chart(barChartCanvas, {
-      type: 'bar',
-      data: barChartData,
-      options: barChartOptions
-    })
-
-    //---------------------
-    //- STACKED BAR CHART -
-    //---------------------
-    var stackedBarChartCanvas = $('#stackedBarChart').get(0).getContext('2d')
-    var stackedBarChartData = $.extend(true, {}, barChartData)
-
-    var stackedBarChartOptions = {
-      responsive              : true,
-      maintainAspectRatio     : false,
-      scales: {
-        xAxes: [{
-          stacked: true,
-        }],
-        yAxes: [{
-          stacked: true
-        }]
-      }
-    }
-
-    new Chart(stackedBarChartCanvas, {
-      type: 'bar',
-      data: stackedBarChartData,
-      options: stackedBarChartOptions
-    })
-  })
-</script>
-@endpush
+      });
+  </script>
 
 @endsection
