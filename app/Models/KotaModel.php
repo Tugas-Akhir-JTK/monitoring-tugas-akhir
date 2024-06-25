@@ -17,7 +17,9 @@ class KotaModel extends Model
         'nama_kota',
         'judul',
         'kelas', 
-        'periode', 
+        'periode',
+        'mitra',
+        'luaran'
     ];
 
     public function users()

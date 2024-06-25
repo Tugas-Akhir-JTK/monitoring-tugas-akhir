@@ -165,13 +165,37 @@ class HomeController extends Controller
         if ($user->role == 2) {
             return view('beranda.pembimbing.home', compact('kotas'));
         } elseif ($user->role == 4) {
-            return view('beranda.kaprodi.home');
+            $luaranCounts = $this->getLuaranData();
+            $kotas = KotaModel::all(); // Ambil semua data kota dari model
+            return view('beranda.kaprodi.home', compact('luaranCounts', 'kotas'));
         }
     
     }
 
-    private function getJumlahBimbinganPerKota()
-    {
+    private function getLuaranData(){
+        $kotaData = KotaModel::select('luaran')->get();
+
+        $luaranCounts = [
+            'HKI' => 0,
+            'UAT' => 0,
+            'Jurnal' => 0
+        ];
+
+        foreach ($kotaData as $kota) {
+            if (strpos($kota->luaran, 'HKI') !== false) {
+                $luaranCounts['HKI']++;
+            }
+            if (strpos($kota->luaran, 'UAT') !== false) {
+                $luaranCounts['UAT']++;
+            }
+            if (strpos($kota->luaran, 'Jurnal') !== false) {
+                $luaranCounts['Jurnal']++;
+            }
+        }
+
+        return $luaranCounts;
+    }
+    private function getJumlahBimbinganPerKota(){
         $kotas = KotaModel::all();
         $jumlahBimbinganPerKota = [];
     

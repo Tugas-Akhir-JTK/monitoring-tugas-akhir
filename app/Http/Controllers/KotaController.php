@@ -84,12 +84,14 @@ class KotaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_kota' => 'required',
+            'nama_kota' => '',
             'judul' => 'required',
             'kelas' => 'required', 
             'periode' => 'required',
-            'mahasiswa' => 'required|array|min:1|max:3',
-            'dosen' => 'required|array|min:2|max:2',
+            'mitra' => 'required',
+            'luaran' => 'required',
+            'mahasiswa' => 'required|array|min:1',
+            'dosen' => 'required|array|min:2',
         ]);
         
         // Check if the Kota already exists
@@ -116,7 +118,7 @@ class KotaController extends Controller
         }
         
         // Create Kota
-        $kota = KotaModel::create($request->only('nama_kota', 'judul', 'kelas', 'periode'));
+        $kota = KotaModel::create($request->only('nama_kota', 'judul', 'kelas', 'periode', 'mitra', 'luaran'));
         $id_kota = $kota->id_kota;
         
         // Save Mahasiswa and Dosen to tbl_kota_has_user
@@ -310,13 +312,15 @@ class KotaController extends Controller
             'judul' => 'required',
             'kelas' => 'required', 
             'periode' => 'required',
+            'mitra' => 'required',
+            'luaran' => 'required',
             'mahasiswa' => 'required|array|min:1',
             'dosen' => 'required|array|min:2',
         ]);
         
         // Mengambil data kota berdasarkan id
         $kota = KotaModel::findOrFail($id);
-        $kota->update($request->only('nama_kota', 'judul', 'kelas', 'periode'));
+        $kota->update($request->only('nama_kota', 'judul', 'kelas', 'periode', 'mitra', 'luaran'));
 
         $userIds = array_merge($request->dosen, $request->mahasiswa);
         $kota->users()->sync($userIds);

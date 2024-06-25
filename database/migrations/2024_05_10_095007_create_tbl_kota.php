@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('judul');
             $table->string('kelas');
             $table->integer('periode');
+            $table->string('mitra');
+            $table->string('luaran');
             $table->timestamps();
         });
     }

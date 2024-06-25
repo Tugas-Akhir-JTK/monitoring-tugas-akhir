@@ -42,6 +42,8 @@ class KotaSeeder extends Seeder
                     'judul' => $judulList[$i % count($judulList)],
                     'kelas' => $class,
                     'periode' => 2024,
+                    'mitra' => 'Industri',
+                    'luaran' => 'HKI',
                 ]);
 
                 // Pastikan kota sudah dibuat

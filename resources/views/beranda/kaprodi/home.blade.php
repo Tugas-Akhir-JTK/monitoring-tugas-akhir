@@ -63,7 +63,7 @@
               <h2 class="card-title"><strong>Pie Chart</strong></h2>
             </div>
             <div class="card-body">
-              <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+              <canvas id="luaranPieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
             </div>
           </div>
         </div>
@@ -124,6 +124,60 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
 
+      const ctx = document.getElementById('luaranPieChart').getContext('2d');
+        const data = @json($luaranCounts);
+
+        const labels = Object.keys(data);
+        const luaranData = Object.values(data);
+
+        const luaranChartData = {
+            labels: labels,
+            datasets: [{
+                label: 'Persentase Luaran',
+                data: luaranData,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        const luaranChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            tooltips: {
+              callbacks: {
+                  label: function(tooltipItem, data) {
+                      const dataset = data.datasets[tooltipItem.datasetIndex];
+                      const total = dataset.data.reduce((prev, curr) => prev + curr, 0);
+                      const currentValue = dataset.data[tooltipItem.index];
+                      const percentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                      return data.labels[tooltipItem.index] + ': ' + percentage + '%';
+                  },
+                  afterLabel: function(tooltipItem, data) {
+                      const index = tooltipItem.index;
+                      const kotas = @json($kotas);
+                      const label = data.labels[index];
+                      const filteredKotas = kotas.filter(kota => kota.luaran.includes(label));
+                      return filteredKotas.map(kota => kota.nama_kota).join(', ');
+                  }
+                }
+            }
+        };
+
+        // Create pie chart
+        new Chart(ctx, {
+            type: 'pie',
+            data: luaranChartData,
+            options: luaranChartOptions
+        });
         //-------------
         //- PIE CHART -
         //-------------
