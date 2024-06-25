@@ -21,6 +21,7 @@ class ResumeBimbinganModel extends Model
         'isi_revisi_bimbingan',
         'progres_pengerjaan',
         'tahapan_progres',
+        'sesi_bimbingan',
     ];
 
     public function getResume($id = null)

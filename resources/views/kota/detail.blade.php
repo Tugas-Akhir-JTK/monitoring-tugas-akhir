@@ -82,61 +82,61 @@
             <br> 
         </div>
     </div>
-        <div class="alert" role="alert" style="background-color: #D2DCF2;">
-            <div class="row">
-                @foreach($mastertahapan as $tahapan)
-                    @if($tahapan->id == 1)
-                        <div class="col">
-                            {{$tahapan->nama_progres}}
-                        </div>
-                    @endif
-                @endforeach
-                <div class="col-5 d-md-flex justify-content-md-end">
-                @if (auth()->user()->role == "2")
-                @foreach($tahapan_progres as $item)
-                    <form action="{{ route('store_status') }}" method="POST" id="statusForm_{{ $item->id }}">
-                        @csrf
-                        <input type="hidden" name="id_kota" value="{{ $item->id_kota }}">
-                        <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
-                        <div class="form-group">
-                            @if($item->id_master_tahapan_progres == 1)
-                            <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
-                                <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
-                                <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
-                                <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                                <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
-                            </select>
 
+        @foreach($mastertahapan as $tahapan)
+            @if($tahapan->id == 1)
+                <div class="alert" role="alert" style="background-color: #D2DCF2;">
+                    <div class="row">
+                        <div class="col">{{ $tahapan->nama_progres }}</div>
+                        <div class="col-5 d-md-flex justify-content-md-end">
+                            @if (auth()->user()->role == "2")
+                                @foreach($tahapan_progres as $item)
+                                    @if($item->id_master_tahapan_progres == 1)
+                                        <form action="{{ route('store_status') }}" method="POST" id="statusForm_{{ $item->id }}">
+                                            @csrf
+                                            <input type="hidden" name="id_kota" value="{{ $item->id_kota }}">
+                                            <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
+                                            <div class="form-group">
+                                                <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
+                                                    <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
+                                                    <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+                                                    <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                                                    <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    @endif
+                                @endforeach
+                            @endif
+
+                            @if (auth()->user()->role == "1" || auth()->user()->role == "3")
+                                <div>
+                                    @foreach($tahapan_progres as $item)
+                                        @if($item->id_master_tahapan_progres == 1)
+                                            @if($item->status == 'belum-disetujui')
+                                                <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
+                                            @elseif($item->status == 'disetujui')
+                                                <span id="selectedBadge" class="badge bg-success">Disetujui</span>
+                                            @elseif($item->status == 'selesai')
+                                                <span id="selectedBadge" class="badge bg-primary">Selesai</span>
+                                            @elseif($item->status == 'on_progres')
+                                                <span id="selectedBadge" class="badge bg-warning">On Progres</span>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                </div>
                             @endif
                         </div>
-                    </form>
-                @endforeach
-                @endif
-                @if (auth()->user()->role == "1" || auth()->user()->role == "3")
-                    <div>
-                    @foreach($tahapan_progres as $item)
-                    @if($item->id_master_tahapan_progres == 1)
-                        @if($item->status == 'belum-disetujui')
-                        <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
-                        @elseif($item->status == 'disetujui')
-                        <span id="selectedBadge" class="badge bg-success">Disetujui</span>
-                        @elseif($item->status == 'selesai')
-                        <span id="selectedBadge" class="badge bg-primary">Selesai</span>
-                        @elseif($item->status == 'on_progres')
-                        <span id="selectedBadge" class="badge bg-warning">On Progres</span>
-                        @endif
-                    @endif
-                    @endforeach
-                    </div>
-                @endif
-                </div>
-                <div class="col justify-content-md-end">
-                    <div class="progress"  style="height: 25px;">
-                        <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">70%</div>
+                        <div class="col justify-content-md-end">
+                            <div class="progress" style="height: 25px;">
+                                <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">70%</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            @endif
+        @endforeach
+
         @if (auth()->user()->role=="1" || auth()->user()->role == "3")
         <div class="container-fluid">
             <div class="row row-cols-auto">
@@ -172,65 +172,65 @@
         
         <br>
         
-        <div class="alert" role="alert" style="background-color: #D2DCF2;">
-            <div class="row">
-                @foreach($mastertahapan as $tahapan)
-                    @if($tahapan->id == 2)
-                        <div class="col">
-                            {{$tahapan->nama_progres}}
-                        </div>
-                    @endif
-                @endforeach
-                <div class="col-5 d-md-flex justify-content-md-end">
-                    <div class="mr-2">
-                        <span class="badge bg-light text-dark me-3">
-                            Jumlah Bimbingan : {{ $progressStage1Count }}
-                        </span>
-                    </div>
-                    @if (auth()->user()->role == "2")
-                    @foreach($tahapan_progres as $item)
-                    <form action="{{ route('store_status') }}" method="POST" id="statusForm_{{ $item->id }}">
-                        @csrf
-                        <input type="hidden" name="id_kota" value="{{ $item->id_kota }}">
-                        <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
-                        <div class="form-group">
-                            @if($item->id_master_tahapan_progres == 2)
-                                <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
-                                    <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
-                                    <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
-                                    <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                                    <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
-                                </select>
+        @foreach($mastertahapan as $tahapan)
+            @if($tahapan->id == 2)
+                <div class="alert" role="alert" style="background-color: #D2DCF2;">
+                    <div class="row">
+                        <div class="col">{{ $tahapan->nama_progres }}</div>
+                        <div class="col-5 d-md-flex justify-content-md-end">
+                            <div class="mr-2">
+                                <span class="badge bg-light text-dark me-3">Jumlah Bimbingan : {{ $progressStage2Count }}</span>
+                            </div>
+
+                            @if (auth()->user()->role == "2")
+                                @foreach($tahapan_progres as $item)
+                                    @if($item->id_master_tahapan_progres == 2)
+                                        <form action="{{ route('store_status') }}" method="POST" id="statusForm_{{ $item->id }}">
+                                            @csrf
+                                            <input type="hidden" name="id_kota" value="{{ $item->id_kota }}">
+                                            <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
+                                            <div class="form-group">
+                                                <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
+                                                    <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
+                                                    <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+                                                    <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                                                    <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    @endif
+                                @endforeach
+
+                            @endif
+
+                            @if (auth()->user()->role == "1" || auth()->user()->role == "3")
+                                <div>
+                                    @foreach($tahapan_progres as $item)
+                                        @if($item->id_master_tahapan_progres == 2)
+                                            @if($item->status == 'belum-disetujui')
+                                                <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
+                                            @elseif($item->status == 'disetujui')
+                                                <span id="selectedBadge" class="badge bg-success">Disetujui</span>
+                                            @elseif($item->status == 'selesai')
+                                                <span id="selectedBadge" class="badge bg-primary">Selesai</span>
+                                            @elseif($item->status == 'on_progres')
+                                                <span id="selectedBadge" class="badge bg-warning">On Progres</span>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                </div>
                             @endif
                         </div>
-                    </form>
-                    @endforeach
-                    @endif
-                    @if (auth()->user()->role == "1" || auth()->user()->role == "3")
-                        <div>
-                        @foreach($tahapan_progres as $item)
-                        @if($item->id_master_tahapan_progres == 2)
-                            @if($item->status == 'belum-disetujui')
-                            <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
-                            @elseif($item->status == 'disetujui')
-                            <span id="selectedBadge" class="badge bg-success">Disetujui</span>
-                            @elseif($item->status == 'selesai')
-                            <span id="selectedBadge" class="badge bg-primary">Selesai</span>
-                            @elseif($item->status == 'on_progres')
-                            <span id="selectedBadge" class="badge bg-warning">On Progres</span>
-                            @endif
-                        @endif
-                        @endforeach
+                        <div class="col justify-content-md-end">
+                            <div class="progress" style="height: 25px;">
+                                <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+                            </div>
                         </div>
-                    @endif
-                    </div>
-                <div class="col justify-content-md-end">
-                    <div class="progress"  style="height: 25px;">
-                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
                     </div>
                 </div>
-            </div>
-        </div>
+            @endif
+        @endforeach
+
         @if (auth()->user()->role=="1" || auth()->user()->role == "3")
         <div class="container-fluid">
             <div class="row row-cols-auto">
@@ -265,65 +265,64 @@
         @endif
         <br>
 
-        <div class="alert" role="alert" style="background-color: #D2DCF2;">
-            <div class="row">
-                @foreach($mastertahapan as $tahapan)
-                    @if($tahapan->id == 3)
-                        <div class="col">
-                            {{$tahapan->nama_progres}}
-                        </div>
-                    @endif
-                @endforeach
-                <div class="col-5 d-md-flex justify-content-md-end">
-                    <div class="mr-2">
-                        <span class="badge bg-light text-dark me-3">
-                            Jumlah Bimbingan : {{ $progressStage2Count }}
-                        </span>
-                    </div>
-                    @if (auth()->user()->role == "2")
-                    @foreach($tahapan_progres as $item)
-                    <form action="{{ route('store_status') }}" method="POST" id="statusForm_{{ $item->id }}">
-                        @csrf
-                        <input type="hidden" name="id_kota" value="{{ $item->id_kota }}">
-                        <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
-                        <div class="form-group">
-                            @if($item->id_master_tahapan_progres == 3)
-                            <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
-                                <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
-                                <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
-                                <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                                <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
-                            </select>
+        @foreach($mastertahapan as $tahapan)
+            @if($tahapan->id == 3)
+                <div class="alert" role="alert" style="background-color: #D2DCF2;">
+                    <div class="row">
+                        <div class="col">{{ $tahapan->nama_progres }}</div>
+                        <div class="col-5 d-md-flex justify-content-md-end">
+                            <div class="mr-2">
+                                <span class="badge bg-light text-dark me-3">Jumlah Bimbingan : {{ $progressStage3Count }}</span>
+                            </div>
+
+                            @if (auth()->user()->role == "2")
+                                @foreach($tahapan_progres as $item)
+                                    @if($item->id_master_tahapan_progres == 3)
+                                        <form action="{{ route('store_status') }}" method="POST" id="statusForm_{{ $item->id }}">
+                                            @csrf
+                                            <input type="hidden" name="id_kota" value="{{ $item->id_kota }}">
+                                            <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
+                                            <div class="form-group">
+                                                <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
+                                                    <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
+                                                    <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+                                                    <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                                                    <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    @endif
+                                @endforeach
+                            @endif
+
+                            @if (auth()->user()->role == "1" || auth()->user()->role == "3")
+                                <div>
+                                    @foreach($tahapan_progres as $item)
+                                        @if($item->id_master_tahapan_progres == 3)
+                                            @if($item->status == 'belum-disetujui')
+                                                <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
+                                            @elseif($item->status == 'disetujui')
+                                                <span id="selectedBadge" class="badge bg-success">Disetujui</span>
+                                            @elseif($item->status == 'selesai')
+                                                <span id="selectedBadge" class="badge bg-primary">Selesai</span>
+                                            @elseif($item->status == 'on_progres')
+                                                <span id="selectedBadge" class="badge bg-warning">On Progres</span>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                </div>
                             @endif
                         </div>
-                    </form>
-                    @endforeach
-                    @endif
-                    @if (auth()->user()->role == "1" || auth()->user()->role == "3")
-                        <div>
-                        @foreach($tahapan_progres as $item)
-                        @if($item->id_master_tahapan_progres == 3)
-                            @if($item->status == 'belum-disetujui')
-                            <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
-                            @elseif($item->status == 'disetujui')
-                            <span id="selectedBadge" class="badge bg-success">Disetujui</span>
-                            @elseif($item->status == 'selesai')
-                            <span id="selectedBadge" class="badge bg-primary">Selesai</span>
-                            @elseif($item->status == 'on_progres')
-                            <span id="selectedBadge" class="badge bg-warning">On Progres</span>
-                            @endif
-                        @endif
-                        @endforeach
+                        <div class="col justify-content-md-end">
+                            <div class="progress" style="height: 25px;">
+                                <div class="progress-bar" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
                         </div>
-                    @endif
-                </div>
-                <div class="col justify-content-md-end">
-                    <div class="progress"  style="height: 25px;">
-                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
                     </div>
                 </div>
-            </div>
-        </div>
+            @endif
+        @endforeach
+
         @if (auth()->user()->role=="1" || auth()->user()->role == "3")
         <div class="container-fluid">
             <div class="row row-cols-auto">
@@ -359,65 +358,64 @@
 
         <br>
 
-        <div class="alert" role="alert" style="background-color: #D2DCF2;">
-            <div class="row">
-                @foreach($mastertahapan as $tahapan)
-                    @if($tahapan->id == 4)
-                        <div class="col">
-                            {{$tahapan->nama_progres}}
-                        </div>
-                    @endif
-                @endforeach
-                <div class="col-5 d-md-flex justify-content-md-end">
-                    <div class="mr-2">
-                        <span class="badge bg-light text-dark me-3">
-                            Jumlah Bimbingan : {{ $progressStage3Count }}
-                        </span>
-                    </div>
-                    @if (auth()->user()->role == "2")
-                    @foreach($tahapan_progres as $item)
-                    <form action="{{ route('store_status') }}" method="POST" id="statusForm_{{ $item->id }}">
-                        @csrf
-                        <input type="hidden" name="id_kota" value="{{ $item->id_kota }}">
-                        <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
-                        <div class="form-group">
-                            @if($item->id_master_tahapan_progres == 4)
-                            <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
-                                <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
-                                <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
-                                <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                                <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
-                            </select>
+        @foreach($mastertahapan as $tahapan)
+            @if($tahapan->id == 4)
+                <div class="alert" role="alert" style="background-color: #D2DCF2;">
+                    <div class="row">
+                        <div class="col">{{ $tahapan->nama_progres }}</div>
+                        <div class="col-5 d-md-flex justify-content-md-end">
+                            <div class="mr-2">
+                                <span class="badge bg-light text-dark me-3">Jumlah Bimbingan : {{ $progressStage4Count }}</span>
+                            </div>
+
+                            @if (auth()->user()->role == "2")
+                                @foreach($tahapan_progres as $item)
+                                    @if($item->id_master_tahapan_progres == 4)
+                                        <form action="{{ route('store_status') }}" method="POST" id="statusForm_{{ $item->id }}">
+                                            @csrf
+                                            <input type="hidden" name="id_kota" value="{{ $item->id_kota }}">
+                                            <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
+                                            <div class="form-group">
+                                                <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
+                                                    <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
+                                                    <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+                                                    <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                                                    <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    @endif
+                                @endforeach
+                            @endif
+
+                            @if (auth()->user()->role == "1" || auth()->user()->role == "3")
+                                <div>
+                                    @foreach($tahapan_progres as $item)
+                                        @if($item->id_master_tahapan_progres == 4)
+                                            @if($item->status == 'belum-disetujui')
+                                                <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
+                                            @elseif($item->status == 'disetujui')
+                                                <span id="selectedBadge" class="badge bg-success">Disetujui</span>
+                                            @elseif($item->status == 'selesai')
+                                                <span id="selectedBadge" class="badge bg-primary">Selesai</span>
+                                            @elseif($item->status == 'on_progres')
+                                                <span id="selectedBadge" class="badge bg-warning">On Progres</span>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                </div>
                             @endif
                         </div>
-                    </form>
-                    @endforeach
-                    @endif
-                    @if (auth()->user()->role == "1" || auth()->user()->role == "3")
-                        <div>
-                        @foreach($tahapan_progres as $item)
-                        @if($item->id_master_tahapan_progres == 4)
-                            @if($item->status == 'belum-disetujui')
-                            <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
-                            @elseif($item->status == 'disetujui')
-                            <span id="selectedBadge" class="badge bg-success">Disetujui</span>
-                            @elseif($item->status == 'selesai')
-                            <span id="selectedBadge" class="badge bg-primary">Selesai</span>
-                            @elseif($item->status == 'on_progres')
-                            <span id="selectedBadge" class="badge bg-warning">On Progres</span>
-                            @endif
-                        @endif
-                        @endforeach
+                        <div class="col justify-content-md-end">
+                            <div class="progress" style="height: 25px;">
+                                <div class="progress-bar" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
                         </div>
-                    @endif
-                </div>
-                <div class="col justify-content-md-end">
-                    <div class="progress"  style="height: 25px;">
-                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
                     </div>
                 </div>
-            </div>
-        </div>
+            @endif
+        @endforeach
+
         @if (auth()->user()->role=="1" || auth()->user()->role == "3")
         <div class="container-fluid">
             <div class="row row-cols-auto">
@@ -485,6 +483,9 @@
     }
 
     function submitForm(id) {
+        document.getElementById('statusForm_' + id).submit();
+    }
+    function submitForm_2(id) {
         document.getElementById('statusForm_' + id).submit();
     }
 

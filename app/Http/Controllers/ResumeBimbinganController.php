@@ -26,34 +26,46 @@ class ResumeBimbinganController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(Request $request)
-    {
-        $query = ResumeBimbinganModel::query();
+{
+    $user = auth()->user();
+    $id_kota = DB::table('tbl_kota_has_user')
+        ->where('id_user', $user->id)
+        ->value('id_kota');
 
-        if ($request->has('sort') && $request->has('value')) {
-            $sort = $request->input('sort');
-            $value = $request->input('value');
-            
-            // Tambahkan filter berdasarkan nilai yang dipilih
-            $query->where($sort, $value);
-        }
+    // Membuat query untuk mengambil data dari tbl_resume_bimbingan
+    $query = ResumeBimbinganModel::query();
 
-        // Tambahkan logika sorting berdasarkan parameter 'sort' dan 'direction'
-        if ($request->has('sort') && $request->has('direction')) {
-            $query->orderBy($request->input('sort'), $request->input('direction'));
-        }
+    $query->join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+        ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
+        ->select('tbl_resume_bimbingan.*');
 
-        $resumes = $query->paginate(10);
-        // $tahapan_progres = $request->input('tahap$tahapan_progres');
-    
-        // if ($tahapan_progres) {
-        //     $resumes = ResumeBimbinganModel::where('tahap$tahapan_progres', $tahapan_progres)->get(); 
-        // } else {
-        //     $resumes = ResumeBimbinganModel::all();
-        // }
-
-        // $resumes = ResumeBimbinganModel::all();
-        return view('bimbingan/resume/index', compact('resumes', ));
+    // Menambahkan filter berdasarkan parameter 'sort' dan 'value'
+    if ($request->has('sort') && $request->has('value')) {
+        $sort = $request->input('sort');
+        $value = $request->input('value');
+        
+        // Tambahkan filter berdasarkan nilai yang dipilih
+        $query->where($sort, $value);
     }
+
+    // Menambahkan logika sorting berdasarkan parameter 'sort' dan 'direction'
+    if ($request->has('sort') && $request->has('direction')) {
+        $direction = $request->input('direction');
+        $query->orderBy($sort, $direction); // Menggunakan variabel $sort dari if sebelumnya
+    } else {
+        // Jika tidak ada parameter 'direction', secara default urutkan descending berdasarkan nomer dari sesi_bimbingan
+        $query->orderBy('tbl_resume_bimbingan.sesi_bimbingan', 'desc');
+    }
+
+    // Paginate hasil query
+    $resumes = $query->paginate(10);
+
+    // Mengembalikan view dengan data resumes
+    return view('bimbingan.resume.index', compact('resumes'));
+}
+
+
+
 
     public function create()
     {
@@ -72,7 +84,7 @@ class ResumeBimbinganController extends Controller
                   ->select('users.*')
                   ->get();
     
-        return view('bimbingan/resume/create', compact('dosen'));
+        return view('bimbingan.resume.create', compact('dosen'));
     }
     
 
@@ -85,6 +97,7 @@ class ResumeBimbinganController extends Controller
             'isi_revisi_bimbingan' => '',
             'progres_pengerjaan' => 'required',
             'tahapan_progres' => 'required',
+            'sesi_bimbingan'=> 'required',
         ]);
 
         // Set default value for isi_revisi_bimbingan if it's not provided
@@ -141,7 +154,7 @@ class ResumeBimbinganController extends Controller
             $tahapan_progres = "Unknown";
         }
 
-        return view('bimbingan/resume/detail', compact('resumes', 'tahapan_progres'));
+        return view('bimbingan.resume.detail', compact('resumes', 'tahapan_progres'));
     }
 
     public function edit($id)
@@ -169,7 +182,7 @@ class ResumeBimbinganController extends Controller
                     ->where('rb.id_resume_bimbingan', $id)
                     ->first();
                     
-        return view('bimbingan/resume/edit', compact('resume', 'tahapan_progres', 'dosen'));
+        return view('bimbingan.resume.edit', compact('resume', 'tahapan_progres', 'dosen'));
     }
 
 

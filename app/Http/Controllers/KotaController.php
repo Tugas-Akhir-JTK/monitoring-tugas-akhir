@@ -54,14 +54,18 @@ class KotaController extends Controller
             $query->orderBy($request->input('sort'), $request->input('direction'));
         }
 
-        // Lakukan join dengan tabel tahapan_progres dan master_tahapan_progres
-        $query->leftJoin('tbl_kota_has_tahapan_progres', 'tbl_kota.id_kota', '=', 'tbl_kota_has_tahapan_progres.id_kota')
-            ->leftJoin('tbl_master_tahapan_progres', 'tbl_kota_has_tahapan_progres.id_master_tahapan_progres', '=', 'tbl_master_tahapan_progres.id')
-            ->select('tbl_kota.*', 'tbl_master_tahapan_progres.nama_progres AS nama_tahapan', 'tbl_kota_has_tahapan_progres.status AS status')
-            ->where('tbl_kota_has_tahapan_progres.status', 'on_progres'); // Menambahkan filter status
+    // Lakukan join dengan tabel tahapan_progres dan master_tahapan_progres
+    $query->leftJoin('tbl_kota_has_tahapan_progres', 'tbl_kota.id_kota', '=', 'tbl_kota_has_tahapan_progres.id_kota')
+                    ->leftJoin('tbl_master_tahapan_progres', 'tbl_kota_has_tahapan_progres.id_master_tahapan_progres', '=', 'tbl_master_tahapan_progres.id')
+                    ->select('tbl_kota.*', 'tbl_master_tahapan_progres.nama_progres AS nama_tahapan', 'tbl_kota_has_tahapan_progres.status AS status')
+                    ->where(function ($query) {
+                        $query->where('tbl_kota_has_tahapan_progres.status', 'on_progres')
+                                ->orWhere('tbl_kota_has_tahapan_progres.status', 'disetujui');
+                    })
+                    ->first();
+   
+    $kotas = $query->get();
 
-        // Ambil data dengan pagination
-        $kotas = $query->get();
 
 
         return view('kota.index', compact('kotas'));
@@ -88,69 +92,75 @@ class KotaController extends Controller
             'dosen' => 'required|array|min:2|max:2',
         ]);
         
-        
+        // Check if the Kota already exists
         $existingKota = DB::table('tbl_kota')->where('nama_kota', $request->nama_kota)->exists();
-        if($existingKota) {
+        if ($existingKota) {
             session()->flash('error', 'Nomor KoTA sudah terdaftar');
             return redirect()->back()->withInput();
         }
         
-        // $existingMahasiswa = DB::table('tbl_kota_has_user')->where('id_user', $request->mahasiswa)->exists();
-        // if($existingMahasiswa) {
-        //     session()->flash('error', 'Salah satu atau lebih mahasiswa sudah terdaftar di KoTA lain');
-        //     return redirect()->back()->withInput();
-        // }
-
+        // Check if user with role '3' already has a Kota
+        $userIds = array_merge($request->dosen, $request->mahasiswa);
+        foreach ($userIds as $userId) {
+            $userRole = DB::table('users')->where('nomor_induk', $userId)->value('role');
+            $userid = DB::table('users')->where('nomor_induk', $userId)->value('id');
+            if ($userRole == '3') {
+                $existingUserKota = DB::table('tbl_kota_has_user')
+                                    ->where('id_user', $userid)
+                                    ->exists();
+                if ($existingUserKota) {
+                    session()->flash('error', 'Mahsiswa dengan NIM' . $userId . ' sudah memiliki kota.');
+                    return redirect()->back()->withInput();
+                }
+            }
+        }
+        
+        // Create Kota
         $kota = KotaModel::create($request->only('nama_kota', 'judul', 'kelas', 'periode'));
         $id_kota = $kota->id_kota;
         
-        $userIds = array_merge($request->dosen, $request->mahasiswa);
-        $data_array = count($userIds);
-
-        for ($i=0; $i < $data_array ; $i++) { 
-            $anggota = $userIds[$i];
-            $id_user = DB::select("SELECT id FROM users WHERE nomor_induk='$anggota'");
+        // Save Mahasiswa and Dosen to tbl_kota_has_user
+        foreach ($userIds as $userId) {
+            $id_user = DB::table('users')->where('nomor_induk', $userId)->value('id');
             DB::table('tbl_kota_has_user')->insert([
                 'id_kota' => $id_kota,
-                'id_user' => $id_user[0]->id
+                'id_user' => $id_user
             ]);
         }
-           
+        
         // Tambahkan data ke tabel tbl_kota_has_tahapan_progres
-        DB::table('tbl_kota_has_tahapan_progres')->insert([
-            'id_kota' => $id_kota,
-            'id_master_tahapan_progres' => 1, // Mengambil id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
-            'status' => 'selesai'
-        ]);
-
-        DB::table('tbl_kota_has_tahapan_progres')->insert([
-            'id_kota' => $id_kota,
-            'id_master_tahapan_progres' => 2, // Mengambil id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
-            'status' => 'belum-disetujui'
-        ]);
-
-        DB::table('tbl_kota_has_tahapan_progres')->insert([
-            'id_kota' => $id_kota,
-            'id_master_tahapan_progres' => 3, // Mengambil id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
-            'status' => 'belum-disetujui'
-        ]);
-
-        DB::table('tbl_kota_has_tahapan_progres')->insert([
-            'id_kota' => $id_kota,
-            'id_master_tahapan_progres' => 4, // Mengambil id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
-            'status' => 'belum-disetujui'
-        ]);
+        $initialTahapanProgres = [
+            ['id_master_tahapan_progres' => 1, 'status' => 'on_progres'],
+            ['id_master_tahapan_progres' => 2, 'status' => 'belum-disetujui'],
+            ['id_master_tahapan_progres' => 3, 'status' => 'belum-disetujui'],
+            ['id_master_tahapan_progres' => 4, 'status' => 'belum-disetujui']
+        ];
+        
+        foreach ($initialTahapanProgres as $tahapan) {
+            $tahapan['id_kota'] = $id_kota;
+            DB::table('tbl_kota_has_tahapan_progres')->insert($tahapan);
+        }
         
         session()->flash('success', 'Data KoTA berhasil disimpan');
-        
         return redirect()->route('kota');
+        
+        
     }
     
     public function detail($id)
     {
-        $progressStage1Count = ResumeBimbinganModel::where('tahapan_progres', '2')->count();
-        $progressStage2Count = ResumeBimbinganModel::where('tahapan_progres', '3')->count();
-        $progressStage3Count = ResumeBimbinganModel::where('tahapan_progres', '4')->count();
+        $progressStage2Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+                                                    ->where('tbl_kota_has_resume_bimbingan.id_kota', $id)
+                                                    ->where('tahapan_progres', '2')
+                                                    ->count();
+        $progressStage3Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+                                                    ->where('tbl_kota_has_resume_bimbingan.id_kota', $id)
+                                                    ->where('tahapan_progres', '3')
+                                                    ->count();
+        $progressStage4Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+                                                    ->where('tbl_kota_has_resume_bimbingan.id_kota', $id)
+                                                    ->where('tahapan_progres', '4')
+                                                    ->count();
         $kota = KotaModel::with('users')->findOrFail($id);
         $dosen = $kota->users->where('role', 2);
         $mahasiswa = $kota->users->where('role', 3);
@@ -218,32 +228,64 @@ class KotaController extends Controller
         }
         
 
-        return view('kota.detail', compact('kota', 'progressStage1Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota', 'mastertahapan', 'tahapan_progres'));
+        return view('kota.detail', compact('kota', 'progressStage4Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota', 'mastertahapan', 'tahapan_progres'));
     }
 
-    public function store_status(Request $request)
+    // public function store_status(Request $request)
+    // {
+    //     $status = $request->input('status');
+    //     $id_kota = $request->input('id_kota');
+    //     $id_master_tahapan_progres = $request->input('id_master_tahapan_progres');
+
+    //     // \Log::info('Data received', [
+    //     //     'status' => $status,
+    //     //     'id_kota' => $id_kota,
+    //     //     'id_master_tahapan_progres' => $id_master_tahapan_progres
+    //     // ]);
+        
+    //     $kotaTahapanProgres = KotaHasTahapanProgresModel::where('id_kota', $id_kota)
+    //                                                      ->where('id_master_tahapan_progres', $id_master_tahapan_progres)
+    //                                                      ->first();
+    
+    //     if ($kotaTahapanProgres) {
+    //         $kotaTahapanProgres->status = $status;
+    //         $kotaTahapanProgres->save();
+    //     }
+    
+    //     return redirect()->back();
+
+        public function store_status(Request $request)
     {
         $status = $request->input('status');
         $id_kota = $request->input('id_kota');
         $id_master_tahapan_progres = $request->input('id_master_tahapan_progres');
-
-        // \Log::info('Data received', [
-        //     'status' => $status,
-        //     'id_kota' => $id_kota,
-        //     'id_master_tahapan_progres' => $id_master_tahapan_progres
-        // ]);
     
+        // Cari tahapan progres saat ini
         $kotaTahapanProgres = KotaHasTahapanProgresModel::where('id_kota', $id_kota)
             ->where('id_master_tahapan_progres', $id_master_tahapan_progres)
             ->first();
 
         if ($kotaTahapanProgres) {
+            // Ubah status tahapan progres saat ini
             $kotaTahapanProgres->status = $status;
             $kotaTahapanProgres->save();
+    
+            // Jika statusnya 'selesai', ubah status data setelahnya menjadi 'on_progres'
+            if ($status == 'selesai') {
+                $nextTahapanProgres = KotaHasTahapanProgresModel::where('id_kota', $id_kota)
+                                                                ->where('id_master_tahapan_progres', $id_master_tahapan_progres + 1)
+                                                                ->first();
+    
+                if ($nextTahapanProgres) {
+                    $nextTahapanProgres->status = 'on_progres';
+                    $nextTahapanProgres->save();
+                }
+            }
         }
     
         return redirect()->back();
     }
+    // }
     
 
     

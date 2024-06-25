@@ -66,13 +66,6 @@
 <!-- DataTables Example -->
 <div class="card shadow mb-4">
     <div class="card-body">
-        <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
-            <form class="me-m d-2" action="#" method="GET">
-                <input type="text" name="keyword" placeholder="Cari Kota...">
-                <button class="btn btn-secondary" type="submit"><i class="fas fa-search"></i></button>
-            </form>
-        </div>
-        <br>
         <div class="table-responsive">
             <table id="example" class="table table-bordered data-table"  width="100%" cellspacing="0">
                 <thead class="text-center" style="background-color: gray; color: white;">
@@ -80,6 +73,7 @@
                         <th>No</th>
                         <th>Kode KoTA</th>
                         <th>Judul KoTA</th>
+                        <th>Tahap Progres</th>
                         <th>Opsi</th>
                     </tr>
                 </thead>
@@ -89,6 +83,7 @@
                             <td class="text-center">{{ $loop->iteration }}</td>
                             <td class="text-center">{{ $row->nama_kota }}</td>
                             <td>{{ $row->judul }}</td>
+                            <td class="text-center">{{ $row->nama_tahapan }}</td>
                             <td class="text-center">
                                 <a class="edit" href="{{ route('kegiatan.index', $row->id_kota) }}" data-toggle="tooltip" data-placement="top" title="Jadwal Kegiatan KoTA"><i class="nav-icon fas fa-calendar" style="color: gray;"></i></a>                     
                                 <a class="detail" href="{{ route('kota.detail', $row->id_kota) }}" data-toggle="tooltip" data-placement="top" title="Detail KoTA"><i class="nav-icon fas fa-eye" style="color: gray;"></i></a>

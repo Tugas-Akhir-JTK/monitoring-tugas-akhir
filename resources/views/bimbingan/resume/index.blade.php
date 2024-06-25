@@ -68,7 +68,7 @@
               <div class="col-md-4">
                 <div class="card">
                   <h5 class="card-header d-flex justify-content-between align-items-center">
-                    <div class="col">Resume Bimbingan Ke-{{ $resume->id_resume_bimbingan }}</div>
+                    <div class="col">Resume Bimbingan Ke-{{ $resume->sesi_bimbingan }}</div>
                     @if (auth()->user()->role == "3")
                     <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
                       <a href="{{ route('resume.edit', $resume->id_resume_bimbingan) }}"  data-toggle="tooltip" data-placement="top" title="Edit Resume Bimbingan">
