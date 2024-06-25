@@ -79,7 +79,7 @@
             </div>
             <div class="card-body">
               <div class="chart">
-                <canvas id="barChart1" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                <canvas id="" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
               </div>
             </div>
           </div>
@@ -87,11 +87,11 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title"><strong>Bar Chart</strong></h3>
+              <h3 class="card-title"><strong>Jumlah Bimbingan PerKoTA</strong></h3>
             </div>
             <div class="card-body">
               <div class="chart">
-                <canvas id="barChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                <canvas id="bimbinganPerKotaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
               </div>
             </div>
           </div>
@@ -113,7 +113,7 @@
   </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {      
+    document.addEventListener('DOMContentLoaded', function () {
         var lineChartCanvas = document.getElementById('lineChart').getContext('2d');
         var lineChartData = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -146,72 +146,35 @@
             options: lineChartOptions
         });
 
-        //-------------
-        //- BAR CHART -
-        //-------------
-        var barChartCanvas1 = document.getElementById('barChart1').getContext('2d');
-        var barChartData1 = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-                label: 'Dataset 1',
-                data: [65, 59, 80, 81, 56, 55, 40],
-                backgroundColor: 'rgba(255, 99, 132, 0.8)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
-            },
-            {
-                label: 'Dataset 2',
-                data: [28, 48, 40, 19, 86, 27, 90],
-                backgroundColor: 'rgba(54, 162, 235, 0.8)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        };
-        var barChartOptions1 = {
-            responsive: true,
-            maintainAspectRatio: false,
-            datasetFill: false
-        };
+      const bimbinganPerKotaChartCanvas = document.getElementById('bimbinganPerKotaChart').getContext('2d');
+      const data = @json($jumlahBimbinganPerKota);
+      const labels = data.map(item => item.kota);
+      const bimbinganData = data.map(item => item.jumlah_bimbingan);
 
-        // Create bar chart
-        new Chart(barChartCanvas1, {
-            type: 'bar',
-            data: barChartData1,
-            options: barChartOptions1
-        });
+      const bimbinganPerKotaChartData = {
+        labels: labels,
+        datasets: [{
+          label: 'Jumlah Bimbingan',
+          data: bimbinganData,
+          backgroundColor: 'rgba(54, 162, 235, 0.8)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      };
 
-        var barChartCanvas2 = document.getElementById('barChart2').getContext('2d');
-        var barChartData2 = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-                label: 'Dataset 1',
-                data: [65, 59, 80, 81, 56, 55, 40],
-                backgroundColor: 'rgba(255, 99, 132, 0.8)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
-            },
-            {
-                label: 'Dataset 2',
-                data: [28, 48, 40, 19, 86, 27, 90],
-                backgroundColor: 'rgba(54, 162, 235, 0.8)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        };
-        var barChartOptions2 = {
-            responsive: true,
-            maintainAspectRatio: false,
-            datasetFill: false
-        };
+      const bimbinganPerKotaChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        datasetFill: false
+      };
 
-        // Create bar chart
-        new Chart(barChartCanvas2, {
-            type: 'bar',
-            data: barChartData2,
-            options: barChartOptions2
-        });
-
+      // Create bar chart
+      new Chart(bimbinganPerKotaChartCanvas, {
+        type: 'bar',
+        data: bimbinganPerKotaChartData,
+        options: bimbinganPerKotaChartOptions
       });
+    });
   </script>
 
 @endsection

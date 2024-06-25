@@ -33,7 +33,8 @@ class HomeController extends Controller
         if (Auth::check()) {
             $role = Auth::user()->role;
             if ($role == '1') {
-                return view('beranda.koordinator.home');
+                $jumlahBimbinganPerKota = $this->getJumlahBimbinganPerKota();
+                return view('beranda.koordinator.home', compact('jumlahBimbinganPerKota'));
             } elseif ($role == '3') {
                 $user = auth()->user();
 
@@ -167,5 +168,38 @@ class HomeController extends Controller
             return view('beranda.kaprodi.home');
         }
     
+    }
+
+    private function getJumlahBimbinganPerKota()
+    {
+        $kotas = KotaModel::all();
+        $jumlahBimbinganPerKotaKelas = [];
+    
+        foreach ($kotas as $kota) {
+            $id_kota = $kota->id_kota;
+            
+            $progressStage2Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+                ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
+                ->where('tahapan_progres', '2')
+                ->count();
+            $progressStage3Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+                ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
+                ->where('tahapan_progres', '3')
+                ->count();
+            $progressStage4Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+                ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
+                ->where('tahapan_progres', '4')
+                ->count();
+    
+            $jumlahBimbingan = $progressStage2Count + $progressStage3Count + $progressStage4Count;
+    
+            $jumlahBimbinganPerKotaKelas[] = [
+                'kota' => $kota->nama_kota,
+                'kelas' => $kota->kelas,
+                'jumlah_bimbingan' => $jumlahBimbingan
+            ];
+        }
+    
+        return $jumlahBimbinganPerKotaKelas;
     }
 }
