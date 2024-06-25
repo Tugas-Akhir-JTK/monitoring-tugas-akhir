@@ -173,7 +173,7 @@ class HomeController extends Controller
     private function getJumlahBimbinganPerKota()
     {
         $kotas = KotaModel::all();
-        $jumlahBimbinganPerKotaKelas = [];
+        $jumlahBimbinganPerKota = [];
     
         foreach ($kotas as $kota) {
             $id_kota = $kota->id_kota;
@@ -193,13 +193,13 @@ class HomeController extends Controller
     
             $jumlahBimbingan = $progressStage2Count + $progressStage3Count + $progressStage4Count;
     
-            $jumlahBimbinganPerKotaKelas[] = [
+            $jumlahBimbinganPerKota[] = [
                 'kota' => $kota->nama_kota,
                 'kelas' => $kota->kelas,
                 'jumlah_bimbingan' => $jumlahBimbingan
             ];
         }
     
-        return $jumlahBimbinganPerKotaKelas;
+        return $jumlahBimbinganPerKota;
     }
 }

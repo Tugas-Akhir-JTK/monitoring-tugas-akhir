@@ -67,15 +67,7 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title"><strong>Bar Chart</strong></h3>
-              <!-- <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div> -->
+              <h3 class="card-title"><strong>Progress KoTA</strong></h3>
             </div>
             <div class="card-body">
               <div class="chart">
@@ -165,8 +157,32 @@
       const bimbinganPerKotaChartOptions = {
         responsive: true,
         maintainAspectRatio: false,
-        datasetFill: false
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,  
+              stepSize: 1,
+              callback: function(value) {
+                if (Number.isInteger(value)) {
+                  return value;
+                }
+              }
+            },
+            scaleLabel: {
+              display: true,
+              labelString: ''
+            }
+          }]
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+              return data.datasets[tooltipItem.datasetIndex].label + ': ' + tooltipItem.yLabel + ' Bimbingan';
+            }
+          }
+        }
       };
+
 
       // Create bar chart
       new Chart(bimbinganPerKotaChartCanvas, {
