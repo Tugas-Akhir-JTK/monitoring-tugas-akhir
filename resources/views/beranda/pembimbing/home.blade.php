@@ -66,13 +66,6 @@
 <!-- DataTables Example -->
 <div class="card shadow mb-4">
     <div class="card-body">
-        <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
-            <form class="me-m d-2" action="#" method="GET">
-                <input type="text" name="keyword" placeholder="Cari Kota...">
-                <button class="btn btn-secondary" type="submit"><i class="fas fa-search"></i></button>
-            </form>
-        </div>
-        <br>
         <div class="table-responsive">
             <table id="example" class="table table-bordered data-table"  width="100%" cellspacing="0">
                 <thead class="text-center" style="background-color: gray; color: white;">

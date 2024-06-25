@@ -5,12 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Monitoring Tugas Akhir</title>
   
-<!-- Google Font: Source Sans Pro -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome-free/css/all.min.css') }}">
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{{ asset('assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
+  <!-- AdminLTE -->
+  <script src="{{ asset('assets/dist/css/adminlte.min.js') }}"></script>
   <!-- Manual CSS -->
-  <link rel="stylesheet" href="{{ asset('resources/css/app.css') }}">
+  <link rel="stylesheet" href="/resources/css/app.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('assets/dist/css/adminlte.min.css') }}">
   <!-- Ionicons -->
@@ -27,6 +37,7 @@
   <link rel="stylesheet" href="{{ asset('assets/AdminLTE-3.2.0/plugins/daterangepicker/daterangepicker.css') }}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('assets/AdminLTE-3.2.0/plugins/summernote/summernote-bs4.min.css') }}">
+
 </head>
 <body class="hold-transition sidebar-mini">
   <div class="wrapper">
@@ -35,29 +46,45 @@
       <!-- Left navbar links -->
       <ul class="navbar-nav">
           @if (session('success'))
-                <div class="toast align-items-center text-white bg-success border-0 position-fixed bottom-0 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000" id="toast" style="opacity: 1;">
-                    <div class="d-flex">
-                        <div class="toast-body">
-                            {{ session('success') }}
-                        </div>    
-                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                </div>
-              @endif
-              @if (session('error'))
-                <div class="toast align-items-center text-white bg-danger border-0 position-fixed bottom-0 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000" id="toast" style="opacity: 1;">
-                    <div class="d-flex">  
-                        <div class="toast-body">
-                            {{ session('error') }}
-                        </div>
-                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                </div>
-              @endif
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    Swal.fire({
+                        icon: 'success',
+                        // title: 'Success',
+                        title: "{{ session('success') }}",
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+                });
+            </script>
+        @endif
+        @if (session('error'))
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    Swal.fire({
+                        icon: 'error',
+                        // title: 'Error',
+                        title: "{{ session('error') }}",
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+                });
+            </script>
+        @endif
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu" data-slide="true" role="button" id="pushMenuIcon"><i class="fas fa-bars"></i></a>
         </li>
@@ -117,7 +144,7 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            @if (auth()->user()->role=="1" || auth()->user()->role == "2" || auth()->user()->role == "3")
+            @if (auth()->user()->role=="1" || auth()->user()->role == "2" || auth()->user()->role == "3" || auth()->user()->role == "4")
             <li class="nav-item">
               <a href="{{ route('home') }}" class="nav-link">
                 <i class="nav-icon fas fa-home"></i>
@@ -139,7 +166,7 @@
               </a>
             </li>
             @endif
-            @if (auth()->user()->role == "1" ||  auth()->user()->role == "2" || auth()->user()->role == "3" )
+            @if (auth()->user()->role == "1" ||  auth()->user()->role == "2" || auth()->user()->role == "3" || auth()->user()->role == "4")
             <li class="nav-item">
               <a href="{{ route('timeline') }}" class="nav-link">
                 <i class="nav-icon fas fa-calendar"></i>
@@ -252,45 +279,52 @@
   <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
   <!-- Bootstrap -->
   <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <!-- DataTables & Plugins -->
+  <script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/jszip/jszip.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/pdfmake/pdfmake.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/pdfmake/vfs_fonts.js') }}"></script>
+  <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+  <!-- ChartJs -->
+  <script src="{{ asset('assets/plugins/chart.js/Chart.min.js') }}"></script>
+  <!-- SweetAlert2 -->
+  <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Toastr -->
+  <script src="{{ asset('assets/plugins/toastr/toastr.min.js') }}"></script>
   <!-- AdminLTE -->
   <script src="{{ asset('assets/dist/js/adminlte.js') }}"></script>
-  <!-- OPTIONAL SCRIPTS -->
-  <script src="{{ asset('assets/plugins/chart.js/Chart.min.js') }}"></script>
   <!-- Tempusdominus Bootstrap 4 -->
   <script src="{{ asset('assets/AdminLTE-3.2.0/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
   <!-- overlayScrollbars -->
   <script src="{{ asset('assets/AdminLTE-3.2.0/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="{{ asset('assets/dist/js/demo.js') }}"></script>
-  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-  <script src="{{ asset('assets/dist/js/pages/dashboard3.js') }}"></script>
 
 
-<script>
-    document.getElementById('pushMenuIcon').addEventListener('click', function() {
-        var logoImg = document.getElementById('polban-logo');
-        var currentSrc = logoImg.src;
-        if (currentSrc.includes('polban.png')) {
-            logoImg.src = "{{ asset('assets/dist/img/polban1.png') }}";
-            logoImg.style.width = '20px';
-            logoImg.style.height = 'auto';
-        } else {
-            logoImg.src = "{{ asset('assets/dist/img/polban.png') }}";
-            logoImg.style.width = '140px';
-            logoImg.style.height = 'auto';
-        }
-    });
-</script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var toastEl = document.getElementById('toast');
-        if (toastEl) {
-            var toast = new bootstrap.Toast(toastEl);
-            toast.show();
-        }
-    });
-</script>
+  <script>
+      document.getElementById('pushMenuIcon').addEventListener('click', function() {
+          var logoImg = document.getElementById('polban-logo');
+          var currentSrc = logoImg.src;
+          if (currentSrc.includes('polban.png')) {
+              logoImg.src = "{{ asset('assets/dist/img/polban1.png') }}";
+              logoImg.style.width = '20px';
+              logoImg.style.height = 'auto';
+          } else {
+              logoImg.src = "{{ asset('assets/dist/img/polban.png') }}";
+              logoImg.style.width = '140px';
+              logoImg.style.height = 'auto';
+          }
+      });
+  </script>
 
 </body>
 </html>

@@ -38,21 +38,21 @@ class KotaController extends Controller
     public function index(Request $request)
     {
          // Query awal untuk mengambil data dari KotaModel
-    $query = KotaModel::query();
+        $query = KotaModel::query();
 
-    // Menambahkan filter berdasarkan parameter 'sort' dan 'value'
-    if ($request->has('sort') && $request->has('value')) {
-        $sort = $request->input('sort');
-        $value = $request->input('value');
-        
-        // Tambahkan filter berdasarkan nilai yang dipilih
-        $query->where($sort, $value);
-    }
+        // Menambahkan filter berdasarkan parameter 'sort' dan 'value'
+        if ($request->has('sort') && $request->has('value')) {
+            $sort = $request->input('sort');
+            $value = $request->input('value');
+            
+            // Tambahkan filter berdasarkan nilai yang dipilih
+            $query->where($sort, $value);
+        }
 
-    // Menambahkan logika sorting berdasarkan parameter 'sort' dan 'direction'
-    if ($request->has('sort') && $request->has('direction')) {
-        $query->orderBy($request->input('sort'), $request->input('direction'));
-    }
+        // Menambahkan logika sorting berdasarkan parameter 'sort' dan 'direction'
+        if ($request->has('sort') && $request->has('direction')) {
+            $query->orderBy($request->input('sort'), $request->input('direction'));
+        }
 
     // Lakukan join dengan tabel tahapan_progres dan master_tahapan_progres
     $query->leftJoin('tbl_kota_has_tahapan_progres', 'tbl_kota.id_kota', '=', 'tbl_kota_has_tahapan_progres.id_kota')
@@ -63,8 +63,9 @@ class KotaController extends Controller
                                 ->orWhere('tbl_kota_has_tahapan_progres.status', 'disetujui');
                     })
                     ->first();
-    // Ambil data dengan pagination
-    $kotas = $query->paginate(10);
+   
+    $kotas = $query->get();
+
 
 
         return view('kota.index', compact('kotas'));
@@ -167,6 +168,7 @@ class KotaController extends Controller
         $mastertahapan = DB::table('tbl_master_tahapan_progres')->get();
         $tahapan_progres = KotaHasTahapanProgresModel::where('id_kota', $id)->get();
 
+
         $masterArtefaks = DB::table('tbl_master_artefak')->get();
         $artefakKota = KotaHasArtefakModel::where('id_kota', $id)->get();
 
@@ -260,9 +262,9 @@ class KotaController extends Controller
     
         // Cari tahapan progres saat ini
         $kotaTahapanProgres = KotaHasTahapanProgresModel::where('id_kota', $id_kota)
-                                                         ->where('id_master_tahapan_progres', $id_master_tahapan_progres)
-                                                         ->first();
-    
+            ->where('id_master_tahapan_progres', $id_master_tahapan_progres)
+            ->first();
+
         if ($kotaTahapanProgres) {
             // Ubah status tahapan progres saat ini
             $kotaTahapanProgres->status = $status;

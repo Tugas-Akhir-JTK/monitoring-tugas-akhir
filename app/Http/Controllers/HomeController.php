@@ -163,6 +163,8 @@ class HomeController extends Controller
     
         if ($user->role == 2) {
             return view('beranda.pembimbing.home', compact('kotas'));
+        } elseif ($user->role == 4) {
+            return view('beranda.kaprodi.home');
         }
     
     }
