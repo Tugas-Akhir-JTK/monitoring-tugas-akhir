@@ -60,7 +60,7 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">
-              <h2 class="card-title"><strong>Pie Chart</strong></h2>
+              <h2 class="card-title"><strong>Sebaran Luaran Tambahan TA</strong></h2>
             </div>
             <div class="card-body">
               <canvas id="luaranPieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
