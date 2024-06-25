@@ -49,9 +49,18 @@ class HomeController extends Controller
                             ->value('id_kota');
 
                 // Menghitung progress tahapan bimbingan
-                $progressStage1Count = ResumeBimbinganModel::where('tahapan_progres', '2')->count();
-                $progressStage2Count = ResumeBimbinganModel::where('tahapan_progres', '3')->count();
-                $progressStage3Count = ResumeBimbinganModel::where('tahapan_progres', '4')->count();
+                $progressStage1Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+                                                            ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
+                                                            ->where('tahapan_progres', '2')
+                                                            ->count();
+                $progressStage2Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+                                                            ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
+                                                            ->where('tahapan_progres', '3')
+                                                            ->count();
+                $progressStage3Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+                                                            ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
+                                                            ->where('tahapan_progres', '4')
+                                                            ->count();
 
                 // Menyiapkan data artefak untuk ditampilkan
                 $masterArtefaks = DB::table('tbl_master_artefak')->get();
@@ -118,31 +127,43 @@ class HomeController extends Controller
 
         $query = KotaModel::query();
         $user = auth()->user();
-
+    
         if ($user->role == 2) {
-            // Query KoTA berdasarkan user yang sedang terautentikasi dan role = 2
+            // Query KOTA berdasarkan user yang sedang terautentikasi dan role = 2
             $query = KotaModel::whereHas('users', function ($q) use ($user) {
                 $q->where('id_user', $user->id);
             });
-        }
+    
+            // Lakukan join dengan tabel tahapan_progres dan master_tahapan_progres
+            $query->leftJoin('tbl_kota_has_tahapan_progres', 'tbl_kota.id_kota', '=', 'tbl_kota_has_tahapan_progres.id_kota')
+                    ->leftJoin('tbl_master_tahapan_progres', 'tbl_kota_has_tahapan_progres.id_master_tahapan_progres', '=', 'tbl_master_tahapan_progres.id')
+                    ->select('tbl_kota.*', 'tbl_master_tahapan_progres.nama_progres AS nama_tahapan', 'tbl_kota_has_tahapan_progres.status AS status')
+                    ->where(function ($query) {
+                        $query->where('tbl_kota_has_tahapan_progres.status', 'on_progres')
+                                ->orWhere('tbl_kota_has_tahapan_progres.status', 'disetujui');
+                    })
+                    ->first();
 
+        }
+    
         if ($request->has('sort') && $request->has('value')) {
             $sort = $request->input('sort');
             $value = $request->input('value');
-
+    
             // Tambahkan filter berdasarkan nilai yang dipilih
             $query->where($sort, $value);
         }
-
+    
         // Tambahkan logika sorting berdasarkan parameter 'sort' dan 'direction'
         if ($request->has('sort') && $request->has('direction')) {
             $query->orderBy($request->input('sort'), $request->input('direction'));
         }
-
+    
         $kotas = $query->paginate(10);
-
+    
         if ($user->role == 2) {
             return view('beranda.pembimbing.home', compact('kotas'));
         }
+    
     }
 }

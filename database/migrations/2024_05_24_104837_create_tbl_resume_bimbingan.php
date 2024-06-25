@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('tbl_resume_bimbingan', function (Blueprint $table) {
             $table->id('id_resume_bimbingan')->unique();
+            $table->integer('sesi_bimbingan');
             $table->date('tanggal_bimbingan');
             $table->time('waktu_bimbingan');
             $table->text('isi_resume_bimbingan');

@@ -80,6 +80,7 @@
                         <th>No</th>
                         <th>Kode KoTA</th>
                         <th>Judul KoTA</th>
+                        <th>Tahap Progres</th>
                         <th>Opsi</th>
                     </tr>
                 </thead>
@@ -89,6 +90,7 @@
                             <td class="text-center">{{ $loop->iteration }}</td>
                             <td class="text-center">{{ $row->nama_kota }}</td>
                             <td>{{ $row->judul }}</td>
+                            <td class="text-center">{{ $row->nama_tahapan }}</td>
                             <td class="text-center">
                                 <a class="edit" href="{{ route('kegiatan.index', $row->id_kota) }}" data-toggle="tooltip" data-placement="top" title="Jadwal Kegiatan KoTA"><i class="nav-icon fas fa-calendar" style="color: gray;"></i></a>                     
                                 <a class="detail" href="{{ route('kota.detail', $row->id_kota) }}" data-toggle="tooltip" data-placement="top" title="Detail KoTA"><i class="nav-icon fas fa-eye" style="color: gray;"></i></a>
