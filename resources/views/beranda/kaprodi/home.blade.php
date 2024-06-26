@@ -136,14 +136,14 @@ document.addEventListener('DOMContentLoaded', function () {
             label: 'Persentase Luaran',
             data: luaranData,
             backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)'
+                'rgb(47, 85, 151)',
+                'rgb(180, 199, 231)',
+                'rgb(68, 114, 196)'
             ],
             borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)'
+                'rgb(47, 85, 151)',
+                'rgb(180, 199, 231)',
+                'rgb(68, 114, 196)'
             ],
             borderWidth: 1
         }]
@@ -171,7 +171,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    // Create luaran pie chart
     new Chart(ctx, {
         type: 'pie',
         data: luaranChartData,
@@ -190,14 +189,14 @@ document.addEventListener('DOMContentLoaded', function () {
             label: 'Jumlah Kota',
             data: mitraData,
             backgroundColor: [
-                'rgba(255, 99, 132, 0.6)', // Non-mitra
-                'rgba(54, 162, 235, 0.6)', // Organisasi
-                'rgba(255, 206, 86, 0.6)' // Industri
+                'rgb(68, 114, 196)',
+                'rgb(180, 199, 231)',
+                'rgb(47, 85, 151)'
             ],
             borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)'
+                'rgb(68, 114, 196)',
+                'rgb(180, 199, 231)',
+                'rgb(47, 85, 151)'
             ],
             borderWidth: 1
         }]
