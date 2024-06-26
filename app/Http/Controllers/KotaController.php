@@ -120,7 +120,7 @@ class KotaController extends Controller
         DB::table('tbl_kota_has_tahapan_progres')->insert([
             'id_kota' => $id_kota,
             'id_master_tahapan_progres' => 1, // Mengambil id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
-            'status' => 'selesai'
+            'status' => 'on_progres'
         ]);
 
         DB::table('tbl_kota_has_tahapan_progres')->insert([
