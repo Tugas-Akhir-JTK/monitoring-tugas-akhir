@@ -246,11 +246,11 @@
                                 </div>
                             </div>
                             <div class="col mb-8pt mb-md-0">
-                                <select name="kelas" class="form-control" id="mitra" required>
+                                <select name="mitra" class="form-control" id="mitra" required>
                                     <option value="" disabled selected>Pilih Mitra</option>
-                                    <option value="1" {{ old('mitra') == 'Non-mitra' ? 'selected' : '' }}>Non-mitra</option>
-                                    <option value="2" {{ old('mitra') == 'Organisasi' ? 'selected' : '' }}>Organisasi</option>
-                                    <option value="3" {{ old('mitra') == 'Industri' ? 'selected' : '' }}>Industri</option>
+                                    <option value="Non-mitra" {{ old('mitra') == 'Non-mitra' ? 'selected' : '' }}>Non-mitra</option>
+                                    <option value="Organisasi" {{ old('mitra') == 'Organisasi' ? 'selected' : '' }}>Organisasi</option>
+                                    <option value="Industri" {{ old('mitra') == 'Industri' ? 'selected' : '' }}>Industri</option>
                                 </select>
                             </div>
                         </div>
@@ -261,16 +261,16 @@
                             <div class="col-md-2 mb-8pt mb-md-0">
                                 <div class="media align-items-left">
                                     <div class="d-flex flex-column media-body media-middle">
-                                        <span class="card-title" for="luaran">Kelas</span>
+                                        <span class="card-title" for="luaran">Luaran</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="col mb-8pt mb-md-0">
-                                <select name="kelas" class="form-control" id="luaran" required>
+                                <select name="luaran" class="form-control" id="luaran" required>
                                     <option value="" disabled selected>Pilih Luaran</option>
-                                    <option value="1" {{ old('luaran') == 'HKI' ? 'selected' : '' }}>HKI</option>
-                                    <option value="2" {{ old('luaran') == 'UAT' ? 'selected' : '' }}>UAT</option>
-                                    <option value="3" {{ old('luaran') == 'Jurnal' ? 'selected' : '' }}>Jurnal</option>
+                                    <option value="HKI" {{ old('luaran') == 'HKI' ? 'selected' : '' }}>HKI</option>
+                                    <option value="UAT" {{ old('luaran') == 'UAT' ? 'selected' : '' }}>UAT</option>
+                                    <option value="Jurnal" {{ old('luaran') == 'Jurnal' ? 'selected' : '' }}>Jurnal</option>
                                 </select>
                             </div>
                         </div>
@@ -300,7 +300,7 @@
                     <div class="col-auto me-auto">
                     </div>
                     <div class="col-auto" style="margin-left: auto;">
-                        <button> type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </div>
         </div>

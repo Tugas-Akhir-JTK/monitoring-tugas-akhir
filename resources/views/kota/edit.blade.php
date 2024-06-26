@@ -150,11 +150,11 @@
                                     </div>
                                 </div>
                                 <div class="col mb-8pt mb-md-0">
-                                <select name="kelas" class="form-control" id="mitra" required>
+                                <select name="mitra" class="form-control" id="mitra" required>
                                     <option value="" disabled selected>Pilih Mitra</option>
-                                    <option value="1" {{ old('mitra', $kota->kelas) == 'Non-mitra' ? 'selected' : '' }}>Non-mitra</option>
-                                    <option value="2" {{ old('mitra', $kota->kelas) == 'Organisasi' ? 'selected' : '' }}>Organisasi</option>
-                                    <option value="3" {{ old('mitra', $kota->kelas) == 'Industri' ? 'selected' : '' }}>Industri</option>
+                                    <option value="Non-mitra" {{ old('mitra', $kota->mitra) == 'Non-mitra' ? 'selected' : '' }}>Non-mitra</option>
+                                    <option value="Organisasi" {{ old('mitra', $kota->mitra) == 'Organisasi' ? 'selected' : '' }}>Organisasi</option>
+                                    <option value="Industri" {{ old('mitra', $kota->mitra) == 'Industri' ? 'selected' : '' }}>Industri</option>
                                 </select>
                                 </div>
                             </div>
@@ -170,11 +170,11 @@
                                     </div>
                                 </div>
                                 <div class="col mb-8pt mb-md-0">
-                                <select name="kelas" class="form-control" id="luaran" required>
+                                <select name="luaran" class="form-control" id="luaran" required>
                                     <option value="" disabled selected>Pilih Luaran</option>
-                                    <option value="1" {{ old('luaran', $kota->kelas) == 'HKI' ? 'selected' : '' }}>HKI</option>
-                                    <option value="2" {{ old('luaran', $kota->kelas) == 'UAT' ? 'selected' : '' }}>UAT</option>
-                                    <option value="3" {{ old('luaran', $kota->kelas) == 'Jurnal' ? 'selected' : '' }}>Jurnal</option>
+                                    <option value="HKI" {{ old('luaran', $kota->luaran) == 'HKI' ? 'selected' : '' }}>HKI</option>
+                                    <option value="UAT" {{ old('luaran', $kota->luaran) == 'UAT' ? 'selected' : '' }}>UAT</option>
+                                    <option value="Jurnal" {{ old('luaran', $kota->luaran) == 'Jurnal' ? 'selected' : '' }}>Jurnal</option>
                                 </select>
                                 </div>
                             </div>

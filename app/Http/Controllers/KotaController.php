@@ -61,8 +61,8 @@ class KotaController extends Controller
                     ->where(function ($query) {
                         $query->where('tbl_kota_has_tahapan_progres.status', 'on_progres')
                                 ->orWhere('tbl_kota_has_tahapan_progres.status', 'disetujui');
-                    })
-                    ->first();
+                    });
+                    // ->first();
    
     $kotas = $query->get();
 

@@ -166,8 +166,9 @@ class HomeController extends Controller
             return view('beranda.pembimbing.home', compact('kotas'));
         } elseif ($user->role == 4) {
             $luaranCounts = $this->getLuaranData();
-            $kotas = KotaModel::all(); // Ambil semua data kota dari model
-            return view('beranda.kaprodi.home', compact('luaranCounts', 'kotas'));
+            $mitraCounts = $this->getMitraCounts();
+            $kotas = KotaModel::all();
+            return view('beranda.kaprodi.home', compact('luaranCounts', 'mitraCounts', 'kotas'));
         }
     
     }
@@ -194,6 +195,31 @@ class HomeController extends Controller
         }
 
         return $luaranCounts;
+    }
+    private function getMitraCounts()
+    {
+        // Ambil semua data Kota
+        $kotaData = KotaModel::select('mitra')->get();
+    
+        // Inisialisasi array untuk menyimpan jumlah kota per kategori mitra
+        $mitraCounts = [
+            'Non-mitra' => 0,
+            'Organisasi' => 0,
+            'Industri' => 0
+        ];
+    
+        // Perulangan untuk menghitung jumlah kota berdasarkan kategori mitra
+        foreach ($kotaData as $kota) {
+            if ($kota->mitra === 'Non-mitra') {
+                $mitraCounts['Non-mitra']++;
+            } elseif ($kota->mitra === 'Organisasi') {
+                $mitraCounts['Organisasi']++;
+            } elseif ($kota->mitra === 'Industri') {
+                $mitraCounts['Industri']++;
+            }
+        }
+    
+        return $mitraCounts;
     }
     private function getJumlahBimbinganPerKota(){
         $kotas = KotaModel::all();
