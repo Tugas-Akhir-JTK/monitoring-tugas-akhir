@@ -122,116 +122,116 @@
 
 
 <script>
-// document.addEventListener('DOMContentLoaded', function () {
-//     const ctx = document.getElementById('luaranPieChart').getContext('2d');
-//     const luaranCounts = @json($luaranCounts);
-//     const kotas = @json($kotas);
+document.addEventListener('DOMContentLoaded', function () {
+    const ctx = document.getElementById('luaranPieChart').getContext('2d');
+    const luaranCounts = @json($luaranCounts);
+    const kotas = @json($kotas);
 
-//     const luaranLabels = Object.keys(luaranCounts);
-//     const luaranData = Object.values(luaranCounts);
+    const luaranLabels = Object.keys(luaranCounts);
+    const luaranData = Object.values(luaranCounts);
 
-//     const luaranChartData = {
-//         labels: luaranLabels,
-//         datasets: [{
-//             label: 'Persentase Luaran',
-//             data: luaranData,
-//             backgroundColor: [
-//                 'rgba(255, 99, 132, 0.2)',
-//                 'rgba(54, 162, 235, 0.2)',
-//                 'rgba(255, 206, 86, 0.2)'
-//             ],
-//             borderColor: [
-//                 'rgba(255, 99, 132, 1)',
-//                 'rgba(54, 162, 235, 1)',
-//                 'rgba(255, 206, 86, 1)'
-//             ],
-//             borderWidth: 1
-//         }]
-//     };
+    const luaranChartData = {
+        labels: luaranLabels,
+        datasets: [{
+            label: 'Persentase Luaran',
+            data: luaranData,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)'
+            ],
+            borderWidth: 1
+        }]
+    };
 
-//     const luaranChartOptions = {
-//         responsive: true,
-//         maintainAspectRatio: false,
-//         tooltips: {
-//             callbacks: {
-//                 label: function (tooltipItem, data) {
-//                     const dataset = data.datasets[tooltipItem.datasetIndex];
-//                     const total = dataset.data.reduce((prev, curr) => prev + curr, 0);
-//                     const currentValue = dataset.data[tooltipItem.index];
-//                     const percentage = Math.floor(((currentValue / total) * 100) + 0.5);
-//                     return data.labels[tooltipItem.index] + ': ' + percentage + '%';
-//                 },
-//                 afterLabel: function (tooltipItem, data) {
-//                     const index = tooltipItem.index;
-//                     const label = data.labels[index];
-//                     const filteredKotas = kotas.filter(kota => kota.luaran.includes(label));
-//                     return filteredKotas.map(kota => kota.nama_kota).join(', ');
-//                 }
-//             }
-//         }
-//     };
+    const luaranChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        tooltips: {
+            callbacks: {
+                label: function (tooltipItem, data) {
+                    const dataset = data.datasets[tooltipItem.datasetIndex];
+                    const total = dataset.data.reduce((prev, curr) => prev + curr, 0);
+                    const currentValue = dataset.data[tooltipItem.index];
+                    const percentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                    return data.labels[tooltipItem.index] + ': ' + percentage + '%';
+                },
+                afterLabel: function (tooltipItem, data) {
+                    const index = tooltipItem.index;
+                    const label = data.labels[index];
+                    const filteredKotas = kotas.filter(kota => kota.luaran.includes(label));
+                    return filteredKotas.map(kota => kota.nama_kota).join(', ');
+                }
+            }
+        }
+    };
 
-//     // Create luaran pie chart
-//     new Chart(ctx, {
-//         type: 'pie',
-//         data: luaranChartData,
-//         options: luaranChartOptions
-//     });
+    // Create luaran pie chart
+    new Chart(ctx, {
+        type: 'pie',
+        data: luaranChartData,
+        options: luaranChartOptions
+    });
 
-//     const mitraChartCanvas = document.getElementById('mitraChart').getContext('2d');
-//     const mitraCounts = @json($mitraCounts);
+    const mitraChartCanvas = document.getElementById('mitraChart').getContext('2d');
+    const mitraCounts = @json($mitraCounts);
 
-//     const mitraLabels = Object.keys(mitraCounts);
-//     const mitraData = Object.values(mitraCounts);
+    const mitraLabels = Object.keys(mitraCounts);
+    const mitraData = Object.values(mitraCounts);
   
-//     const mitraChartData = {
-//         labels: mitraLabels,
-//         datasets: [{
-//             label: 'Jumlah Kota',
-//             data: mitraData,
-//             backgroundColor: [
-//                 'rgba(255, 99, 132, 0.6)', // Non-mitra
-//                 'rgba(54, 162, 235, 0.6)', // Organisasi
-//                 'rgba(255, 206, 86, 0.6)' // Industri
-//             ],
-//             borderColor: [
-//                 'rgba(255, 99, 132, 1)',
-//                 'rgba(54, 162, 235, 1)',
-//                 'rgba(255, 206, 86, 1)'
-//             ],
-//             borderWidth: 1
-//         }]
-//     };
+    const mitraChartData = {
+        labels: mitraLabels,
+        datasets: [{
+            label: 'Jumlah Kota',
+            data: mitraData,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.6)', // Non-mitra
+                'rgba(54, 162, 235, 0.6)', // Organisasi
+                'rgba(255, 206, 86, 0.6)' // Industri
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)'
+            ],
+            borderWidth: 1
+        }]
+    };
 
-//     const mitraChartOptions = {
-//         responsive: true,
-//         maintainAspectRatio: false,
-//         tooltips: {
-//             callbacks: {
-//                 label: function (tooltipItem, data) {
-//                     const dataset = data.datasets[tooltipItem.datasetIndex];
-//                     const total = dataset.data.reduce((prev, curr) => prev + curr, 0);
-//                     const currentValue = dataset.data[tooltipItem.index];
-//                     const percentage = Math.floor(((currentValue / total) * 100) + 0.5);
-//                     return data.labels[tooltipItem.index] + ': ' + percentage + '%';
-//                 },
-//                 afterLabel: function (tooltipItem, data) {
-//                     const index = tooltipItem.index;
-//                     const label = data.labels[index];
-//                     const filteredKotas = kotas.filter(kota => kota.mitra.includes(label));
-//                     return filteredKotas.map(kota => kota.nama_kota).join(', ');
-//                 }
-//             }
-//         }
-//     };
+    const mitraChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        tooltips: {
+            callbacks: {
+                label: function (tooltipItem, data) {
+                    const dataset = data.datasets[tooltipItem.datasetIndex];
+                    const total = dataset.data.reduce((prev, curr) => prev + curr, 0);
+                    const currentValue = dataset.data[tooltipItem.index];
+                    const percentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                    return data.labels[tooltipItem.index] + ': ' + percentage + '%';
+                },
+                afterLabel: function (tooltipItem, data) {
+                    const index = tooltipItem.index;
+                    const label = data.labels[index];
+                    const filteredKotas = kotas.filter(kota => kota.mitra.includes(label));
+                    return filteredKotas.map(kota => kota.nama_kota).join(', ');
+                }
+            }
+        }
+    };
 
-//     // Create mitra pie chart
-//     new Chart(mitraChartCanvas, {
-//         type: 'pie',
-//         data: mitraChartData,
-//         options: mitraChartOptions
-//     });
-// });
+    // Create mitra pie chart
+    new Chart(mitraChartCanvas, {
+        type: 'pie',
+        data: mitraChartData,
+        options: mitraChartOptions
+    });
+});
 </script>
   
 @endsection
