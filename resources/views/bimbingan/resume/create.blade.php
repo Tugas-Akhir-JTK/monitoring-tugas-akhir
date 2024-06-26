@@ -37,13 +37,19 @@
 
                             <!-- DOSEN -->
                             <div class="mb-3">
-                            <label for="tanggal_bimbingan" class="form-label">Dosen Pembimbing</label>
+                            <label for="dosen" class="form-label">Dosen Pembimbing</label>
                                 <select class="form-control" id="dosen" name="dosen" required>
                                     <option value='' disabled selected>Pilih Dosen</option>
                                     @foreach($dosen as $d)
                                         <option value="{{ $d->id }}">{{ $d->name }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+
+                            <!-- SESI -->
+                            <div class="mb-3">
+                                <label for="sesi_bimbingan" class="form-label">SESI BIMBINGAN</label>
+                                <input name="sesi_bimbingan" type="text" class="form-control" id="sesi_bimbingan" placeholder="Sesi Bimbingan Ke-"/>
                             </div>
 
                             <div class="row g-2">
@@ -78,9 +84,9 @@
                                     <label for="tahapan_progres" class="form-label">Tahapan Progres</label>
                                     <select name="tahapan_progres" class="form-control" id="tahapan_progres" required>
                                         <option value="" disabled selected>Pilih Tahapan Progres</option>
-                                        <option value="1" {{ old('tahapan_progres') == 1 ? 'selected' : '' }}>Seminar 2</option>
-                                        <option value="2" {{ old('tahapan_progres') == 2 ? 'selected' : '' }}>Seminar 3</option>
-                                        <option value="3" {{ old('tahapan_progres') == 3 ? 'selected' : '' }}>Sidang</option>
+                                        <option value="2" {{ old('tahapan_progres') == 2 ? 'selected' : '' }}>Seminar 2</option>
+                                        <option value="3" {{ old('tahapan_progres') == 3 ? 'selected' : '' }}>Seminar 3</option>
+                                        <option value="4" {{ old('tahapan_progres') == 4 ? 'selected' : '' }}>Sidang</option>
                                     </select>
                                 </div>
                             </div>  
