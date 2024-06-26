@@ -73,6 +73,11 @@ Route::delete('submissions/{id}', [App\Http\Controllers\SubmissionController::cl
 
 //Jadwal
 Route::get('/jadwal', [App\Http\Controllers\JadwalController::class, 'index'])->middleware(['auth', 'role:1,3'])->name('jadwal');
+Route::post('/jadwal/store', [App\Http\Controllers\JadwalController::class, 'store'])->middleware(['auth', 'role:1,3'])->name('jadwal.store');
+Route::post('/jadwal/events', [App\Http\Controllers\JadwalController::class, 'events'])->middleware(['auth', 'role:1,3'])->name('jadwal.events');
+Route::get('/jadwal/edit/{id}', [App\Http\Controllers\JadwalController::class, 'edit'])->middleware(['auth', 'role:1,3'])->name('jadwal.edit');
+Route::put('/jadwal/update{id}', [App\Http\Controllers\JadwalController::class, 'update'])->middleware(['auth', 'role:1,3'])->name('jadwal.update');
+Route::delete('/jadwal/{id}', [App\Http\Controllers\JadwalController::class, 'destroy'])->middleware(['auth', 'role:1,3'])->name('jadwal.destroy');
 
 
 //Bimbingan

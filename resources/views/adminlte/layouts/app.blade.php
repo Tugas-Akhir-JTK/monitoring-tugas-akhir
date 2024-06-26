@@ -17,6 +17,8 @@
   <link rel="stylesheet" href="{{ asset('assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
   <!-- Toastr -->
   <link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
+  <!-- FullCalendar -->
+  <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/main.css') }}">
   <!-- AdminLTE -->
   <script src="{{ asset('assets/dist/css/adminlte.min.js') }}"></script>
   <!-- Manual CSS -->
@@ -279,6 +281,8 @@
   <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
   <!-- Bootstrap -->
   <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <!-- JQuery ui -->
+  <script src="{{ asset('assets/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
   <!-- DataTables & Plugins -->
   <script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
@@ -299,6 +303,9 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- Toastr -->
   <script src="{{ asset('assets/plugins/toastr/toastr.min.js') }}"></script>
+  <!-- FullCalendar -->
+  <script src="{{ asset('assets/plugins/moment/moment.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/fullcalendar/main.js') }}"></script>
   <!-- AdminLTE -->
   <script src="{{ asset('assets/dist/js/adminlte.js') }}"></script>
   <!-- Tempusdominus Bootstrap 4 -->
