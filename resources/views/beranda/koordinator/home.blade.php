@@ -106,7 +106,53 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+    //-------------
+    //- BAR CHART -
+    //-------------
+    const barChartCanvas = document.getElementById('barChart1').getContext('2d');
+    const barChartData = {
+        labels: ['101', '102', '103', '104', '105', '106', '107', '108', '109'],
+        datasets: [{
+          label: 'Persentase',
+          backgroundColor: 'rgba(60,141,188,0.9)',
+          borderColor: 'rgba(60,141,188,0.8)',
+          data: [100, 70, 75, 90, 85, 90, 80, 85, 90] // Persentase bebas yang bisa Anda ubah sesuai kebutuhan
+      }]
+    };
 
+    const barChartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          min: 0,
+          max: 100,
+          ticks: {
+            callback: function(value) {
+              return value + "%"; // Menambahkan simbol persen pada axis Y
+            }
+          }
+        }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const label = context.dataset.label || '';
+              const value = context.raw;
+              return `${label}: ${value}%`;
+            }
+          }
+        }
+      }
+    };
+
+    new Chart(barChartCanvas, {
+      type: 'bar',
+      data: barChartData,
+      options: barChartOptions
+    })
 
       var lineChartCanvas = document.getElementById('lineChart').getContext('2d');
       var lineChartData = {
