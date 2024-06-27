@@ -1,7 +1,9 @@
 @extends('adminlte.layouts.app')
 
 @section('content')
+<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -14,12 +16,47 @@
                         Tambah
                         <i class="nav-icon fas fa-plus"></i>
                     </button>
+                    <div class="modal fade" id="tambahJadwalModal" tabindex="-1" role="dialog" aria-labelledby="tambahJadwalModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form action="{{ route('jadwal.store') }}" method="POST">
+                                    @csrf
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="tambahJadwalModalLabel">Tambah Jadwal</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="nama_penguji">Nama Penguji</label>
+                                            <input type="text" class="form-control" id="nama_penguji" name="nama_penguji" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="tanggal_mulai">Tanggal Mulai</label>
+                                            <input type="datetime-local" class="form-control" id="tanggal_mulai" name="tanggal_mulai" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="tanggal_selesai">Tanggal Selesai</label>
+                                            <input type="datetime-local" class="form-control" id="tanggal_selesai" name="tanggal_selesai" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 @endif
             </div>
             <hr>
         </div>
     </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
             <div class="card shadow mb-4">
@@ -28,70 +65,73 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
+        <!-- /.container-fluid -->
 
-@foreach($jadwals as $jadwal)
-    <div class="modal fade" id="editJadwalModal{{ $jadwal->id_jadwal }}" tabindex="-1" aria-labelledby="editJadwalModalLabel{{ $jadwal->id_jadwal }}" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="{{ route('jadwal.update', $jadwal->id_jadwal) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editJadwalModalLabel{{ $jadwal->id_jadwal }}">Edit Jadwal</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+        @foreach($jadwals as $jadwal)
+            <div class="modal fade" id="editJadwalModal{{ $jadwal->id_jadwal }}" tabindex="-1" aria-labelledby="editJadwalModalLabel{{ $jadwal->id_jadwal }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{{ route('jadwal.update', $jadwal->id_jadwal) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editJadwalModalLabel{{ $jadwal->id_jadwal }}">Edit Jadwal</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="nama_penguji">Nama Penguji</label>
+                                    <input type="text" class="form-control" id="nama_penguji" name="nama_penguji" value="{{ old('nama_penguji', $jadwal->nama_penguji) }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tanggal_mulai">Tanggal Mulai</label>
+                                    <input type="datetime-local" class="form-control" id="tanggal_mulai" name="tanggal_mulai" value="{{ old('tanggal_mulai', \Carbon\Carbon::parse($jadwal->tanggal_mulai)->format('Y-m-d\TH:i')) }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tanggal_selesai">Tanggal Selesai</label>
+                                    <input type="datetime-local" class="form-control" id="tanggal_selesai" name="tanggal_selesai" value="{{ old('tanggal_selesai', \Carbon\Carbon::parse($jadwal->tanggal_selesai)->format('Y-m-d\TH:i')) }}" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="nama_penguji">Nama Penguji</label>
-                            <input type="text" class="form-control" id="nama_penguji" name="nama_penguji" value="{{ old('nama_penguji', $jadwal->nama_penguji) }}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="tanggal_mulai">Tanggal Mulai</label>
-                            <input type="datetime-local" class="form-control" id="tanggal_mulai" name="tanggal_mulai" value="{{ old('tanggal_mulai', \Carbon\Carbon::parse($jadwal->tanggal_mulai)->format('Y-m-d\TH:i')) }}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="tanggal_selesai">Tanggal Selesai</label>
-                            <input type="datetime-local" class="form-control" id="tanggal_selesai" name="tanggal_selesai" value="{{ old('tanggal_selesai', \Carbon\Carbon::parse($jadwal->tanggal_selesai)->format('Y-m-d\TH:i')) }}" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-@endforeach
-
-@foreach($jadwals as $jadwal)
-    <div class="modal fade" id="deleteJadwalModal{{ $jadwal->id_jadwal }}" tabindex="-1" role="dialog" aria-labelledby="deleteJadwalModalLabel{{ $jadwal->id_jadwal }}" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteJadwalModalLabel{{ $jadwal->id_jadwal }}">Hapus Jadwal</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
-                <form action="{{ route('jadwal.destroy', $jadwal->id_jadwal) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <div class="modal-body">
-                        <p>Apakah anda yakin ingin menghapus jadwal "{{ $jadwal->nama_penguji }}"?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-danger">Hapus</button>
-                    </div>
-                </form>
             </div>
-        </div>
+        @endforeach
+        
+        @foreach($jadwals as $jadwal)
+            <div class="modal fade" id="deleteJadwalModal{{ $jadwal->id_jadwal }}" tabindex="-1" role="dialog" aria-labelledby="deleteJadwalModalLabel{{ $jadwal->id_jadwal }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteJadwalModalLabel{{ $jadwal->id_jadwal }}">Hapus Jadwal</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ route('jadwal.destroy', $jadwal->id_jadwal) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <div class="modal-body">
+                                <p>Apakah anda yakin ingin menghapus jadwal "{{ $jadwal->nama_penguji }}"?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-danger">Hapus</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endforeach
     </div>
-@endforeach
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
