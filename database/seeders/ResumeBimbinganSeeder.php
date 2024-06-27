@@ -21,6 +21,7 @@ class ResumeBimbinganSeeder extends Seeder
             'isi_revisi_bimbingan' => '-', // Tambahkan nilai default di sini
             'progres_pengerjaan' => 20,
             'tahapan_progres' => 2,
+            'sesi_bimbingan' => 1,
         ]);
 
         ResumeBimbinganModel::create([
@@ -30,6 +31,7 @@ class ResumeBimbinganSeeder extends Seeder
             'isi_revisi_bimbingan' => '-', // Tambahkan nilai default di sini
             'progres_pengerjaan' => 20,
             'tahapan_progres' => 2,
+            'sesi_bimbingan' => 2,
         ]);
 
         ResumeBimbinganModel::create([
@@ -39,6 +41,7 @@ class ResumeBimbinganSeeder extends Seeder
             'isi_revisi_bimbingan' => '-', // Tambahkan nilai default di sini
             'progres_pengerjaan' => 60,
             'tahapan_progres' => 2,
+            'sesi_bimbingan' => 3,
         ]);
     }
 }
