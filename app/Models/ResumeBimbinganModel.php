@@ -14,7 +14,6 @@ class ResumeBimbinganModel extends Model
     protected $table = 'tbl_resume_bimbingan';
     protected $primaryKey = 'id_resume_bimbingan';
     protected $fillable = [
-        'id_resume_bimbingan',
         'tanggal_bimbingan',
         'waktu_bimbingan',
         'isi_resume_bimbingan',
