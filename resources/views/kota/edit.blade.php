@@ -140,6 +140,46 @@
                             </div>
                         </div>
 
+                        <div class="list-group-item p-3">
+                            <div class="row align-items-start">
+                                <div class="col-md-2 mb-8pt mb-md-0">
+                                    <div class="media align-items-left">
+                                        <div class="d-flex flex-column media-body media-middle">
+                                            <span class="card-title" for="mitra">Mitra</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col mb-8pt mb-md-0">
+                                <select name="mitra" class="form-control" id="mitra" required>
+                                    <option value="" disabled selected>Pilih Mitra</option>
+                                    <option value="Non-mitra" {{ old('mitra', $kota->mitra) == 'Non-mitra' ? 'selected' : '' }}>Non-mitra</option>
+                                    <option value="Organisasi" {{ old('mitra', $kota->mitra) == 'Organisasi' ? 'selected' : '' }}>Organisasi</option>
+                                    <option value="Industri" {{ old('mitra', $kota->mitra) == 'Industri' ? 'selected' : '' }}>Industri</option>
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list-group-item p-3">
+                            <div class="row align-items-start">
+                                <div class="col-md-2 mb-8pt mb-md-0">
+                                    <div class="media align-items-left">
+                                        <div class="d-flex flex-column media-body media-middle">
+                                            <span class="card-title" for="luaran">Luaran</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col mb-8pt mb-md-0">
+                                <select name="luaran" class="form-control" id="luaran" required>
+                                    <option value="" disabled selected>Pilih Luaran</option>
+                                    <option value="HKI" {{ old('luaran', $kota->luaran) == 'HKI' ? 'selected' : '' }}>HKI</option>
+                                    <option value="UAT" {{ old('luaran', $kota->luaran) == 'UAT' ? 'selected' : '' }}>UAT</option>
+                                    <option value="Jurnal" {{ old('luaran', $kota->luaran) == 'Jurnal' ? 'selected' : '' }}>Jurnal</option>
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Tahapan Progres -->
                         <!-- <div class="list-group-item p-3">
                             <div class="row align-items-start">
