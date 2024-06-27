@@ -80,14 +80,14 @@
         </div>
 
         <div class="col-md-6">
-          {{-- <div class="card">
+          <div class="card">
             <div class="card-header">
-              <h2 class="card-title"><strong>Pie Chart</strong></h2>
+              <h2 class="card-title"><strong>Sebaran Yudisium KoTA</strong></h2>
             </div>
             <div class="card-body">
               <canvas id="pieChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
             </div>
-          </div> --}}
+          </div>
         </div>
 
         <div class="col-md-6">
@@ -229,6 +229,52 @@ document.addEventListener('DOMContentLoaded', function () {
         type: 'pie',
         data: mitraChartData,
         options: mitraChartOptions
+    });
+
+    //-------------
+    //- PIE CHART -
+    //-------------
+    // Get context with jQuery - using jQuery's .get() method.
+    const pieChartCanvas1 = document.getElementById('pieChart2').getContext('2d');
+
+    // Data untuk pie chart
+    const pieData = {
+        labels: [
+            'Yudisium 1',
+            'Yudisium 2',
+            'Yudisium 3'
+        ],
+        datasets: [{
+            data: [50, 10, 5], // Persentase bebas yang bisa Anda ubah sesuai kebutuhan
+            backgroundColor : ['#2F5597', '#B4C7E7', '#4472C4'],
+        }]
+    };
+
+    // Opsi untuk pie chart
+    const pieOptions = {
+      maintainAspectRatio: false,
+      responsive: true,
+      plugins: {
+          tooltip: {
+              callbacks: {
+                  label: function(context) {
+                      const label = context.label || '';
+                      const value = context.raw;
+                      const dataset = context.dataset;
+                      const total = dataset.data.reduce((prev, curr) => prev + curr, 0);
+                      const percentage = Math.round((value / total) * 100);
+                      return `${label}: ${percentage}%`;
+                  }
+              }
+          }
+      }
+  };
+
+    // Buat pie chart menggunakan Chart.js
+    new Chart(pieChartCanvas1, {
+        type: 'pie',
+        data: pieData,
+        options: pieOptions
     });
 });
 </script>

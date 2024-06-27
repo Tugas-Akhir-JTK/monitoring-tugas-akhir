@@ -71,7 +71,7 @@
             </div>
             <div class="card-body">
               <div class="chart">
-                <canvas id="" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                <canvas id="barChart1" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
               </div>
             </div>
           </div>
@@ -106,37 +106,45 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var lineChartCanvas = document.getElementById('lineChart').getContext('2d');
-        var lineChartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [
-                {
-                    label: 'Dataset 1',
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    fill: false
-                },
-                {
-                    label: 'Dataset 2',
-                    data: [28, 48, 40, 19, 86, 27, 90],
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    fill: false
-                }
+
+
+      var lineChartCanvas = document.getElementById('lineChart').getContext('2d');
+      var lineChartData = {
+          labels: ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4', 'Minggu 5', 'Minggu 6', 'Minggu 7'],
+          datasets: [
+              {
+                  label: '101',
+                  data: [1, 2, 4, 5, 5, 6, 7],
+                  borderColor: 'rgba(255, 99, 132, 1)',
+                  fill: false
+              },
+              {
+                  label: '102',
+                  data: [1, 1, 2, 4, 7, 7, 8],
+                  borderColor: 'rgba(100, 162, 235, 1)',
+                  fill: false
+              },
+              {
+                  label: '103',
+                  data: [2, 2, 4, 5, 5, 6, 6],
+                  borderColor: 'rgba(54, 100, 235, 1)',
+                  fill: false
+              }
             ]
-        };
+      };
 
-        var lineChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            datasetFill: false
-        };
+      var lineChartOptions = {
+          responsive: true,
+          maintainAspectRatio: false,
+          datasetFill: false
+      };
 
-        // Create line chart
-        var lineChart = new Chart(lineChartCanvas, {
-            type: 'line',
-            data: lineChartData,
-            options: lineChartOptions
-        });
+      // Create line chart
+      var lineChart = new Chart(lineChartCanvas, {
+          type: 'line',
+          data: lineChartData,
+          options: lineChartOptions
+      });
 
       const bimbinganPerKotaChartCanvas = document.getElementById('bimbinganPerKotaChart').getContext('2d');
       const data = @json($jumlahBimbinganPerKota);
@@ -182,7 +190,6 @@
           }
         }
       };
-
 
       // Create bar chart
       new Chart(bimbinganPerKotaChartCanvas, {
