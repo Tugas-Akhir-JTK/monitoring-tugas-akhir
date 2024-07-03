@@ -33,7 +33,8 @@ class HomeController extends Controller
         if (Auth::check()) {
             $role = Auth::user()->role;
             if ($role == '1') {
-                return view('beranda.koordinator.home');
+                $jumlahBimbinganPerKota = $this->getJumlahBimbinganPerKota();
+                return view('beranda.koordinator.home', compact('jumlahBimbinganPerKota'));
             } elseif ($role == '3') {
                 $user = auth()->user();
 
@@ -197,7 +198,6 @@ class HomeController extends Controller
             $sort = $request->input('sort');
             $value = $request->input('value');
     
-            // Tambahkan filter berdasarkan nilai yang dipilih
             $query->where($sort, $value);
         }
     
@@ -211,8 +211,121 @@ class HomeController extends Controller
         if ($user->role == 2) {
             return view('beranda.pembimbing.home', compact('kotas'));
         } elseif ($user->role == 4) {
-            return view('beranda.kaprodi.home');
+            $query = KotaModel::query();
+
+            // Menambahkan filter berdasarkan parameter 'sort' dan 'value'
+            if ($request->has('sort') && $request->has('value')) {
+                $sort = $request->input('sort');
+                $value = $request->input('value');
+
+            $values = explode(',', $value);
+            // Menghapus spasi putih di sekitar nilai
+            $values = array_map('trim', $values);
+
+            // Memastikan array tidak kosong sebelum menggunakan whereIn
+            if (count($values) > 0) {
+                $query->whereIn($sort, $values);
+            }
+
+                // Menggunakan whereIn untuk filter berdasarkan nilai yang dipilih
+                $query->whereIn($sort, $values);
+            }
+
+            // Menambahkan logika sorting berdasarkan parameter 'sort' dan 'direction'
+            if ($request->has('sort') && $request->has('direction')) {
+                $sort = $request->input('sort');
+                $direction = $request->input('direction');
+    
+                if (in_array($direction, ['asc', 'desc'])) {
+                    $query->orderBy($sort, $direction);
+                }
+            }
+
+            $kotas = $query->get();
+            $luaranCounts = $this->getLuaranData($kotas);
+            $mitraCounts = $this->getMitraCounts($kotas);
+            return view('beranda.kaprodi.home', compact('luaranCounts', 'mitraCounts', 'kotas'));
         }
     
+    }
+
+    private function getLuaranData($filteredKotas = null){
+        $kotaData = $filteredKotas ?? KotaModel::select('luaran')->get();
+        $luaranCounts = [
+            'HKI' => 0,
+            'UAT' => 0,
+            'Jurnal' => 0
+        ];
+
+        foreach ($kotaData as $kota) {
+            if (strpos($kota->luaran, 'HKI') !== false) {
+                $luaranCounts['HKI']++;
+            }
+            if (strpos($kota->luaran, 'UAT') !== false) {
+                $luaranCounts['UAT']++;
+            }
+            if (strpos($kota->luaran, 'Jurnal') !== false) {
+                $luaranCounts['Jurnal']++;
+            }
+        }
+
+        return $luaranCounts;
+    }
+
+    private function getMitraCounts($filteredKotas = null)
+    {
+        // Ambil semua data Kota
+        $kotaData = $filteredKotas ?? KotaModel::select('luaran')->get();
+    
+        // Inisialisasi array untuk menyimpan jumlah kota per kategori mitra
+        $mitraCounts = [
+            'Non-mitra' => 0,
+            'Organisasi' => 0,
+            'Industri' => 0
+        ];
+    
+        // Perulangan untuk menghitung jumlah kota berdasarkan kategori mitra
+        foreach ($kotaData as $kota) {
+            if ($kota->mitra === 'Non-mitra') {
+                $mitraCounts['Non-mitra']++;
+            } elseif ($kota->mitra === 'Organisasi') {
+                $mitraCounts['Organisasi']++;
+            } elseif ($kota->mitra === 'Industri') {
+                $mitraCounts['Industri']++;
+            }
+        }
+    
+        return $mitraCounts;
+    }
+    private function getJumlahBimbinganPerKota(){
+        $kotas = KotaModel::all();
+        $jumlahBimbinganPerKota = [];
+    
+        foreach ($kotas as $kota) {
+            $id_kota = $kota->id_kota;
+            
+            $progressStage2Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+                ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
+                ->where('tahapan_progres', '2')
+                ->count();
+            $progressStage3Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+                ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
+                ->where('tahapan_progres', '3')
+                ->count();
+            $progressStage4Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+                ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
+                ->where('tahapan_progres', '4')
+                ->count();
+    
+            $jumlahBimbingan = $progressStage2Count + $progressStage3Count + $progressStage4Count;
+    
+            $jumlahBimbinganPerKota[] = [
+                'kota' => $kota->nama_kota,
+                'kelas' => $kota->kelas,
+                'jumlah_bimbingan' => $jumlahBimbingan
+            ];
+        }
+    
+        return $jumlahBimbinganPerKota;
     }
 }
