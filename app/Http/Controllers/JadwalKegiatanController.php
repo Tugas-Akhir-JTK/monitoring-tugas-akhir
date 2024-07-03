@@ -10,6 +10,7 @@ use App\Models\KotaHasJadwalKegiatanModel;
 use App\Models\KotaHasMetodologiModel;
 use App\Models\JadwalKegiatanHasTimelineModel;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class JadwalKegiatanController extends Controller
 {
@@ -173,6 +174,13 @@ class JadwalKegiatanController extends Controller
         
         // Update status kegiatan
         $jadwalKegiatan->status = $request->input('status');
+
+        if ($request->input('status') == 'completed') {
+            $jadwalKegiatan->tanggal_selesai = Carbon::now();
+        } else {
+            $jadwalKegiatan->tanggal_selesai = null; // atau bisa diisi dengan logika lain
+        }
+        
         $jadwalKegiatan->save();
        
         return redirect()->route('kegiatan.index');
@@ -193,8 +201,8 @@ class JadwalKegiatanController extends Controller
         
         // Update data event
         // $event->title = $validated['title'];
-        $event->start = $validated['start'];
-        $event->end = $validated['end'];
+        $event->tanggal_mulai = $validated['start'];
+        $event->tanggal_selesai = $validated['end'];
         $event->save();
 
         return redirect()->route('kegiatan.index');
@@ -212,7 +220,7 @@ class JadwalKegiatanController extends Controller
         $resource = NamaKegiatanModel::find($validated['id']);
         
         // Update data resource
-        $resource->title = $validated['title'];
+        $resource->nama_kegiatan = $validated['title'];
         $resource->save();
         
         return redirect()->route('kegiatan.index');

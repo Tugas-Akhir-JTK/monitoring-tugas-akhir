@@ -36,6 +36,7 @@
         <head>
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.14/index.global.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css">
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.14/index.global.min.js"></script>
         <style>
             .fc-event.completed {
@@ -146,7 +147,9 @@
                                 <div class="form-group">
                                 <label for="status">Status:</label>
                                 <select class="form-control" name="status" id="status">
+                                    <option value="" disabled selected>Status Pengerjaan</option>
                                     <option value="completed" >Selesai</option>
+                                    <option value="pending" >Belum Selesai</option>
                                 </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Simpan Status Kegiatan</button>
@@ -362,8 +365,8 @@
                         var event = info.event;
                         $('#editEventModal').modal('show');
                         $('#editEventForm [name="id"]').val(event.id);
-                        $('#editEventForm [name="start"]').val(event.start.toISOString().substring(0, 10));
-                        $('#editEventForm [name="end"]').val(event.end ? event.end.toISOString().substring(0, 10) : '');
+                        $('#editEventForm [name="start"]').val(event.tanggal_mulai.toISOString().substring(0, 10));
+                        $('#editEventForm [name="end"]').val(event.tanggal_selesai ? event.tanggal_selesai.toISOString().substring(0, 10) : '');
                     }
                 });
 
@@ -394,7 +397,7 @@
                             if (resource) {
                                 $('#editResourceModal').modal('show');
                                 $('#editResourceForm [name="id"]').val(resource.id);
-                                $('#editResourceForm [name="title"]').val(resource.title);
+                                $('#editResourceForm [name="title"]').val(resource.nama_kegiatan);
                             }
                         }
                     }
