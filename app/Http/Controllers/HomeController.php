@@ -62,6 +62,53 @@ class HomeController extends Controller
                                                             ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
                                                             ->where('tahapan_progres', '4')
                                                             ->count();
+                $seminar_1 = 1; // Definisikan id_timeline
+                $seminar_2 = 2; // Definisikan id_timeline
+                $seminar_3 = 3; // Definisikan id_timeline
+                $seminar_4 = 4; // Definisikan id_timeline
+                
+                $total_kegiatan_1 = DB::table('tbl_kegiatan_has_timeline as kt')
+                                    ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+                                    ->where('kt.id_timeline', $seminar_1)
+                                    ->count();
+                $selesai_count_1 = DB::table('tbl_kegiatan_has_timeline as kt')
+                                    ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+                                    ->where('kt.id_timeline', $seminar_1)
+                                    ->where('j.status', 'completed')
+                                    ->count();
+                $total_kegiatan_2 = DB::table('tbl_kegiatan_has_timeline as kt')
+                                    ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+                                    ->where('kt.id_timeline', $seminar_2)
+                                    ->count();
+                $selesai_count_2 = DB::table('tbl_kegiatan_has_timeline as kt')
+                                    ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+                                    ->where('kt.id_timeline', $seminar_2)
+                                    ->where('j.status', 'completed')
+                                    ->count();
+                $total_kegiatan_3 = DB::table('tbl_kegiatan_has_timeline as kt')
+                                    ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+                                    ->where('kt.id_timeline', $seminar_3)
+                                    ->count();
+                $selesai_count_3 = DB::table('tbl_kegiatan_has_timeline as kt')
+                                    ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+                                    ->where('kt.id_timeline', $seminar_3)
+                                    ->where('j.status', 'completed')
+                                    ->count();
+                $total_kegiatan_4 = DB::table('tbl_kegiatan_has_timeline as kt')
+                                    ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+                                    ->where('kt.id_timeline', $seminar_4)
+                                    ->count();
+                $selesai_count_4 = DB::table('tbl_kegiatan_has_timeline as kt')
+                                    ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+                                    ->where('kt.id_timeline', $seminar_4)
+                                    ->where('j.status', 'completed')
+                                    ->count();
+        
+                // Hitung persentase
+                $selesaiPercentage1 = ($total_kegiatan_1 > 0) ? ($selesai_count_1 / $total_kegiatan_1) * 100 : 0;
+                $selesaiPercentage2 = ($total_kegiatan_2 > 0) ? ($selesai_count_2 / $total_kegiatan_2) * 100 : 0;
+                $selesaiPercentage3 = ($total_kegiatan_3 > 0) ? ($selesai_count_3 / $total_kegiatan_3) * 100 : 0;
+                $selesaiPercentage4 = ($total_kegiatan_4 > 0) ? ($selesai_count_4 / $total_kegiatan_4) * 100 : 0;
 
                 // Menyiapkan data artefak untuk ditampilkan
                 $masterArtefaks = DB::table('tbl_master_artefak')->get();
@@ -122,7 +169,7 @@ class HomeController extends Controller
                     }
                 }
 
-                return view('beranda.mahasiswa.home', compact('kotas', 'progressStage1Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota','tahapan_progres'));
+                return view('beranda.mahasiswa.home', compact('kotas', 'progressStage1Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota','tahapan_progres', 'selesaiPercentage1', 'selesaiPercentage2', 'selesaiPercentage3', 'selesaiPercentage4'));
             }
         }
 

@@ -151,6 +151,11 @@ class KotaController extends Controller
     
     public function detail($id)
     {
+        $seminar_1 = 1; // Definisikan id_timeline
+        $seminar_2 = 2; // Definisikan id_timeline
+        $seminar_3 = 3; // Definisikan id_timeline
+        $seminar_4 = 4; // Definisikan id_timeline
+
         $progressStage2Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
                                                     ->where('tbl_kota_has_resume_bimbingan.id_kota', $id)
                                                     ->where('tahapan_progres', '2')
@@ -163,6 +168,51 @@ class KotaController extends Controller
                                                     ->where('tbl_kota_has_resume_bimbingan.id_kota', $id)
                                                     ->where('tahapan_progres', '4')
                                                     ->count();
+        
+        $total_kegiatan_1 = DB::table('tbl_kegiatan_has_timeline as kt')
+                            ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+                            ->where('kt.id_timeline', $seminar_1)
+                            ->count();
+        $selesai_count_1 = DB::table('tbl_kegiatan_has_timeline as kt')
+                            ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+                            ->where('kt.id_timeline', $seminar_1)
+                            ->where('j.status', 'completed')
+                            ->count();
+        $total_kegiatan_2 = DB::table('tbl_kegiatan_has_timeline as kt')
+                            ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+                            ->where('kt.id_timeline', $seminar_2)
+                            ->count();
+        $selesai_count_2 = DB::table('tbl_kegiatan_has_timeline as kt')
+                            ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+                            ->where('kt.id_timeline', $seminar_2)
+                            ->where('j.status', 'completed')
+                            ->count();
+        $total_kegiatan_3 = DB::table('tbl_kegiatan_has_timeline as kt')
+                            ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+                            ->where('kt.id_timeline', $seminar_3)
+                            ->count();
+        $selesai_count_3 = DB::table('tbl_kegiatan_has_timeline as kt')
+                            ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+                            ->where('kt.id_timeline', $seminar_3)
+                            ->where('j.status', 'completed')
+                            ->count();
+        $total_kegiatan_4 = DB::table('tbl_kegiatan_has_timeline as kt')
+                            ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+                            ->where('kt.id_timeline', $seminar_4)
+                            ->count();
+        $selesai_count_4 = DB::table('tbl_kegiatan_has_timeline as kt')
+                            ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+                            ->where('kt.id_timeline', $seminar_4)
+                            ->where('j.status', 'completed')
+                            ->count();
+
+        // Hitung persentase
+        $selesaiPercentage1 = ($total_kegiatan_1 > 0) ? ($selesai_count_1 / $total_kegiatan_1) * 100 : 0;
+        $selesaiPercentage2 = ($total_kegiatan_2 > 0) ? ($selesai_count_2 / $total_kegiatan_2) * 100 : 0;
+        $selesaiPercentage3 = ($total_kegiatan_3 > 0) ? ($selesai_count_3 / $total_kegiatan_3) * 100 : 0;
+        $selesaiPercentage4 = ($total_kegiatan_4 > 0) ? ($selesai_count_4 / $total_kegiatan_4) * 100 : 0;
+        // $belumSelesaiPercentage = ($totalKegiatan > 0) ? ($belumSelesaiCount / $totalKegiatan) * 100 : 0;
+        
         $kota = KotaModel::with('users')->findOrFail($id);
         $dosen = $kota->users->where('role', 2);
         $mahasiswa = $kota->users->where('role', 3);
@@ -230,7 +280,8 @@ class KotaController extends Controller
         }
         
 
-        return view('kota.detail', compact('kota', 'progressStage4Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota', 'mastertahapan', 'tahapan_progres'));
+        return view('kota.detail', 
+        compact('kota', 'progressStage4Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota', 'mastertahapan', 'tahapan_progres', 'selesaiPercentage1', 'selesaiPercentage2', 'selesaiPercentage3', 'selesaiPercentage4'));
     }
 
     // public function store_status(Request $request)
