@@ -367,6 +367,7 @@
                         $('#editEventForm [name="id"]').val(event.id);
                         $('#editEventForm [name="start"]').val(event.tanggal_mulai.toISOString().substring(0, 10));
                         $('#editEventForm [name="end"]').val(event.tanggal_selesai ? event.tanggal_selesai.toISOString().substring(0, 10) : '');
+
                     }
                 });
 
@@ -398,6 +399,7 @@
                                 $('#editResourceModal').modal('show');
                                 $('#editResourceForm [name="id"]').val(resource.id);
                                 $('#editResourceForm [name="title"]').val(resource.nama_kegiatan);
+
                             }
                         }
                     }
