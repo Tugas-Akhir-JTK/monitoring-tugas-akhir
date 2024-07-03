@@ -38,7 +38,7 @@ class ResumeBimbinganController extends Controller
     $query->join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
         ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
         ->select('tbl_resume_bimbingan.*');
-
+    
     // Menambahkan filter berdasarkan parameter 'sort' dan 'value'
     if ($request->has('sort') && $request->has('value')) {
         $sort = $request->input('sort');
