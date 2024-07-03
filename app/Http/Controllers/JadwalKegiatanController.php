@@ -10,6 +10,8 @@ use App\Models\KotaHasJadwalKegiatanModel;
 use App\Models\KotaHasMetodologiModel;
 use App\Models\JadwalKegiatanHasTimelineModel;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 
 class JadwalKegiatanController extends Controller
 {
@@ -129,6 +131,7 @@ class JadwalKegiatanController extends Controller
         }
 
         return redirect()->route('kegiatan.index')->with('success', 'Jadwal Kegiatan berhasil disimpan');
+
     }
 
     public function store_metodologi(Request $request){
@@ -151,6 +154,7 @@ class JadwalKegiatanController extends Controller
         return redirect()->route('kegiatan.index')->with('success', 'Metodologi berhasil disimpan');
     }
 
+
     public function update_metodologi(Request $request, $id)
     {
         $request->validate([
@@ -161,6 +165,7 @@ class JadwalKegiatanController extends Controller
         $kotaMetodologi->update([
             'id_metodologi' => $request->id_metodologi,
         ]);
+
 
         return redirect()->route('kegiatan.index')->with('success', 'Data berhasil diperbarui!');
     }
@@ -173,6 +178,14 @@ class JadwalKegiatanController extends Controller
         
         // Update status kegiatan
         $jadwalKegiatan->status = $request->input('status');
+
+        if ($request->input('status') == 'completed') {
+            $jadwalKegiatan->tanggal_selesai = Carbon::now();
+        } else {
+            $jadwalKegiatan->tanggal_selesai = null; // atau bisa diisi dengan logika lain
+        }
+        
+
         $jadwalKegiatan->save();
        
         return redirect()->route('kegiatan.index');
@@ -193,8 +206,8 @@ class JadwalKegiatanController extends Controller
         
         // Update data event
         // $event->title = $validated['title'];
-        $event->start = $validated['start'];
-        $event->end = $validated['end'];
+        $event->tanggal_mulai = $validated['start'];
+        $event->tanggal_selesai = $validated['end'];
         $event->save();
 
         return redirect()->route('kegiatan.index');
@@ -212,7 +225,8 @@ class JadwalKegiatanController extends Controller
         $resource = NamaKegiatanModel::find($validated['id']);
         
         // Update data resource
-        $resource->title = $validated['title'];
+        $resource->nama_kegiatan = $validated['title'];
+
         $resource->save();
         
         return redirect()->route('kegiatan.index');
