@@ -261,7 +261,14 @@ class UserSeeder extends Seeder
             'email' => 'santi@example.com',
             'password' => Hash::make('1234567890'),
         ]);
-
+        User::create([
+            'role' => 4,
+            'name' => 'Lukman',
+            'nomor_induk' => '311711001',
+            'email' => 'lukman@example.com',
+            'password' => Hash::make('1234567890'),
+        ]);
+        
     }
 
 }

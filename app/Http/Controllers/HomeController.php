@@ -151,7 +151,6 @@ class HomeController extends Controller
             $sort = $request->input('sort');
             $value = $request->input('value');
     
-            // Tambahkan filter berdasarkan nilai yang dipilih
             $query->where($sort, $value);
         }
     
@@ -165,17 +164,46 @@ class HomeController extends Controller
         if ($user->role == 2) {
             return view('beranda.pembimbing.home', compact('kotas'));
         } elseif ($user->role == 4) {
-            $luaranCounts = $this->getLuaranData();
-            $mitraCounts = $this->getMitraCounts();
-            $kotas = KotaModel::all();
+            $query = KotaModel::query();
+
+            // Menambahkan filter berdasarkan parameter 'sort' dan 'value'
+            if ($request->has('sort') && $request->has('value')) {
+                $sort = $request->input('sort');
+                $value = $request->input('value');
+
+            $values = explode(',', $value);
+            // Menghapus spasi putih di sekitar nilai
+            $values = array_map('trim', $values);
+
+            // Memastikan array tidak kosong sebelum menggunakan whereIn
+            if (count($values) > 0) {
+                $query->whereIn($sort, $values);
+            }
+
+                // Menggunakan whereIn untuk filter berdasarkan nilai yang dipilih
+                $query->whereIn($sort, $values);
+            }
+
+            // Menambahkan logika sorting berdasarkan parameter 'sort' dan 'direction'
+            if ($request->has('sort') && $request->has('direction')) {
+                $sort = $request->input('sort');
+                $direction = $request->input('direction');
+    
+                if (in_array($direction, ['asc', 'desc'])) {
+                    $query->orderBy($sort, $direction);
+                }
+            }
+
+            $kotas = $query->get();
+            $luaranCounts = $this->getLuaranData($kotas);
+            $mitraCounts = $this->getMitraCounts($kotas);
             return view('beranda.kaprodi.home', compact('luaranCounts', 'mitraCounts', 'kotas'));
         }
     
     }
 
-    private function getLuaranData(){
-        $kotaData = KotaModel::select('luaran')->get();
-
+    private function getLuaranData($filteredKotas = null){
+        $kotaData = $filteredKotas ?? KotaModel::select('luaran')->get();
         $luaranCounts = [
             'HKI' => 0,
             'UAT' => 0,
@@ -196,10 +224,11 @@ class HomeController extends Controller
 
         return $luaranCounts;
     }
-    private function getMitraCounts()
+
+    private function getMitraCounts($filteredKotas = null)
     {
         // Ambil semua data Kota
-        $kotaData = KotaModel::select('mitra')->get();
+        $kotaData = $filteredKotas ?? KotaModel::select('luaran')->get();
     
         // Inisialisasi array untuk menyimpan jumlah kota per kategori mitra
         $mitraCounts = [

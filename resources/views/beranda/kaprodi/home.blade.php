@@ -19,14 +19,7 @@
                     Periode
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2023]) }}" class="dropdown-item">2023</a></li>
                   <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2024]) }}" class="dropdown-item">2024</a></li>
-                  <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2025]) }}" class="dropdown-item">2025</a></li>
-                  <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2026]) }}" class="dropdown-item">2026</a></li>
-                  <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2027]) }}" class="dropdown-item">2027</a></li>
-                  <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2028]) }}" class="dropdown-item">2028</a></li>
-                  <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2029]) }}" class="dropdown-item">2029</a></li>
-                  <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2030]) }}" class="dropdown-item">2026</a></li>
                 </ul>
             </div>
         </div>
@@ -34,13 +27,11 @@
             <!-- Messages Dropdown Menu -->
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    Kelas
+                    Prodi
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a href="{{ route('kota', ['sort' => 'kelas', 'direction' => 'asc', 'value' => 1]) }}" class="dropdown-item">D3-A</a></li>
-                  <li><a href="{{ route('kota', ['sort' => 'kelas', 'direction' => 'asc', 'value' => 2]) }}" class="dropdown-item">D3-B</a></li>
-                  <li><a href="{{ route('kota', ['sort' => 'kelas', 'direction' => 'asc', 'value' => 3]) }}" class="dropdown-item">D4-A</a></li>
-                  <li><a href="{{ route('kota', ['sort' => 'kelas', 'direction' => 'asc', 'value' => 4]) }}" class="dropdown-item">D4-B</a></li>
+                  <li><a href="{{ route('home', ['sort' => 'kelas', 'direction' => 'asc', 'value' => '1, 2']) }}" class="dropdown-item">D3</a></li>
+                  <li><a href="{{ route('home', ['sort' => 'kelas', 'direction' => 'asc', 'value' => '3, 4']) }}" class="dropdown-item">D4</a></li>
                 </ul>
             </div>
         </div>
@@ -231,9 +222,7 @@ document.addEventListener('DOMContentLoaded', function () {
         options: mitraChartOptions
     });
 
-    //-------------
-    //- PIE CHART -
-    //-------------
+    
     // Get context with jQuery - using jQuery's .get() method.
     const pieChartCanvas1 = document.getElementById('pieChart2').getContext('2d');
 

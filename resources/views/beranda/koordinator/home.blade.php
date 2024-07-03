@@ -116,7 +116,7 @@
           label: 'Persentase',
           backgroundColor: 'rgba(60,141,188,0.9)',
           borderColor: 'rgba(60,141,188,0.8)',
-          data: [100, 70, 75, 90, 85, 90, 80, 85, 90] // Persentase bebas yang bisa Anda ubah sesuai kebutuhan
+          data: [100, 70, 75, 90, 85, 90, 80, 85, 90] 
       }]
     };
 
@@ -130,7 +130,7 @@
           max: 100,
           ticks: {
             callback: function(value) {
-              return value + "%"; // Menambahkan simbol persen pada axis Y
+              return value + "%"; 
             }
           }
         }
