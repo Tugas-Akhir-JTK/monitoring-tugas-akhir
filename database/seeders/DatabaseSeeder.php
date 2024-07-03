@@ -22,10 +22,12 @@ class DatabaseSeeder extends Seeder
             ArtefakSeeder::class,
             ResumeBimbinganSeeder::class,
             KotaHasUserSeeder::class,
-            JadwalKegiatanSeeder::class,
+            // JadwalKegiatanSeeder::class,
             TimelineSeeder::class,
             TimelineHasArtefakSeeder::class,
+            MasterMetodologiSeeder::class,
             JadwalKesediaanPengujiSeeder::class,
+
         ]);
     }
 }
