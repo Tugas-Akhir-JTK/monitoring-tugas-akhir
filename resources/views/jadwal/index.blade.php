@@ -28,9 +28,21 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
+                                        @if($errors->has('range_tanggal'))
+                                            <div class="alert alert-danger">
+                                                {{ $errors->first('range_tanggal') }}
+                                            </div>
+                                        @endif
                                         <div class="form-group">
                                             <label for="nama_penguji">Nama Penguji</label>
-                                            <input type="text" class="form-control" id="nama_penguji" name="nama_penguji" required>
+                                            <select class="form-control" id="nama_penguji" name="nama_penguji">
+                                                <option value="" disabled selected>Pilih Penguji</option>
+                                                @foreach($users as $user)
+                                                    @if($user->role == 2)
+                                                        <option value="{{ $user->name }}">{{ $user->name }}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="tanggal_mulai">Tanggal Mulai</label>
@@ -39,6 +51,14 @@
                                         <div class="form-group">
                                             <label for="tanggal_selesai">Tanggal Selesai</label>
                                             <input type="datetime-local" class="form-control" id="tanggal_selesai" name="tanggal_selesai" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="status">Status</label>
+                                            <select class="form-control" id="status" name="status" required>
+                                                <option value="" disabled selected>Pilih Status</option>
+                                                <option value="0">Perlu Konfirmasi</option>
+                                                <option value="1">Sudah Fix</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -83,7 +103,13 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="nama_penguji">Nama Penguji</label>
-                                    <input type="text" class="form-control" id="nama_penguji" name="nama_penguji" value="{{ old('nama_penguji', $jadwal->nama_penguji) }}" required>
+                                    <select class="form-control" id="nama_penguji" name="nama_penguji">
+                                        @foreach($users as $user)
+                                            @if($user->role == 2)
+                                                <option value="{{ $user->name }}" {{ $user->name == $jadwal->nama_penguji ? 'selected' : '' }}>{{ $user->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>                               
                                 </div>
                                 <div class="form-group">
                                     <label for="tanggal_mulai">Tanggal Mulai</label>
@@ -92,6 +118,13 @@
                                 <div class="form-group">
                                     <label for="tanggal_selesai">Tanggal Selesai</label>
                                     <input type="datetime-local" class="form-control" id="tanggal_selesai" name="tanggal_selesai" value="{{ old('tanggal_selesai', \Carbon\Carbon::parse($jadwal->tanggal_selesai)->format('Y-m-d\TH:i')) }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <select class="form-control" id="status" name="status">
+                                        <option value="0" {{ $jadwal->status == 0 ? 'selected' : '' }}>Perlu Konfirmasi</option>
+                                        <option value="1" {{ $jadwal->status == 1 ? 'selected' : '' }}>Sudah Fix</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -151,6 +184,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 'title' => $jadwal->nama_penguji,
                 'start' => $jadwal->tanggal_mulai,
                 'end' => $jadwal->tanggal_selesai,
+                'backgroundColor' => $jadwal->status == 1 ? '#28a745' : '#007bff', // Hijau jika sudah fix, biru jika belum fix
+                'borderColor' => $jadwal->status == 1 ? '#28a745' : '#007bff',
                 'extendedProps' => [
                     'deleteIcon' => '<i class="fa fa-trash" style="color: red;"></i>'
                 ]
@@ -227,6 +262,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     calendar.render();
 });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if($errors->has('range_tanggal')){
+            if(session('modal') == 'tambah') {
+                $('#tambahJadwalModal').modal('show');
+            }elseif (session('modal') == 'edit') {
+                $('#editJadwalModal').modal('show');
+            }
+        }
+    });
 </script>
 
 @endsection

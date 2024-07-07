@@ -81,11 +81,6 @@ Route::put('/jadwal/update{id}', [App\Http\Controllers\JadwalController::class, 
 Route::delete('/jadwal/{id}', [App\Http\Controllers\JadwalController::class, 'destroy'])->middleware(['auth', 'role:1,3'])->name('jadwal.destroy');
 
 
-//Bimbingan
-Route::get('/bimbingan', [App\Http\Controllers\BimbinganController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('bimbingan');
-
-
-
 //Resume Bimbingan
 Route::get('/resume', [App\Http\Controllers\ResumeBimbinganController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('resume');
 Route::get('/resume/detail/{id}', [App\Http\Controllers\ResumeBimbinganController::class, 'detail'])->middleware(['auth', 'role:2,3'])->name('resume.detail');

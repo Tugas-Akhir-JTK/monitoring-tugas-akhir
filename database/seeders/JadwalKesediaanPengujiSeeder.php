@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -14,44 +16,27 @@ class JadwalKesediaanPengujiSeeder extends Seeder
      */
     public function run(): void
     {
-        $data = [
-            [
-                'nama_penguji' => 'Penguji 1',
-                'tanggal_mulai' => '2024-07-01',
-                'tanggal_selesai' => '2024-07-05',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama_penguji' => 'Penguji 2',
-                'tanggal_mulai' => '2024-07-08',
-                'tanggal_selesai' => '2024-07-12',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama_penguji' => 'Penguji 3',
-                'tanggal_mulai' => '2024-07-01',
-                'tanggal_selesai' => '2024-07-06',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama_penguji' => 'Penguji 4',
-                'tanggal_mulai' => '2024-07-01',
-                'tanggal_selesai' => '2024-07-06',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama_penguji' => 'Penguji 5',
-                'tanggal_mulai' => '2024-07-08',
-                'tanggal_selesai' => '2024-07-12',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ];
+        // Ambil data user dengan role 2
+        $users = User::where('role', 2)->get();
 
+        // Buat array data untuk insert ke tbl_jadwal_kesediaan_penguji
+        $data = [];
+        $now = Carbon::createFromDate(2024, 7, 1); // Mulai dari 1 Juli 2024
+
+        foreach ($users as $key => $user) {
+            if ($key >= 5) break; // Hanya lima data
+
+            $data[] = [
+                'nama_penguji' => $user->name,
+                'tanggal_mulai' => $now->copy()->addDays($key)->toDateString(),
+                'tanggal_selesai' => $now->copy()->addDays($key + 2)->toDateString(),
+                'status' => $key < 2 ? 0 : 1, // Dua status belum fix
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
+
+        // Insert data ke tabel tbl_jadwal_kesediaan_penguji
         DB::table('tbl_jadwal_kesediaan_penguji')->insert($data);
     }
 }
