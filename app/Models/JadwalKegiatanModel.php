@@ -13,11 +13,15 @@ class JadwalKegiatanModel extends Model
     protected $table = 'tbl_jadwal_kegiatan';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'jenis_label',
-        'nama_kegiatan', 
-        'bulan',
-        'minggu',
+        'id_nama_kegiatan',
+        'tanggal_mulai',
+        'tanggal_selesai',
         'status',
     ];
+
+    public function namaKegiatan()
+    {
+        return $this->belongsTo(NamaKegiatanModel::class, 'id_nama_kegiatan');
+    }
 }
 

@@ -119,7 +119,7 @@
                 </div>
                 <div class="col justify-content-md-end">
                     <div class="progress"  style="height: 25px;">
-                        <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">70%</div>
+                    <div class="progress-bar" role="progressbar" style="width: {{ number_format($selesaiPercentage1, 1) }}%;" aria-valuenow="{{ number_format($selesaiPercentage1, 1) }}" aria-valuemin="0" aria-valuemax="100">{{ number_format($selesaiPercentage1, 1) }}%</div>
                     </div>
                 </div>
             </div>
@@ -204,7 +204,7 @@
                     </div>
                 <div class="col justify-content-md-end">
                     <div class="progress"  style="height: 25px;">
-                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        <div class="progress-bar" role="progressbar" style="width: {{ number_format($selesaiPercentage2, 1) }}%;" aria-valuenow="{{ number_format($selesaiPercentage2, 1) }}" aria-valuemin="0" aria-valuemax="100">{{ number_format($selesaiPercentage2, 1) }}%</div>
                     </div>
                 </div>
             </div>
@@ -287,7 +287,7 @@
                 </div>
                 <div class="col justify-content-md-end">
                     <div class="progress"  style="height: 25px;">
-                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    <div class="progress-bar" role="progressbar" style="width: {{ number_format($selesaiPercentage3, 1) }}%;" aria-valuenow="{{ number_format($selesaiPercentage3, 1) }}" aria-valuemin="0" aria-valuemax="100">{{ number_format($selesaiPercentage3, 1) }}%</div>
                     </div>
                 </div>
             </div>
@@ -370,7 +370,7 @@
                 </div>
                 <div class="col justify-content-md-end">
                     <div class="progress"  style="height: 25px;">
-                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    <div class="progress-bar" role="progressbar" style="width: {{ number_format($selesaiPercentage4, 1) }}%;" aria-valuenow="{{ number_format($selesaiPercentage4, 1) }}%;" aria-valuemin="0" aria-valuemax="100">{{ number_format($selesaiPercentage4, 1) }}%</div>
                     </div>
                 </div>
             </div>

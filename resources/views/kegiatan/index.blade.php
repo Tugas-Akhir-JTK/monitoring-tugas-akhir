@@ -8,174 +8,466 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col">
-                        <h1 class="m-0">Jadwal Kegiatan</h1>
+                        <h1 class="m-0">Tambah Kegiatan</h1>
                     </div>
                     <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
-                        <!-- Tombol untuk membuka modal -->
-                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addKegiatanModal">
-                            Tambah
-                            <i class="nav-icon fas fa-plus"></i>
-                        </button>
+                        <div class="btn-group mr-2">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#kegiatanModal">
+                                Tambah Kegiatan
+                            </button>
+                        </div>
+                        <div class="btn-group mr-2">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#statusModal">
+                                Status Pengerjaan
+                            </button>
+                        </div>
+                        <div class="btn-group mr-2">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMetodologiModal">
+                                Tambah Metodologi Kota
+                            </button>
+                        </div>
                     </div>  
                 </div><!-- /.row -->
                 <hr/>
             </div><!-- /.container-fluid -->
         </div>
         <!-- /.header konten -->
+        <html>
+        <head>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.14/index.global.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.14/index.global.min.js"></script>
+        <style>
+            .fc-event.completed {
+                background-color: green;
+                border-color: green;
+            }
+            .fc-event.pending {
+                background-color: blue;
+                border-color: blue;
+            }
+            .bold-resource {
+                font-weight: bold;
+            }
+        </style>
+        </head>
+        <body>
+        <div class="container">
+            <div class="btn-group mr-2">
+                <h2>Metodologi Pengembangan :  
+                    @foreach($kota_metodologi as $item)
+                    <h2>
+                        <a href="#" class="text-primary" data-toggle="modal" data-target="#editMetodologiModal{{ $item->id }}">
+                            {{ $item->nama_metodologi }}
+                        </a>
+                    </h2>
+                    @endforeach
+                </h2>
+            </div>
 
-        <!-- Konten Utama -->
-        <div class="content">
-            <!-- Memulai Konten Halaman -->
-            <div class="container-fluid">
-                <!-- Contoh DataTables -->
-                <div class="card shadow mb-4">
-                    <div class="card-body">
-                        <br>
-                        <div class="table-responsive">
-                            <table class="table table-bordered" width="100%" cellspacing="0">
-                                <thead class="text-center" style="background-color: gray; color: white;">
-                                    <tr>
-                                        <th rowspan="2">Kegiatan</th>
-                                        <th colspan="4">Februari</th>
-                                        <th colspan="4">Maret</th>
-                                        <th colspan="4">April</th>
-                                        <th colspan="4">Mei</th>
-                                        <th colspan="4">Juni</th>
-                                        <th rowspan="2">Aksi</th>
-                                    </tr>
-                                    <tr>
-                                        <th>M1</th>
-                                        <th>M2</th>
-                                        <th>M3</th>
-                                        <th>M4</th>
-                                        <th>M1</th>
-                                        <th>M2</th>
-                                        <th>M3</th>
-                                        <th>M4</th>
-                                        <th>M1</th>
-                                        <th>M2</th>
-                                        <th>M3</th>
-                                        <th>M4</th>
-                                        <th>M1</th>
-                                        <th>M2</th>
-                                        <th>M3</th>
-                                        <th>M4</th>
-                                        <th>M1</th>
-                                        <th>M2</th>
-                                        <th>M3</th>
-                                        <th>M4</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($jadwalKegiatan as $kegiatan)
-                                        <tr>
-                                            <td>{!! $kegiatan->jenis_label == 'Proses' ? '<strong>' . $kegiatan->nama_kegiatan . '</strong>' : $kegiatan->nama_kegiatan !!}</td>
-                                            @for($i = 1; $i <= 5; $i++)
-                                                @for($j = 1; $j <= 4; $j++)
-                                                    <td style="background-color: {{ ($kegiatan->bulan == $i && $kegiatan->minggu == $j) ? ($kegiatan->status == 'selesai' ? 'blue' : 'green') : 'transparent' }};"></td>
-                                                @endfor
-                                            @endfor
-                                            <td>
-                                                <a href="#" class="edit-kegiatan"  data-toggle="tooltip" data-placement="top" title="Edit Kegiatan" data-bs-toggle="modal" data-bs-target="#editKegiatanModal{{ $kegiatan->id }}">
-                                                    <i class="nav-icon fas fa-pen" style="color: blue;"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+            <!-- Tampilkan pesan sukses jika ada
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif -->
+
+            <!-- Modal Tambah Kegiatan-->
+            <div class="modal fade" id="kegiatanModal" aria-labelledby="kegiatanModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="kegiatanModalLabel">Tambah Kegiatan</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Form untuk mengisi nama kegiatan -->
+                            <form action="{{ route('kegiatan.store_kegiatan') }}" method="POST">
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="id_timeline" class="form-label">Target Pengerjaan</label>
+                                    <select class="form-control" id="id_timeline" name="id_timeline" required>
+                                        <option value="" disabled selected>Pilih Target Pengerjaan</option>
+                                        @foreach($tahapan_progres as $progres)
+                                            <option value="{{ $progres->id_timeline }}">{{ $progres->nama_kegiatan }} ({{$progres->tanggal_mulai}} sampai {{$progres->tanggal_selesai}})</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <!-- <div class="form-group">
+                                <label for="type" class="form-label">Jenis Kegiatan</label>
+                                <select class="form-control" id="jenis_label" name="jenis_label" required>
+                                    <option value='bold' selected>Tahap Pelaksanaan</option>
+                                    <option value='normal' selected>Tahapan Kegiatan</option>
+                                </select>
+                                </div> -->
+                                <div class="form-group">
+                                    <label for="nama_kegiatan">Nama Kegiatan</label>
+                                    <input type="text" class="form-control" id="nama_kegiatan" name="nama_kegiatan" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tanggal_mulai">Tanggal Mulai</label>
+                                    <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tanggal_selesai">Tanggal Selesai</label>
+                                    <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Simpan Kegiatan</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Modal untuk menambah kegiatan -->
-    <div class="modal fade" id="addKegiatanModal" tabindex="-1" aria-labelledby="addKegiatanModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addKegiatanModalLabel">Tambah Kegiatan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <!-- Modal edit status -->
+            <div class="modal fade" id="statusModal"  aria-labelledby="statusModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="statusModalLabel">Ubah Status Pengerjaan</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('kegiatan.storeStatusKegiatan') }}" method="POST">
+                                @csrf
+                                <div class="mb-3">
+                                <label for="id" class="form-label">Status Pengerjaan</label>
+                                    <select class="form-control" id="id" name="id" required>
+                                    <option value="" disabled selected>Pilih Nama Kegiatan</option>
+                                        @foreach($data['resource'] as $nama )
+                                            <option value="{{ $nama->id }}">{{ $nama->nama_kegiatan }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                <label for="status">Status:</label>
+                                <select class="form-control" name="status" id="status">
+                                    <option value="" disabled selected>Status Pengerjaan</option>
+                                    <option value="completed" >Selesai</option>
+                                    <option value="pending" >Belum Selesai</option>
+                                </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Simpan Status Kegiatan</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <form action="{{ route('kegiatan.store') }}" method="POST">
+            </div>
+
+             <!-- Modal Tambah Metodologi -->
+            <div class="modal fade" id="addMetodologiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form action="{{ route('metodologi.store') }}" method="POST">
+                            @csrf
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Tambah Metodologi Kota</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="id_metodologi">Metodologi</label>
+                                    <select class="form-control" id="id_metodologi" name="id_metodologi" required>
+                                        <option value="" disabled selected>Pilih Metodologi</option>
+                                        @foreach($metodologi as $item)
+                                            <option value="{{ $item->id }}">{{ $item->nama_metodologi }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col" id="calendar"></div>
+        </div>
+
+         <!-- Modal Edit -->
+        @foreach($kota_metodologi as $item)
+            <div class="modal fade" id="editMetodologiModal{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form action="{{ route('metodologi.update', $item->id) }}" method="POST">
+                            @csrf
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Edit Metodologi Kota</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="id_metodologi">Metodologi</label>
+                                    <select class="form-control" id="id_metodologi" name="id_metodologi" required>
+                                        <option value="" disabled selected>Pilih Metodologi</option>
+                                        @foreach($metodologi as $metodo)
+                                            <option value="{{ $metodo->id }}" {{ $metodo->id == $item->id_metodologi ? 'selected' : '' }}>{{ $metodo->nama_metodologi }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+
+        <!-- Edit Event Modal -->
+        <div class="modal fade" id="editEventModal" tabindex="-1" role="dialog" aria-labelledby="editEventModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form id="editEventForm">
                         @csrf
-                        <div class="mb-3">
-                            <label for="jenis_label" class="form-label">Jenis Label</label>
-                            <select class="form-control" id="jenis_label" name="jenis_label" required>
-                                <option value="Proses">Proses</option>
-                                <option value="Tahapan">Tahapan</option>
-                            </select>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editEventModalLabel">Edit Event</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                        <div class="mb-3">
-                            <label for="nama_kegiatan" class="form-label">Nama Kegiatan</label>
-                            <input type="text" class="form-control" id="nama_kegiatan" name="nama_kegiatan" required>
+                        <div class="modal-body">
+                            <input type="hidden" name="id">
+                            <div class="form-group">
+                                <label for="start">Start</label>
+                                <input type="date" name="start" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="end">End</label>
+                                <input type="date" name="end" class="form-control" required>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="bulan" class="form-label">Bulan</label>
-                            <select class="form-control" id="bulan" name="bulan" required>
-                                <option value="1">Februari</option>
-                                <option value="2">Maret</option>
-                                <option value="3">April</option>
-                                <option value="4">Mei</option>
-                                <option value="5">Juni</option>
-                            </select>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
                         </div>
-                        <div class="mb-3">
-                            <label for="minggu" class="form-label">Minggu</label>
-                            <select class="form-control" id="minggu" name="minggu" required>
-                                <option value="1">Minggu 1</option>
-                                <option value="2">Minggu 2</option>
-                                <option value="3">Minggu 3</option>
-                                <option value="4">Minggu 4</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="status" class="form-label">Status</label>
-                            <select class="form-control" id="status" name="status" required>
-                                <option value="selesai">Selesai</option>
-                                <option value="belum_selesai">Belum Selesai</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </form>
                 </div>
             </div>
         </div>
-    </div>
 
-<!-- Button edit
-<a href="#" class="edit-kegiatan" data-bs-toggle="modal" data-bs-target="#editKegiatanModal{{ $kegiatan->id }}">
-    <i class="nav-icon fas fa-pen" style="color: blue;"></i>
-</a> -->
-<!-- Modal Edit kegiatan -->
-@foreach($jadwalKegiatan as $kegiatan)
-<div class="modal fade" id="editKegiatanModal{{  $kegiatan->id }}" tabindex="-1" aria-labelledby="editKegiatanModalLabel{{  $kegiatan->id }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form action="{{ route('kegiatan.update',  $kegiatan->id) }}" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editKegiatanModalLabel{{ $kegiatan->id }}">Edit Kegiatan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <!-- Edit Resource Modal -->
+        <div class="modal fade" id="editResourceModal" tabindex="-1" role="dialog" aria-labelledby="editResourceModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form id="editResourceForm">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editResourceModalLabel">Edit Resource</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" name="id">
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input type="text" name="title" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="status">Status</label>
-                        <select class="form-control" id="editStatus" name="status" value="{{ old('status', $kegiatan->status) }}" required>
-                            <option value="selesai">Selesai</option>
-                            <option value="belum_selesai">Belum Selesai</option>
-                        </select>
-                    </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-            </form>
+            </div>
         </div>
+
+        <script> 
+            var data = @json($data);
+            console.log(data.resource);
+            document.addEventListener('DOMContentLoaded', function() {
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'resourceTimelineYear',
+                    views: {
+                        resourceTimelineYear: {
+                            type: 'resourceTimeline',
+                            duration: { years: 1 },
+                            slotDuration: { weeks: 1 }, // Menampilkan kolom perminggu
+                            slotLabelFormat: [
+                                { month: 'short' }, // Format label bulan
+                                { week: 'numeric' }, // Format label minggu
+                                { day: 'numeric', month: 'numeric', omitZeroMinute: true }
+                            ]
+                        },
+                    },
+                    
+                    resources: data.resource
+                         .sort((a, b) => a.id - b.id)
+                        .map(resource => ({
+                        id: resource.id,
+                        title: resource.nama_kegiatan,
+                        classNames: resource.jenis_label === 'bold' ? 'bold-resource' : '',
+                    })),
+                    events: data.events
+                        .sort((a, b) => a.id - b.id)
+                        .map(event => ({
+                        id: event.id,
+                        resourceId: event.id_nama_kegiatan,
+                        start: event.tanggal_mulai,
+                        end: event.tanggal_selesai,
+                        className: event.status,
+                    })),
+                    editable: true, // Enable editing
+                    eventContent: function(arg) {
+                        let deleteIcon = document.createElement('span');
+                        deleteIcon.innerHTML = '<i class="fa fa-trash" style="color: red;"></i>'; // Ikon tempat sampah
+                        deleteIcon.style.cursor = 'pointer';
+                        deleteIcon.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            if (confirm('Are you sure you want to delete this event?')) {
+                                let event = calendar.getEventById(arg.event.id);
+                                event.remove(); // Hapus event dari kalender
+                                
+                                // Hapus event dari backend jika diperlukan
+                                // Misalnya, dengan AJAX
+                                $.ajax({
+                                    url: '/delete-event/' + event.id,
+                                    method: 'DELETE',
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    },
+                                    success: function(response) {
+                                        alert('Event deleted successfully');
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.error(xhr.responseText);
+                                        alert('Error deleting event: ' + xhr.responseText);
+                                    }
+                                });
+                            }
+                        });
+
+                        let title = document.createElement('span');
+                        title.innerHTML = arg.event.title;
+
+                        let arrayOfNodes = [ title, deleteIcon ];
+
+                        return { domNodes: arrayOfNodes };
+                    },
+                    eventClick: function(info) {
+                        // Buka modal untuk edit event
+                        var event = info.event;
+                        $('#editEventModal').modal('show');
+                        $('#editEventForm [name="id"]').val(event.id);
+                        $('#editEventForm [name="start"]').val(event.tanggal_mulai.toISOString().substring(0, 10));
+                        $('#editEventForm [name="end"]').val(event.tanggal_selesai ? event.tanggal_selesai.toISOString().substring(0, 10) : '');
+
+                    }
+                });
+
+                calendar.render();
+
+                // Add event listener for click on resource
+                calendarEl.addEventListener('click', function(event) {
+                // Check if the clicked element is the delete icon
+                var deleteIcon = event.target.closest('.delete-icon');
+                if (deleteIcon) {
+                    var resourceId = deleteIcon.dataset.resourceId;
+                    var resource = calendar.getResourceById(resourceId);
+                    if (resource) {
+                        // Konfirmasi sebelum menghapus resource
+                        if (confirm('Are you sure you want to delete this resource?')) {
+                            calendar.getResourceById(resourceId).remove();
+                            alert('Resource deleted successfully');
+                        }
+                    }
+                } else {
+                    // Check if the clicked element is within an event
+                    var eventElement = event.target.closest('.fc-event');
+                    if (!eventElement) {
+                        var resourceRow = event.target.closest('.fc-resource');
+                        if (resourceRow) {
+                            var resourceId = resourceRow.dataset.resourceId;
+                            var resource = calendar.getResourceById(resourceId);
+                            if (resource) {
+                                $('#editResourceModal').modal('show');
+                                $('#editResourceForm [name="id"]').val(resource.id);
+                                $('#editResourceForm [name="title"]').val(resource.nama_kegiatan);
+
+                            }
+                        }
+                    }
+                }
+            });
+
+                 // Handle form submission
+                $('#editEventForm').on('submit', function(e) {
+                    e.preventDefault();
+
+                    var formData = $(this).serialize();
+
+                    $.ajax({
+                        url: '{{ route('events.edit') }}',
+                        method: 'POST',
+                        data: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            if(response.success) {
+                                $('#editResourceModal').modal('hide');
+                                calendar.refetchResources(); // Metode untuk merefresh resource
+                                alert('Resource updated successfully');
+                            } else {
+                                alert('Failed to update resource');
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            alert('Error updating resource: ' + xhr.responseText);
+                        }
+                    });
+                });
+                 // Handle resource form submission
+                 $(document).ready(function() {
+                    $('#editResourceForm').on('submit', function(e) {
+                        e.preventDefault();
+
+                        var formData = $(this).serialize();
+
+                        $.ajax({
+                            url: '{{ route('resources.edit') }}',
+                            method: 'POST',
+                            data: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function(response) {
+                                if(response.success) {
+                                    $('#editResourceModal').modal('hide');
+                                    calendar.refetchResources(); // Metode untuk merefresh resource
+                                    alert('Resource updated successfully');
+                                } else {
+                                    alert('Failed to update resource');
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(xhr.responseText);
+                                alert('Error updating resource: ' + xhr.responseText);
+                            }
+                        });
+                    });
+                });
+            });
+        </script>
+        </body>
+        </html>
+
     </div>
-</div>
-@endforeach
 @endsection

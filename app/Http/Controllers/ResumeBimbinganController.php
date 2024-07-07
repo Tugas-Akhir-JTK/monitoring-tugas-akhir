@@ -27,27 +27,43 @@ class ResumeBimbinganController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(Request $request)
-    {
-        $user = auth()->user();
-        $id_kota = DB::table('tbl_kota_has_user')
-            ->where('id_user', $user->id)
-            ->value('id_kota');
+{
+    $user = auth()->user();
+    $id_kota = DB::table('tbl_kota_has_user')
+        ->where('id_user', $user->id)
+        ->value('id_kota');
 
-        // Membuat query untuk mengambil data dari tbl_resume_bimbingan
-        $query = ResumeBimbinganModel::query();
+    // Membuat query untuk mengambil data dari tbl_resume_bimbingan
+    $query = ResumeBimbinganModel::query();
 
-        $query->join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
-            ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
-            ->select('tbl_resume_bimbingan.*');
+    $query->join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+        ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
+        ->select('tbl_resume_bimbingan.*');
+    
+    // Menambahkan filter berdasarkan parameter 'sort' dan 'value'
+    if ($request->has('sort') && $request->has('value')) {
+        $sort = $request->input('sort');
+        $value = $request->input('value');
+        
+        // Tambahkan filter berdasarkan nilai yang dipilih
+        $query->where($sort, $value);
+    }
 
-        // Menambahkan filter berdasarkan parameter 'sort' dan 'value'
-        if ($request->has('sort') && $request->has('value')) {
-            $sort = $request->input('sort');
-            $value = $request->input('value');
-            
-            // Tambahkan filter berdasarkan nilai yang dipilih
-            $query->where($sort, $value);
-        }
+    // Menambahkan logika sorting berdasarkan parameter 'sort' dan 'direction'
+    if ($request->has('sort') && $request->has('direction')) {
+        $direction = $request->input('direction');
+        $query->orderBy($sort, $direction); // Menggunakan variabel $sort dari if sebelumnya
+    } else {
+        // Jika tidak ada parameter 'direction', secara default urutkan descending berdasarkan nomer dari sesi_bimbingan
+        $query->orderBy('tbl_resume_bimbingan.sesi_bimbingan', 'desc');
+    }
+
+    // Paginate hasil query
+    $resumes = $query->paginate(10);
+
+    // Mengembalikan view dengan data resumes
+    return view('bimbingan.resume.index', compact('resumes'));
+}
 
         // Menambahkan logika sorting berdasarkan parameter 'sort' dan 'direction'
         if ($request->has('sort') && $request->has('direction')) {

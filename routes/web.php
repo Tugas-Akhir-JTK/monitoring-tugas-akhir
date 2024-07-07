@@ -50,9 +50,24 @@ Route::get('/timeline/store', [App\Http\Controllers\TimelineController::class, '
 
 //Jadwal Kegiatan
 Route::get('/kegiatan', [App\Http\Controllers\JadwalKegiatanController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('kegiatan.index');
+Route::post('/jadwal-kegiatan', [App\Http\Controllers\JadwalKegiatanController::class, 'store_kegiatan'])->middleware(['auth', 'role:2,3'])->name('kegiatan.store_kegiatan');
+Route::post('/metodologi/store', [App\Http\Controllers\JadwalKegiatanController::class, 'store_metodologi'])->middleware(['auth', 'role:2,3'])->name('metodologi.store');
+Route::post('/metodologi/update/{id}', [App\Http\Controllers\JadwalKegiatanController::class, 'update_metodologi'])->middleware(['auth', 'role:2,3'])->name('metodologi.update');
+Route::post('/status-kegiatan', [App\Http\Controllers\JadwalKegiatanController::class, 'storeStatusKegiatan'])->middleware(['auth', 'role:2,3'])->name('kegiatan.storeStatusKegiatan');
+Route::post('/events/edit', [App\Http\Controllers\JadwalKegiatanController::class, 'edit_Kegiatan'])->middleware(['auth', 'role:2,3'])->name('events.edit');
+Route::post('/resources/edit', [App\Http\Controllers\JadwalKegiatanController::class, 'edit_resource'])->middleware(['auth', 'role:2,3'])->name('resources.edit');
+Route::delete('/delete-event/{id}', [App\Http\Controllers\JadwalKegiatanController::class, 'destroy'])->middleware(['auth', 'role:2,3'])->name('events.destroy');
+Route::post('/events/update', [App\Http\Controllers\JadwalKegiatanController::class, 'update'])->middleware(['auth', 'role:2,3'])->name('events.update');
+// Route::post('/jadwal-kegiatan', [App\Http\Controllers\JadwalKegiatanController::class, 'storeJadwalKegiatan'])->middleware(['auth', 'role:2,3'])->name('kegiatan.storeJadwalKegiatan');
+
+
 Route::get('/kegiatan/create', [App\Http\Controllers\JadwalKegiatanController::class, 'create'])->middleware(['auth', 'role:2,3'])->name('kegiatan.create');
 Route::post('/kegiatan/store', [App\Http\Controllers\JadwalKegiatanController::class, 'store'])->middleware(['auth', 'role:2,3'])->name('kegiatan.store');
 Route::put('/kegiatan/update/{id}', [App\Http\Controllers\JadwalKegiatanController::class, 'update'])->middleware(['auth', 'role:2,3'])->name('kegiatan.update');
+
+
+
+Route::get('/kegiatans', [App\Http\Controllers\KegiatanController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('kegiatans.index');
 
 
 
