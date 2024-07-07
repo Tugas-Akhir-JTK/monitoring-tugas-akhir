@@ -60,6 +60,6 @@ class JadwalKegiatanController extends Controller
         $jadwalKegiatan = JadwalKegiatanModel::findOrFail($id);
         $jadwalKegiatan->update($request->only('status'));
         
-        return redirect()->route('kegiatan.index')->with('success', 'Status kegiatan berhasil diubah');
+        return redirect()->route('kegiatan.index')->with('success', 'Status kegiatan berhasil dirubah');
     }
 }

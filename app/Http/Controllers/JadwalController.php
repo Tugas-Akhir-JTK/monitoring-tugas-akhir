@@ -45,7 +45,7 @@ class JadwalController extends Controller
     
         JadwalKesediaanPengujiModel::create($data);
     
-        return redirect()->back()->with('success', 'Data jadwal berhasil dibuat');
+        return redirect()->back()->with('success', 'Data jadwal berhasil ditambahkan');
     }
 
     public function update(Request $request, $id)
@@ -65,7 +65,7 @@ class JadwalController extends Controller
 
         $jadwal->update($request->all());
 
-        return redirect()->route('jadwal')->with('success', 'Data jadwal berhasil diubah');
+        return redirect()->route('jadwal')->with('success', 'Data jadwal berhasil dirubah');
     }
 
     public function destroy($id)

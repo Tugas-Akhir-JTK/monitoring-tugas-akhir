@@ -53,11 +53,6 @@ class ArtefakController extends Controller
         return view('artefak.index', compact('artefaks', 'masterArtefaks'));
     }
 
-    // public function create()
-    // {
-    //     return view('artefak.create');
-    // }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -114,7 +109,7 @@ class ArtefakController extends Controller
 
         $artefak->update($request->all());
 
-        session()->flash('success', 'Data artefak berhasil diubah');
+        session()->flash('success', 'Data artefak berhasil dirubah');
 
         return redirect()->route('artefak');
     }

@@ -130,6 +130,9 @@
         @endforeach
     </div>
     <!-- /.content -->
+    <br>
+    <br>
+    <br>
 </div>
 <!-- /.content-wrapper -->
 
@@ -149,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 'start' => $jadwal->tanggal_mulai,
                 'end' => $jadwal->tanggal_selesai,
                 'extendedProps' => [
-                    'deleteIcon' => '<i class="fa fa-trash"></i>'
+                    'deleteIcon' => '<i class="fa fa-trash" style="color: red;"></i>'
                 ]
             ];
         })) !!},
