@@ -23,7 +23,7 @@ class SubmissionController extends Controller
     
         $file = $request->file('file_pengumpulan');
         $originalFileName = $file->getClientOriginalName();
-        $filePath = $file->storeAs($originalFileName, 'public');
+        $filePath = $file->storeAs('submissions', $originalFileName, 'public');
         // Mendapatkan id_kota dari user yang sedang login
         $user = auth()->user();
     
