@@ -51,10 +51,10 @@
                                     Tahapan TA
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-lg">
-                                    <li><a href="#" class="dropdown-item">Seminar 1</a></li>
-                                    <li><a href="#" class="dropdown-item">Seminar 2</a></li>
-                                    <li><a href="#" class="dropdown-item">Seminar 3</a></li>
-                                    <li><a href="#" class="dropdown-item">Sidang</a></li>
+                                    <li><a href="{{ route('kota', ['sort' => 'tbl_master_tahapan_progres.nama_progres', 'direction' => 'asc', 'value' => 'Seminar 1']) }}" class="dropdown-item">Seminar 1</a></li>
+                                    <li><a href="{{ route('kota', ['sort' => 'tbl_master_tahapan_progres.nama_progres', 'direction' => 'asc', 'value' => 'Seminar 2']) }}" class="dropdown-item">Seminar 2</a></li>
+                                    <li><a href="{{ route('kota', ['sort' => 'tbl_master_tahapan_progres.nama_progres', 'direction' => 'asc', 'value' => 'Seminar 3']) }}" class="dropdown-item">Seminar 3</a></li>
+                                    <li><a href="{{ route('kota', ['sort' => 'tbl_master_tahapan_progres.nama_progres', 'direction' => 'asc', 'value' => 'Sidang']) }}" class="dropdown-item">Sidang</a></li>
                                 </ul>
                             </div>
                         </div>

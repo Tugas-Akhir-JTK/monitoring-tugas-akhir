@@ -167,8 +167,10 @@ class HomeController extends Controller
                             break;
                     }
                 }
+                $mastertahapan = DB::table('tbl_master_tahapan_progres')->get();
 
-                return view('beranda.mahasiswa.home', compact('kotas', 'progressStage1Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota','tahapan_progres', 'selesaiPercentage1', 'selesaiPercentage2', 'selesaiPercentage3', 'selesaiPercentage4'));
+
+                return view('beranda.mahasiswa.home', compact('kotas', 'progressStage1Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota','tahapan_progres', 'selesaiPercentage1', 'selesaiPercentage2', 'selesaiPercentage3', 'selesaiPercentage4', 'mastertahapan'));
             }
         }
 
@@ -213,6 +215,37 @@ class HomeController extends Controller
         } elseif ($user->role == 4) {
             return view('beranda.kaprodi.home');
         }
+    }
+
+    public function kota_status(Request $request)
+    {
+        $status = $request->input('status');
+        $id_kota = $request->input('id_kota');
+        $id_master_tahapan_progres = $request->input('id_master_tahapan_progres');
     
+        // Cari tahapan progres saat ini
+        $kotaTahapanProgres = KotaHasTahapanProgresModel::where('id_kota', $id_kota)
+            ->where('id_master_tahapan_progres', $id_master_tahapan_progres)
+            ->first();
+            
+        if ($kotaTahapanProgres) {
+            // Ubah status tahapan progres saat ini
+            $kotaTahapanProgres->status = $status;
+            $kotaTahapanProgres->save();
+    
+            // Jika statusnya 'selesai', ubah status data setelahnya menjadi 'on_progres'
+            if ($status == 'selesai') {
+                $nextTahapanProgres = KotaHasTahapanProgresModel::where('id_kota', $id_kota)
+                                                                ->where('id_master_tahapan_progres', $id_master_tahapan_progres + 1)
+                                                                ->first();
+    
+                if ($nextTahapanProgres) {
+                    $nextTahapanProgres->status = 'on_progres';
+                    $nextTahapanProgres->save();
+                }
+            }
+        }
+    
+        return redirect()->back();
     }
 }
