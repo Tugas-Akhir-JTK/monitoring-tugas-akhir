@@ -34,6 +34,8 @@ class HomeController extends Controller
             $role = Auth::user()->role;
             if ($role == '1') {
                 $jumlahBimbinganPerKota = $this->getJumlahBimbinganPerKota();
+    
+                // Pass data to the view
                 return view('beranda.koordinator.home', compact('jumlahBimbinganPerKota'));
             } elseif ($role == '3') {
                 $user = auth()->user();
@@ -327,5 +329,23 @@ class HomeController extends Controller
         }
     
         return $jumlahBimbinganPerKota;
+    }
+
+    private function calculateCompletionPercentage($id_kota, $seminar_1)
+    {
+        $total_kegiatan = DB::table('tbl_kegiatan_has_timeline as kt')
+            ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+            ->where('kt.id_timeline', $seminar_1)
+            ->where('j.id', $id_kota) // Filter berdasarkan kota
+            ->count();
+    
+        $selesai_count = DB::table('tbl_kegiatan_has_timeline as kt')
+            ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+            ->where('kt.id_timeline', $seminar_1)
+            ->where('j.status', 'completed')
+            ->where('j.id', $id_kota) // Filter berdasarkan kota
+            ->count();
+    
+        return ($total_kegiatan > 0) ? ($selesai_count / $total_kegiatan) * 100 : 0;
     }
 }

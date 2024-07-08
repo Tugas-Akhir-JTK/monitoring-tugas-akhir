@@ -35,8 +35,10 @@
         <html>
         <head>
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.14/index.global.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.14/index.global.min.js"></script>
+        <meta charset='utf-8' />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/main.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/main.min.js"></script>
+
         <style>
             .fc-event.completed {
                 background-color: green;
@@ -290,81 +292,8 @@
             document.addEventListener('DOMContentLoaded', function() {
                 var calendarEl = document.getElementById('calendar');
                 var calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'resourceTimelineYear',
-                    views: {
-                        resourceTimelineYear: {
-                            type: 'resourceTimeline',
-                            duration: { years: 1 },
-                            slotDuration: { weeks: 1 }, // Menampilkan kolom perminggu
-                            slotLabelFormat: [
-                                { month: 'short' }, // Format label bulan
-                                { week: 'numeric' }, // Format label minggu
-                                { day: 'numeric', month: 'numeric', omitZeroMinute: true }
-                            ]
-                        },
-                    },
+                    initialView: 'dayGridMonth',
                     
-                    resources: data.resource
-                         .sort((a, b) => a.id - b.id)
-                        .map(resource => ({
-                        id: resource.id,
-                        title: resource.nama_kegiatan,
-                        classNames: resource.jenis_label === 'bold' ? 'bold-resource' : '',
-                    })),
-                    events: data.events
-                        .sort((a, b) => a.id - b.id)
-                        .map(event => ({
-                        id: event.id,
-                        resourceId: event.id_nama_kegiatan,
-                        start: event.tanggal_mulai,
-                        end: event.tanggal_selesai,
-                        className: event.status,
-                    })),
-                    editable: true, // Enable editing
-                    eventContent: function(arg) {
-                        let deleteIcon = document.createElement('span');
-                        deleteIcon.innerHTML = '<i class="fa fa-trash" style="color: red;"></i>'; // Ikon tempat sampah
-                        deleteIcon.style.cursor = 'pointer';
-                        deleteIcon.addEventListener('click', function(e) {
-                            e.stopPropagation();
-                            if (confirm('Are you sure you want to delete this event?')) {
-                                let event = calendar.getEventById(arg.event.id);
-                                event.remove(); // Hapus event dari kalender
-                                
-                                // Hapus event dari backend jika diperlukan
-                                // Misalnya, dengan AJAX
-                                $.ajax({
-                                    url: '/delete-event/' + event.id,
-                                    method: 'DELETE',
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    },
-                                    success: function(response) {
-                                        alert('Event deleted successfully');
-                                    },
-                                    error: function(xhr, status, error) {
-                                        console.error(xhr.responseText);
-                                        alert('Error deleting event: ' + xhr.responseText);
-                                    }
-                                });
-                            }
-                        });
-
-                        let title = document.createElement('span');
-                        title.innerHTML = arg.event.title;
-
-                        let arrayOfNodes = [ title, deleteIcon ];
-
-                        return { domNodes: arrayOfNodes };
-                    },
-                    eventClick: function(info) {
-                        // Buka modal untuk edit event
-                        var event = info.event;
-                        $('#editEventModal').modal('show');
-                        $('#editEventForm [name="id"]').val(event.id);
-                        $('#editEventForm [name="start"]').val(event.start.toISOString().substring(0, 10));
-                        $('#editEventForm [name="end"]').val(event.end ? event.end.toISOString().substring(0, 10) : '');
-                    }
                 });
 
                 calendar.render();

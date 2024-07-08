@@ -65,11 +65,6 @@ Route::post('/kegiatan/store', [App\Http\Controllers\JadwalKegiatanController::c
 Route::put('/kegiatan/update/{id}', [App\Http\Controllers\JadwalKegiatanController::class, 'update'])->middleware(['auth', 'role:2,3'])->name('kegiatan.update');
 
 
-
-Route::get('/kegiatans', [App\Http\Controllers\KegiatanController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('kegiatans.index');
-
-
-
 //Artefak
 Route::get('/artefak', [App\Http\Controllers\ArtefakController::class, 'index'])->middleware(['auth', 'role:1,3'])->name('artefak');
 Route::get('/artefak/detail/{id}', [App\Http\Controllers\ArtefakController::class, 'detail'])->middleware(['auth', 'role:1'])->name('artefak.detail');

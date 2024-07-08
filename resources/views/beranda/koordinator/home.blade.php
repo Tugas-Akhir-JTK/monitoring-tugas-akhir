@@ -88,7 +88,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-12">
+        {{-- <div class="col-md-12">
           <div class="card">
             <div class="card-header">
               <h3 class="card-title"><strong>Intensitas Bimbingan Setiap KoTA</strong></h3>
@@ -99,98 +99,72 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> --}}
       </div>
     </div>
   </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    //-------------
-    //- BAR CHART -
-    //-------------
-    const barChartCanvas = document.getElementById('barChart1').getContext('2d');
-    const barChartData = {
-        labels: ['101', '102', '103', '104', '105', '106', '107', '108', '109'],
-        datasets: [{
-          label: 'Persentase',
-          backgroundColor: 'rgba(60,141,188,0.9)',
-          borderColor: 'rgba(60,141,188,0.8)',
-          data: [100, 70, 75, 90, 85, 90, 80, 85, 90] 
-      }]
-    };
-
-    const barChartOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          beginAtZero: true,
-          min: 0,
-          max: 100,
-          ticks: {
-            callback: function(value) {
-              return value + "%"; 
+      var barchart = document.getElementById('barChart1').getContext('2d');
+        var barChart1 = new Chart(barchart, {
+            type: 'bar',
+            data: {
+                labels: ['101', '102', '103', '104', '105', '106', '107', '108', '109'],
+                datasets: [{
+                    label: 'Progress Pengerjaan',
+                    data: [100, 50, 30, 50, 70, 50, 80, 80, 100], // Data progres pengerjaan
+                    backgroundColor: 'rgba(75, 192, 192, 1)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
             }
-          }
-        }
-      },
-      plugins: {
-        tooltip: {
-          callbacks: {
-            label: function(context) {
-              const label = context.dataset.label || '';
-              const value = context.raw;
-              return `${label}: ${value}%`;
-            }
-          }
-        }
-      }
-    };
+        });
 
-    new Chart(barChartCanvas, {
-      type: 'bar',
-      data: barChartData,
-      options: barChartOptions
-    })
+      // var lineChartCanvas = document.getElementById('lineChart').getContext('2d');
+      // var lineChartData = {
+      //     labels: ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4', 'Minggu 5', 'Minggu 6', 'Minggu 7'],
+      //     datasets: [
+      //         {
+      //             label: '101',
+      //             data: [1, 2, 4, 5, 5, 6, 7],
+      //             borderColor: 'rgba(255, 99, 132, 1)',
+      //             fill: false
+      //         },
+      //         {
+      //             label: '102',
+      //             data: [1, 1, 2, 4, 7, 7, 8],
+      //             borderColor: 'rgba(100, 162, 235, 1)',
+      //             fill: false
+      //         },
+      //         {
+      //             label: '103',
+      //             data: [2, 2, 4, 5, 5, 6, 6],
+      //             borderColor: 'rgba(54, 100, 235, 1)',
+      //             fill: false
+      //         }
+      //       ]
+      // };
 
-      var lineChartCanvas = document.getElementById('lineChart').getContext('2d');
-      var lineChartData = {
-          labels: ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4', 'Minggu 5', 'Minggu 6', 'Minggu 7'],
-          datasets: [
-              {
-                  label: '101',
-                  data: [1, 2, 4, 5, 5, 6, 7],
-                  borderColor: 'rgba(255, 99, 132, 1)',
-                  fill: false
-              },
-              {
-                  label: '102',
-                  data: [1, 1, 2, 4, 7, 7, 8],
-                  borderColor: 'rgba(100, 162, 235, 1)',
-                  fill: false
-              },
-              {
-                  label: '103',
-                  data: [2, 2, 4, 5, 5, 6, 6],
-                  borderColor: 'rgba(54, 100, 235, 1)',
-                  fill: false
-              }
-            ]
-      };
+      // var lineChartOptions = {
+      //     responsive: true,
+      //     maintainAspectRatio: false,
+      //     datasetFill: false
+      // };
 
-      var lineChartOptions = {
-          responsive: true,
-          maintainAspectRatio: false,
-          datasetFill: false
-      };
-
-      // Create line chart
-      var lineChart = new Chart(lineChartCanvas, {
-          type: 'line',
-          data: lineChartData,
-          options: lineChartOptions
-      });
+      // // Create line chart
+      // var lineChart = new Chart(lineChartCanvas, {
+      //     type: 'line',
+      //     data: lineChartData,
+      //     options: lineChartOptions
+      // });
 
       const bimbinganPerKotaChartCanvas = document.getElementById('bimbinganPerKotaChart').getContext('2d');
       const data = @json($jumlahBimbinganPerKota);
