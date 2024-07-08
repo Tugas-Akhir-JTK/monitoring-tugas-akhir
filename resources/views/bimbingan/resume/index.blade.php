@@ -12,19 +12,6 @@
                 <h1 class="m-0">Resume Bimbingan</h1>
             </div><!-- /.col -->
             <div class="col d-flex justify-content-end">
-                <!-- <div class="btn-group mr-2">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="classesDropdown" data-toggle="dropdown" aria-expanded="false">
-                            Kelas
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="classesDropdown">
-                            <li><a class="dropdown-item" href="#">D3-A</a></li>
-                            <li><a class="dropdown-item" href="#">D3-B</a></li>
-                            <li><a class="dropdown-item" href="#">D4-A</a></li>
-                            <li><a class="dropdown-item" href="#">D4-B</a></li>
-                        </ul>
-                    </div>
-                </div> -->
                 <div class="btn-group mr-2">
                     <!-- Menu Dropdown Seminar dan Sidang -->
                     <div class="dropdown">
