@@ -69,6 +69,7 @@ Route::get('/kegiatan/create', [App\Http\Controllers\JadwalKegiatanController::c
 Route::post('/kegiatan/store', [App\Http\Controllers\JadwalKegiatanController::class, 'store'])->middleware(['auth', 'role:2,3'])->name('kegiatan.store');
 Route::put('/kegiatan/update/{id}', [App\Http\Controllers\JadwalKegiatanController::class, 'update'])->middleware(['auth', 'role:2,3'])->name('kegiatan.update');
 
+
 Route::get('/kegiatans', [App\Http\Controllers\KegiatanController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('kegiatans.index');
 
 

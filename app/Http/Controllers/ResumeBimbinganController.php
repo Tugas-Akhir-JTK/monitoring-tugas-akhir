@@ -27,43 +27,27 @@ class ResumeBimbinganController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(Request $request)
-{
-    $user = auth()->user();
-    $id_kota = DB::table('tbl_kota_has_user')
-        ->where('id_user', $user->id)
-        ->value('id_kota');
+    {
+        $user = auth()->user();
+        $id_kota = DB::table('tbl_kota_has_user')
+            ->where('id_user', $user->id)
+            ->value('id_kota');
 
-    // Membuat query untuk mengambil data dari tbl_resume_bimbingan
-    $query = ResumeBimbinganModel::query();
+        // Membuat query untuk mengambil data dari tbl_resume_bimbingan
+        $query = ResumeBimbinganModel::query();
 
-    $query->join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
-        ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
-        ->select('tbl_resume_bimbingan.*');
-    
-    // Menambahkan filter berdasarkan parameter 'sort' dan 'value'
-    if ($request->has('sort') && $request->has('value')) {
-        $sort = $request->input('sort');
-        $value = $request->input('value');
+        $query->join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+            ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
+            ->select('tbl_resume_bimbingan.*');
         
-        // Tambahkan filter berdasarkan nilai yang dipilih
-        $query->where($sort, $value);
-    }
-
-    // Menambahkan logika sorting berdasarkan parameter 'sort' dan 'direction'
-    if ($request->has('sort') && $request->has('direction')) {
-        $direction = $request->input('direction');
-        $query->orderBy($sort, $direction); // Menggunakan variabel $sort dari if sebelumnya
-    } else {
-        // Jika tidak ada parameter 'direction', secara default urutkan descending berdasarkan nomer dari sesi_bimbingan
-        $query->orderBy('tbl_resume_bimbingan.sesi_bimbingan', 'desc');
-    }
-
-    // Paginate hasil query
-    $resumes = $query->paginate(10);
-
-    // Mengembalikan view dengan data resumes
-    return view('bimbingan.resume.index', compact('resumes'));
-}
+        // Menambahkan filter berdasarkan parameter 'sort' dan 'value'
+        if ($request->has('sort') && $request->has('value')) {
+            $sort = $request->input('sort');
+            $value = $request->input('value');
+            
+            // Tambahkan filter berdasarkan nilai yang dipilih
+            $query->where($sort, $value);
+        }
 
         // Menambahkan logika sorting berdasarkan parameter 'sort' dan 'direction'
         if ($request->has('sort') && $request->has('direction')) {
@@ -74,22 +58,23 @@ class ResumeBimbinganController extends Controller
             $query->orderBy('tbl_resume_bimbingan.sesi_bimbingan', 'desc');
         }
 
-        // Paginate hasil query
+        // Paginate hasil query dengan 10 data per halaman
         $resumes = $query->paginate(10);
 
         // Mengembalikan view dengan data resumes
         return view('bimbingan.resume.index', compact('resumes'));
     }
+    
 
     public function create()
     {
         $user = auth()->user();
-    
+
         // Mendapatkan id_kota dari user yang sedang login
         $id_kota = DB::table('tbl_kota_has_user')
                     ->where('id_user', $user->id)
                     ->value('id_kota');
-    
+
         // Query untuk mencari user dengan role 2 yang ada dalam kota yang sama
         $dosen = DB::table('users')
                     ->join('tbl_kota_has_user', 'users.id', '=', 'tbl_kota_has_user.id_user')
@@ -97,7 +82,7 @@ class ResumeBimbinganController extends Controller
                     ->where('tbl_kota_has_user.id_kota', $id_kota)
                     ->select('users.*')
                     ->get();
-    
+
         return view('bimbingan.resume.create', compact('dosen'));
     }
     
@@ -114,42 +99,42 @@ class ResumeBimbinganController extends Controller
             'sesi_bimbingan'=> 'required',
         ]);
 
-        // Set default value for isi_revisi_bimbingan if it's not provided
+
+        if ($request->input('jam_selesai') < $request->input('jam_mulai')) {
+            session()->flash('error', 'Jam selesai harus lebih besar dari jam mulai.');
+            return redirect()->back()->withInput();
+        }
+
         $requestData = $request->all();
         if (empty($requestData['isi_revisi_bimbingan'])) {
             $requestData['isi_revisi_bimbingan'] = '-';
         }
 
-        if ($request->all()) {
-            $resume = ResumeBimbinganModel::create($request->all());
-            $id_resume_bimbingan = $resume->id_resume_bimbingan;
-        }
+        $resume = ResumeBimbinganModel::create($requestData);
+        $id_resume_bimbingan = $resume->id_resume_bimbingan;
 
         // Mendapatkan id_kota dari user yang sedang login
         $user = auth()->user();
 
-        // Query untuk mencari id_kota dari tbl_kota_has_user
         $id_kota = DB::table('tbl_kota_has_user')
                     ->where('id_user', $user->id)
                     ->value('id_kota');
 
-        // Query untuk mencari id_user dengan role '2'
-        $id_user_role_2 = DB::table('users')
-                        ->where('role', 2)
-                        ->value('id');
+        // Menangani pilihan dosen dari form
+        $selectedDosenId = $request->input('dosen');
 
         // Pastikan id_kota dan id_user_role_2 valid sebelum menyimpan
-        if ($id_kota && $id_user_role_2) {
+        if ($id_kota && $selectedDosenId) {
             KotaHasResumeBimbinganModel::create([
                 'id_kota' => $id_kota,
-                'id_user' => $id_user_role_2, // Menggunakan id_user dengan role '2'
+                'id_user' => $selectedDosenId, // Menggunakan id dosen yang dipilih dari form
                 'id_resume_bimbingan' => $id_resume_bimbingan,
             ]);
 
-            return redirect()->route('resume')->with('success', 'Data resume berhasil ditambahkan!');
+            session()->flash('success', 'Data resume berhasil ditambahkan');
+            return redirect()->route('resume');
         } else {
-            // Handle jika id_kota atau id_user_role_2 tidak ditemukan atau tidak valid
-            return redirect()->route('resume')->with('error', 'Gagal menyimpan data: id_kota atau id_user dengan role 2 tidak valid.');
+            return redirect()->route('resume')->with('error', 'Gagal menyimpan data: id_kota atau dosen tidak valid.');
         }
     }
 
@@ -178,6 +163,7 @@ class ResumeBimbinganController extends Controller
             return redirect()->route('resume')->withErrors('Data tidak ditemukan.');
         }
 
+        // Mengatur tahapan progres
         $tahapan_progres = '';
         if ($resume->tahapan_progres == 1) {
             $tahapan_progres = "Seminar 2";
@@ -189,15 +175,31 @@ class ResumeBimbinganController extends Controller
             $tahapan_progres = "Unknown";
         }
 
-        $dosen =DB::table('tbl_resume_bimbingan as rb')
-                    ->join('tbl_kota_has_resume_bimbingan as krb', 'rb.id_resume_bimbingan', '=', 'krb.id_resume_bimbingan')
-                    ->join('users as u', 'krb.id_user', '=', 'u.id')
-                    ->select('rb.*', 'u.name as nama_dosen')
-                    ->where('rb.id_resume_bimbingan', $id)
-                    ->first();
-                    
-        return view('bimbingan.resume.edit', compact('resume', 'tahapan_progres', 'dosen'));
+        // Mendapatkan id_kota dari user yang sedang login
+        $user = auth()->user();
+        $id_kota = DB::table('tbl_kota_has_user')
+                    ->where('id_user', $user->id)
+                    ->value('id_kota');
+
+        // Query untuk mencari user dengan role 2 yang ada dalam kota yang sama
+        $dosen = DB::table('users')
+                    ->join('tbl_kota_has_user', 'users.id', '=', 'tbl_kota_has_user.id_user')
+                    ->where('users.role', 2)
+                    ->where('tbl_kota_has_user.id_kota', $id_kota)
+                    ->select('users.*')
+                    ->get();
+
+        // Mendapatkan dosen yang terkait dengan resume bimbingan
+        $dosen_terkait = DB::table('tbl_kota_has_resume_bimbingan as krb')
+                            ->join('users as u', 'krb.id_user', '=', 'u.id')
+                            ->select('u.id as id_dosen_terkait', 'u.name as nama_dosen_terkait')
+                            ->where('krb.id_resume_bimbingan', $id)
+                            ->where('u.role', 2)
+                            ->first();
+
+        return view('bimbingan.resume.edit', compact('resume', 'tahapan_progres', 'dosen', 'dosen_terkait'));
     }
+
 
 
     public function update(Request $request, $id)
@@ -210,7 +212,7 @@ class ResumeBimbinganController extends Controller
             'isi_revisi_bimbingan' => '',
             'tahapan_progres' => 'required',
         ]);
-        
+
         $resume = ResumeBimbinganModel::findOrFail($id);
         
         // Check if any field is changed
@@ -218,12 +220,47 @@ class ResumeBimbinganController extends Controller
 
         if ($changes) {
             $resume->update($request->all());
+
+            // Mendapatkan id_kota dari user yang sedang login
+            $user = auth()->user();
+            $id_kota = DB::table('tbl_kota_has_user')
+                        ->where('id_user', $user->id)
+                        ->value('id_kota');
+
+            // Query untuk mencari id_user dengan role '2' dalam kota yang sama
+            $dosen = DB::table('tbl_kota_has_user')
+                        ->join('users', 'tbl_kota_has_user.id_user', '=', 'users.id')
+                        ->where('tbl_kota_has_user.id_kota', $id_kota)
+                        ->where('users.role', 2)
+                        ->select('users.id')
+                        ->first();
+
+            // Pastikan id_kota dan id_user_role_2 valid sebelum menyimpan
+            if ($id_kota && $dosen) {
+                // Cek apakah data sudah ada di pivot table
+                $exists = KotaHasResumeBimbinganModel::where('id_resume_bimbingan', $id)
+                            ->where('id_kota', $id_kota)
+                            ->where('id_user', $dosen->id)
+                            ->exists();
+
+                if (!$exists) {
+                    KotaHasResumeBimbinganModel::create([
+                        'id_kota' => $id_kota,
+                        'id_user' => $dosen->id, // Menggunakan id_user dengan role '2'
+                        'id_resume_bimbingan' => $id,
+                    ]);
+                }
+            }
+            if ($request->input('jam_selesai') < $request->input('jam_mulai')) {
+                session()->flash('error', 'Jam selesai harus lebih besar dari jam mulai');
+                return redirect()->back()->withInput();
+            }
             session()->flash('success', 'Data resume berhasil dirubah');
         }
 
-
         return redirect()->route('resume');
     }
+
 
     public function destroy($id)
     {

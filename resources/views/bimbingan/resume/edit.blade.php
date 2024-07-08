@@ -38,8 +38,15 @@
 
                             <!-- DOSEN -->
                             <div class="mb-3">
-                                <label for="judul" class="form-label">Dosen</label>
-                                <input name="judul" value="{{ $dosen->nama_dosen }}" type="text" class="form-control" id="judul" placeholder="" required disabled/>
+                                <label for="dosen">Dosen Pembimbing</label>
+                                <select class="form-control" id="dosen" name="dosen" required>
+                                    <option value='' disabled>Pilih Dosen</option>
+                                    @foreach($dosen as $d)
+                                        <option value="{{ $d->id }}" {{ $dosen_terkait->id_dosen_terkait == $d->id ? 'selected' : '' }}>
+                                            {{ $d->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="row g-2">

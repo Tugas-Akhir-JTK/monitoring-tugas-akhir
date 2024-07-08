@@ -83,6 +83,7 @@
                 </div>
             </div>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+
 <script>
     var data = @json($data);
     var progres = @json($tahapan_progres);
@@ -173,7 +174,6 @@
         }        
     });
 </script>
-
 
             <!-- Modal Tambah Kegiatan-->
             <div class="modal fade" id="kegiatanModal" aria-labelledby="kegiatanModalLabel" aria-hidden="true">
@@ -320,6 +320,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                                     <button type="submit" class="btn btn-primary">Simpan</button>
+
                                 </div>
                             </form>
                         </div>
@@ -363,7 +364,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Modal Delete -->
             <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -389,7 +389,6 @@
                 </div>
             </div>
             </div>
-
         </body>
         </html>
     </div>
