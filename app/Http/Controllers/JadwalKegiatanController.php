@@ -249,7 +249,7 @@ class JadwalKegiatanController extends Controller
         $resource = NamaKegiatanModel::find($validated['id']);
         
         // Update data resource
-        $resource->nama_kegiatan = $validated['title'];
+        $resource->nama_kegiatan = $validated['nama'];
 
         $resource->save();
         
@@ -257,19 +257,21 @@ class JadwalKegiatanController extends Controller
 
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
+        // dd($request);
         try {
+            $itemId = $request->input('id');
             // Temukan event berdasarkan ID
-            $event = JadwalKegiatanModel::findOrFail($id);
-
-            // Hapus event
-            $event->delete();
+            $event = JadwalKegiatanModel::findOrFail($itemId);
 
             if ($event->id_nama_kegiatan) {
                 $resource = NamaKegiatanModel::findOrFail($event->id_nama_kegiatan);
                 $resource->delete();
             }
+            // Hapus event
+            $event->delete();
+            
 
             return redirect()->route('kegiatan.index');
         } catch (\Exception $e) {
