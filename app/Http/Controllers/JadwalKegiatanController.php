@@ -66,6 +66,15 @@ class JadwalKegiatanController extends Controller
             'resource' => $resource
         ];
 
+        $status = DB::table('tbl_nama_kegiatan')
+                    ->whereIn('id', function ($query) use ($id_jadwal_kegiatan) {
+                        $query->select('id_nama_kegiatan')
+                            ->from('tbl_jadwal_kegiatan')
+                            ->whereIn('id', $id_jadwal_kegiatan)
+                            ->where('status', 'pending');
+                    })
+                    ->get();
+
         $tahun = date('Y'); // atau bisa diganti dengan tahun yang diinginkan
         $tahapan_progres = DB::table('tbl_timeline')
                             ->whereYear('tanggal_mulai', $tahun)
@@ -80,7 +89,7 @@ class JadwalKegiatanController extends Controller
                         ->select('tbl_kota_has_metodologi.id', 'tbl_master_metodologi.nama_metodologi')
                         ->get();
 
-        return view('kegiatan.index', compact('data', 'tahapan_progres', 'metodologi', 'kota_metodologi'));
+        return view('kegiatan.index', compact('data', 'tahapan_progres', 'metodologi', 'kota_metodologi', 'status'));
 
     }
 
@@ -136,7 +145,7 @@ class JadwalKegiatanController extends Controller
 
     public function store_metodologi(Request $request){
         $user = auth()->user();
-        
+
         $id_kota = DB::table('tbl_kota_has_user')
                     ->where('id_user', $user->id)
                     ->value('id_kota');
@@ -144,14 +153,28 @@ class JadwalKegiatanController extends Controller
         $request->validate([
             'id_metodologi' => 'required|exists:tbl_master_metodologi,id',
         ]);
-
+        
         if ($id_kota) {
-            KotaHasMetodologiModel::create([
-                'id_kota' => $id_kota,
-                'id_metodologi' => $request->id_metodologi,
-            ]);
+            // Cek apakah id_kota dan id_metodologi sudah ada di tbl_kota_has_metodologi
+            $existingRecord = KotaHasMetodologiModel::where('id_kota', $id_kota)
+                                ->first();
+        
+            if ($existingRecord) {
+                // Jika sudah ada, update id_metodologi
+                $existingRecord->update([
+                    'id_metodologi' => $request->id_metodologi,
+                ]);
+            } else {
+                // Jika belum ada, tambahkan baru
+                KotaHasMetodologiModel::create([
+                    'id_kota' => $id_kota,
+                    'id_metodologi' => $request->id_metodologi,
+                ]);
+            }
         }
-        return redirect()->route('kegiatan.index')->with('success', 'Metodologi berhasil disimpan');
+        
+        return redirect()->route('kegiatan.index')->with('success', 'Metodologi berhasil disimpan');       
+       
     }
 
 
@@ -170,7 +193,7 @@ class JadwalKegiatanController extends Controller
         return redirect()->route('kegiatan.index')->with('success', 'Data berhasil diperbarui!');
     }
 
-    public function storeStatusKegiatan(Request $request)
+    public function store_status_kegiatan(Request $request)
     {
         
         $id_nama_kegiatan = $request->input('id');
@@ -196,11 +219,13 @@ class JadwalKegiatanController extends Controller
         // Validasi data
         $validated = $request->validate([
             'id' => 'required|exists:tbl_jadwal_kegiatan,id',
+            'group' => 'required|exists:tbl_nama_kegiatan,id',
             // 'title' => 'required|string|max:255',
             'start' => 'required|date',
             'end' => 'required|date',
+            'nama' => 'required',
         ]);
-
+        // dd($validated['group']);
         // Temukan event berdasarkan ID
         $event = JadwalKegiatanModel::find($validated['id']);
         
@@ -210,16 +235,15 @@ class JadwalKegiatanController extends Controller
         $event->tanggal_selesai = $validated['end'];
         $event->save();
 
-        return redirect()->route('kegiatan.index');
-    }
+        // Update data nama kegiatan di tbl_nama_kegiatan
+        $namaKegiatan = NamaKegiatanModel::find($validated['group']); // Ambil entri di tbl_nama_kegiatan berdasarkan ID yang sama
 
-    public function edit_resource(Request $request)
-    {
-        // Validasi data
-        $validated = $request->validate([
-            'id' => 'required|exists:tbl_nama_kegiatan,id',
-            'title' => 'required|string|max:255',
-        ]);
+        if ($namaKegiatan) {
+            $namaKegiatan->nama_kegiatan = $validated['nama'];
+            $namaKegiatan->save();
+        } else {
+            return redirect()->route('kegiatan.index')->with('error', 'Nama Kegiatan tidak ada');
+        }
 
         // Temukan resource berdasarkan ID
         $resource = NamaKegiatanModel::find($validated['id']);
@@ -229,7 +253,8 @@ class JadwalKegiatanController extends Controller
 
         $resource->save();
         
-        return redirect()->route('kegiatan.index');
+        return redirect()->route('kegiatan.index')->with('success', 'Data kegiatan berhasil diperbarui.');
+
     }
 
     public function destroy($id)
@@ -250,6 +275,41 @@ class JadwalKegiatanController extends Controller
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to delete event and related resource. Error: ' . $e->getMessage()], 500);
         }
+    }
+
+    public function detail($id)
+    {
+        $kota_jadwal_kegiatan = DB::table('tbl_kota_has_jadwal_kegiatan')
+                                ->where('id_kota', $id)
+                                ->get();
+
+        // Mengambil id_jadwal_kegiatan dari data yang diambil
+        $id_jadwal_kegiatan = $kota_jadwal_kegiatan->pluck('id_jadwal_kegiatan');
+
+        // Mengambil detail jadwal kegiatan dari tbl_jadwal_kegiatan
+        $events = DB::table('tbl_jadwal_kegiatan')
+                    ->whereIn('id', $id_jadwal_kegiatan)
+                    ->get();
+
+        // Mengambil resourceId dari jadwal kegiatan yang diambil
+        $id_nama_kegiatan = $events->pluck('id_nama_kegiatan');
+
+        // Mengambil nama kegiatan dari tbl_nama_kegiatan
+        $resource = DB::table('tbl_nama_kegiatan')
+                    ->whereIn('id', $id_nama_kegiatan)
+                    ->get();
+
+        $data = [
+            'events' => $events,
+            'resource' => $resource
+        ];
+
+        $kota_metodologi = KotaHasMetodologiModel::where('id_kota', $id)
+        ->join('tbl_master_metodologi', 'tbl_kota_has_metodologi.id_metodologi', '=', 'tbl_master_metodologi.id')
+        ->select('tbl_kota_has_metodologi.id', 'tbl_master_metodologi.nama_metodologi')
+        ->get();
+
+        return view('kegiatan.detail', compact('data','kota_metodologi'));
     }
 
     // public function storeNamaKegiatan(Request $request)
@@ -316,5 +376,24 @@ class JadwalKegiatanController extends Controller
     //     $request->session()->forget('resourceId');
 
     //     return redirect()->route('kegiatan.index')->with('success', 'Jadwal Kegiatan berhasil disimpan');
+    // }
+
+    // public function edit_resource(Request $request)
+    // {
+    //     // Validasi data
+    //     $validated = $request->validate([
+    //         'id' => 'required|exists:tbl_nama_kegiatan,id',
+    //         'title' => 'required|string|max:255',
+    //     ]);
+
+    //     // Temukan resource berdasarkan ID
+    //     $resource = NamaKegiatanModel::find($validated['id']);
+        
+    //     // Update data resource
+    //     $resource->nama_kegiatan = $validated['title'];
+
+    //     $resource->save();
+        
+    //     return redirect()->route('kegiatan.index');
     // }
 }

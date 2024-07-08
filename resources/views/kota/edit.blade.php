@@ -46,43 +46,46 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Tambah Mahasiswa dan Dosen Pembimbing -->
-                        <div class="list-group-item p-3">
-                        <div class="row align-items-start">
-                            <div class="col-md-2 mb-8pt mb-md-0">
-                                <div class="media align-items-left">
-                                    <div class="d-flex flex-column media-body media-middle">
-                                        <span class="card-title" for="dosen">Dosen Pembimbing</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col mb-8pt mb-md-0">
-                                <select multiple class="form-control" id="dosen" name="dosen[]" required>
-                                    @foreach($dosen as $d)
-                                        <option value="{{ $d->id }}" {{ in_array($d->id, old('dosen', $kota->users->pluck('id')->toArray())) ? 'selected' : '' }}>{{ $d->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="list-group-item p-3">
-                        <div class="row align-items-start">
-                            <div class="col-md-2 mb-8pt mb-md-0">
-                                <div class="media align-items-left">
-                                    <div class="d-flex flex-column media-body media-middle">
-                                        <span class="card-title" for="mahasiswa">Mahasiswa</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col mb-8pt mb-md-0">
-                                <select multiple class="form-control" id="mahasiswa" name="mahasiswa[]" required>
-                                    @foreach($mahasiswa as $m)
-                                        <option value="{{ $m->id }}" {{ in_array($m->id, old('mahasiswa', $kota->users->pluck('id')->toArray())) ? 'selected' : '' }}>{{ $m->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                        <!-- Dosen Pembimbing -->
+<div class="list-group-item p-3">
+    <div class="row align-items-start">
+        <div class="col-md-2 mb-8pt mb-md-0">
+            <div class="media align-items-left">
+                <div class="d-flex flex-column media-body media-middle">
+                    <span class="card-title" for="dosen">Dosen Pembimbing</span>
+                </div>
+            </div>
+        </div>
+        <div class="col mb-8pt mb-md-0">
+            <select multiple class="form-control" id="dosen" name="dosen[]" required>
+                @foreach($dosen as $d)
+                    <option value="{{ $d->id }}" {{ in_array($d->id, $selectedDosen) ? 'selected' : '' }}>{{ $d->name }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</div>
+
+<!-- Mahasiswa -->
+<div class="list-group-item p-3">
+    <div class="row align-items-start">
+        <div class="col-md-2 mb-8pt mb-md-0">
+            <div class="media align-items-left">
+                <div class="d-flex flex-column media-body media-middle">
+                    <span class="card-title" for="mahasiswa">Mahasiswa</span>
+                </div>
+            </div>
+        </div>
+        <div class="col mb-8pt mb-md-0">
+            <select multiple class="form-control" id="mahasiswa" name="mahasiswa[]" required>
+                @foreach($mahasiswa as $m)
+                    <option value="{{ $m->id }}" {{ in_array($m->id, $selectedMahasiswa) ? 'selected' : '' }}>{{ $m->name }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</div>
+
 
                         <!-- Judul KoTA -->
                         <div class="list-group-item p-3">

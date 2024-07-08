@@ -20,7 +20,9 @@ use Illuminate\Support\Facades\Route;
 
 //Home
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/kota-status', [App\Http\Controllers\HomeController::class, 'kota_status'])->middleware(['auth', 'role:3'])->name('kota.status');
 Route::get('/{id}/file', [App\Http\Controllers\HomeController::class, 'showFile'])->name('home.showFile');
+
 
 //Kota
 Route::get('/kota', [App\Http\Controllers\KotaController::class, 'index'])->middleware(['auth', 'role:1,2'])->name('kota');
@@ -50,10 +52,11 @@ Route::get('/timeline/store', [App\Http\Controllers\TimelineController::class, '
 
 //Jadwal Kegiatan
 Route::get('/kegiatan', [App\Http\Controllers\JadwalKegiatanController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('kegiatan.index');
+Route::get('/kegiatan/{id}', [App\Http\Controllers\JadwalKegiatanController::class, 'detail'])->middleware(['auth', 'role:2,3'])->name('kegiatan.detail');
 Route::post('/jadwal-kegiatan', [App\Http\Controllers\JadwalKegiatanController::class, 'store_kegiatan'])->middleware(['auth', 'role:2,3'])->name('kegiatan.store_kegiatan');
 Route::post('/metodologi/store', [App\Http\Controllers\JadwalKegiatanController::class, 'store_metodologi'])->middleware(['auth', 'role:2,3'])->name('metodologi.store');
 Route::post('/metodologi/update/{id}', [App\Http\Controllers\JadwalKegiatanController::class, 'update_metodologi'])->middleware(['auth', 'role:2,3'])->name('metodologi.update');
-Route::post('/status-kegiatan', [App\Http\Controllers\JadwalKegiatanController::class, 'storeStatusKegiatan'])->middleware(['auth', 'role:2,3'])->name('kegiatan.storeStatusKegiatan');
+Route::post('/status-kegiatan', [App\Http\Controllers\JadwalKegiatanController::class, 'store_status_kegiatan'])->middleware(['auth', 'role:2,3'])->name('kegiatan.storeStatusKegiatan');
 Route::post('/events/edit', [App\Http\Controllers\JadwalKegiatanController::class, 'edit_Kegiatan'])->middleware(['auth', 'role:2,3'])->name('events.edit');
 Route::post('/resources/edit', [App\Http\Controllers\JadwalKegiatanController::class, 'edit_resource'])->middleware(['auth', 'role:2,3'])->name('resources.edit');
 Route::delete('/delete-event/{id}', [App\Http\Controllers\JadwalKegiatanController::class, 'destroy'])->middleware(['auth', 'role:2,3'])->name('events.destroy');
@@ -64,8 +67,6 @@ Route::post('/events/update', [App\Http\Controllers\JadwalKegiatanController::cl
 Route::get('/kegiatan/create', [App\Http\Controllers\JadwalKegiatanController::class, 'create'])->middleware(['auth', 'role:2,3'])->name('kegiatan.create');
 Route::post('/kegiatan/store', [App\Http\Controllers\JadwalKegiatanController::class, 'store'])->middleware(['auth', 'role:2,3'])->name('kegiatan.store');
 Route::put('/kegiatan/update/{id}', [App\Http\Controllers\JadwalKegiatanController::class, 'update'])->middleware(['auth', 'role:2,3'])->name('kegiatan.update');
-
-
 
 Route::get('/kegiatans', [App\Http\Controllers\KegiatanController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('kegiatans.index');
 
@@ -107,4 +108,5 @@ Route::put('/resume/update/{id}', [App\Http\Controllers\ResumeBimbinganControlle
 Route::post('/resume/search', [App\Http\Controllers\ResumeBimbinganController::class, 'search'])->middleware(['auth', 'role:2,3'])->name('resume.search');
 Route::delete('/resume/{id}', [App\Http\Controllers\ResumeBimbinganController::class, 'destroy'])->middleware(['auth', 'role:2,3'])->name('resume.destroy');
 Route::get('/resume/generate-pdf/{sesi_bimbingan}', [App\Http\Controllers\ResumeBimbinganController::class, 'generatePdf'])->middleware(['auth', 'role:3'])->name('resume.generatePdf');
+
 

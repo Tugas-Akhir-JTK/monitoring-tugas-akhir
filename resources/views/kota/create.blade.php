@@ -51,18 +51,19 @@
 
                     <!-- Tambah Mahasiswa dan Dosen Pembimbing -->
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="list-group-item p-3">
                                 <div class="row align-items-start">
                                     <div class="col-md-4 mb-8pt mb-md-0">
                                         <div class="media align-items-left">
                                             <div class="d-flex flex-column media-body media-middle">
-                                                <span class="card-title" for="mahasiswa">Mahasiswa</span>
+                                                <span class="card-title" for="mahasiswa">Mahasiswa 1</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <select multiple class="form-control" id="mahasiswa" name="mahasiswa[]" required>
+                                        <select class="form-control" id="mahasiswa" name="mahasiswa[]" required>
+                                            <option value="" disabled selected>Pilih Mahasiswa</option>
                                             @foreach($mahasiswa as $m)
                                                 <option value="{{ $m->nomor_induk }}" {{ in_array($m->nomor_induk, old('mahasiswa', [])) ? 'selected' : '' }}>{{ $m->nomor_induk }} - {{ $m->name }}</option>
                                             @endforeach
@@ -71,7 +72,50 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <div class="list-group-item p-3">
+                                <div class="row align-items-start">
+                                    <div class="col-md-4 mb-8pt mb-md-0">
+                                        <div class="media align-items-left">
+                                            <div class="d-flex flex-column media-body media-middle">
+                                                <span class="card-title" for="mahasiswa">Mahasiswa 2</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <select class="form-control" id="mahasiswa" name="mahasiswa[]" required>
+                                            <option value="" disabled selected>Pilih Mahasiswa</option>
+                                            @foreach($mahasiswa as $m)
+                                                <option value="{{ $m->nomor_induk }}" {{ in_array($m->nomor_induk, old('mahasiswa', [])) ? 'selected' : '' }}>{{ $m->nomor_induk }} - {{ $m->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="list-group-item p-3">
+                                <div class="row align-items-start">
+                                    <div class="col-md-4 mb-8pt mb-md-0">
+                                        <div class="media align-items-left">
+                                            <div class="d-flex flex-column media-body media-middle">
+                                                <span class="card-title" for="mahasiswa">Mahasiswa 3</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <select class="form-control" id="mahasiswa" name="mahasiswa[]" required>
+                                            <option value="" disabled selected>Pilih Mahasiswa</option>
+                                            @foreach($mahasiswa as $m)
+                                                <option value="{{ $m->nomor_induk }}" {{ in_array($m->nomor_induk, old('mahasiswa', [])) ? 'selected' : '' }}>{{ $m->nomor_induk }} - {{ $m->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-md-6">
                             <div class="list-group-item p-3">
                                 <div class="row align-items-start">
                                     <div class="col-md-4 mb-8pt mb-md-0">
@@ -90,7 +134,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <!-- <div class="row">

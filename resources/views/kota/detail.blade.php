@@ -87,7 +87,7 @@
                     <div class="row">
                         <div class="col">{{ $tahapan->nama_progres }}</div>
                         <div class="col-5 d-md-flex justify-content-md-end">
-                            @if (auth()->user()->role == "2")
+                            @if (auth()->user()->role == "3")
                                 @foreach($tahapan_progres as $item)
                                     @if($item->id_master_tahapan_progres == 1)
                                         <form action="{{ route('store_status') }}" method="POST" id="statusForm_{{ $item->id }}">
@@ -96,8 +96,6 @@
                                             <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
                                             <div class="form-group">
                                                 <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
-                                                    <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
-                                                    <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
                                                     <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
                                                     <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
                                                 </select>
@@ -107,22 +105,22 @@
                                 @endforeach
                             @endif
 
-                            @if (auth()->user()->role == "1" || auth()->user()->role == "3")
-                                <div>
-                                    @foreach($tahapan_progres as $item)
-                                        @if($item->id_master_tahapan_progres == 1)
-                                            @if($item->status == 'belum-disetujui')
-                                                <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
-                                            @elseif($item->status == 'disetujui')
-                                                <span id="selectedBadge" class="badge bg-success">Disetujui</span>
-                                            @elseif($item->status == 'selesai')
-                                                <span id="selectedBadge" class="badge bg-primary">Selesai</span>
-                                            @elseif($item->status == 'on_progres')
-                                                <span id="selectedBadge" class="badge bg-warning">On Progres</span>
-                                            @endif
+                            @if (auth()->user()->role == "1" || auth()->user()->role == "2")
+                            <div>
+                                @foreach($tahapan_progres as $item)
+                                    @if($item->id_master_tahapan_progres == 1)
+                                        @if($item->status == 'belum-disetujui' )
+                                            <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
+                                        @elseif($item->status == 'disetujui')
+                                            <span id="selectedBadge" class="badge bg-success">Disetujui</span>
+                                        @elseif($item->status == 'selesai')
+                                            <span id="selectedBadge" class="badge bg-primary">Selesai</span>
+                                        @elseif($item->status == 'on_progres')
+                                            <span id="selectedBadge" class="badge bg-warning">On Progres</span>
                                         @endif
-                                    @endforeach
-                                </div>
+                                    @endif
+                                @endforeach
+                            </div>
                             @endif
                         </div>
                         <div class="col justify-content-md-end">
@@ -190,7 +188,7 @@
                                             <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
                                             <div class="form-group">
                                                 <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
-                                                    <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
+                                                    <option value="belum-disetujui" class="badge badge-danger" disabled {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
                                                     <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
                                                     <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
                                                     <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
@@ -284,7 +282,7 @@
                                             <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
                                             <div class="form-group">
                                                 <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
-                                                    <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
+                                                <option value="belum-disetujui" class="badge badge-danger" disabled {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
                                                     <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
                                                     <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
                                                     <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
@@ -378,7 +376,7 @@
                                             <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
                                             <div class="form-group">
                                                 <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
-                                                    <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
+                                                    <option value="belum-disetujui" class="badge badge-danger" disabled {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
                                                     <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
                                                     <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
                                                     <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
@@ -485,9 +483,6 @@
     }
 
     function submitForm(id) {
-        document.getElementById('statusForm_' + id).submit();
-    }
-    function submitForm_2(id) {
         document.getElementById('statusForm_' + id).submit();
     }
 
