@@ -63,6 +63,7 @@ Route::delete('/delete-event/{id}', [App\Http\Controllers\JadwalKegiatanControll
 Route::post('/events/update', [App\Http\Controllers\JadwalKegiatanController::class, 'update'])->middleware(['auth', 'role:2,3'])->name('events.update');
 // Route::post('/jadwal-kegiatan', [App\Http\Controllers\JadwalKegiatanController::class, 'storeJadwalKegiatan'])->middleware(['auth', 'role:2,3'])->name('kegiatan.storeJadwalKegiatan');
 
+Route::delete('/delete-item', [App\Http\Controllers\JadwalKegiatanController::class, 'destroy'])->middleware(['auth', 'role:3'])->name('delete.item');
 
 Route::get('/kegiatan/create', [App\Http\Controllers\JadwalKegiatanController::class, 'create'])->middleware(['auth', 'role:2,3'])->name('kegiatan.create');
 Route::post('/kegiatan/store', [App\Http\Controllers\JadwalKegiatanController::class, 'store'])->middleware(['auth', 'role:2,3'])->name('kegiatan.store');

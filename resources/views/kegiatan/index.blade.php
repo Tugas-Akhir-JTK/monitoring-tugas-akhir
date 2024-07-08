@@ -83,98 +83,97 @@
                 </div>
             </div>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
-            <script>
-                var data = @json($data);
-                var progres = @json($tahapan_progres);
-                var container = document.getElementById('visualization');
-                var groups = new vis.DataSet(
-                    data.resource
-                        .sort((a, b) => a.id - b.id)
-                        .map(resource => ({
-                            id: resource.id,
-                            content: resource.nama_kegiatan,
-                            className: resource.jenis_label === 'bold' ? 'bold-resource' : ''
-                        }))
-                );
+<script>
+    var data = @json($data);
+    var progres = @json($tahapan_progres);
+    var container = document.getElementById('visualization');
+    var groups = new vis.DataSet(
+        data.resource
+            .sort((a, b) => a.id - b.id)
+            .map(resource => ({
+                id: resource.id,
+                content: resource.nama_kegiatan,
+                className: resource.jenis_label === 'bold' ? 'bold-resource' : ''
+            }))
+    );
 
-                // Create a DataSet (allows two way data-binding)
-                var items = new vis.DataSet(
-                    data.events
-                        .sort((a, b) => a.id - b.id)
-                        .map(event => ({
-                            id: event.id,
-                            group: event.id_nama_kegiatan,
-                            // content: `Event ${event.id}`,
-                            content: `
-                                        <div class="timeline-item-content">
-                                            <button class="delete-item" data-id="${event.id}">🗑️</button>
-                                        </div>
-                                    `,
-                            start: event.tanggal_mulai,
-                            end: event.tanggal_selesai,
-                            className: event.status
-                        }))
-                );
+    // Create a DataSet (allows two way data-binding)
+    var items = new vis.DataSet(
+        data.events
+            .sort((a, b) => a.id - b.id)
+            .map(event => ({
+                id: event.id,
+                group: event.id_nama_kegiatan,
+                content: `
+                            <div class="timeline-item-content">
+                                <button class="delete-item" data-id="${event.id}">🗑️</button>
+                            </div>
+                        `,
+                start: event.tanggal_mulai,
+                end: event.tanggal_selesai,
+                className: event.status
+            }))
+    );
 
-                var options = {
-                    orientation: {
-                        axis: 'top' // Show the axis on top
-                    },
-                    timeAxis: {
-                        scale: 'week', 
-                        step: 1,
-                    },
-                };
+    var options = {
+        orientation: {
+            axis: 'top' // Show the axis on top
+        },
+        timeAxis: {
+            scale: 'week', 
+            step: 1,
+        },
+    };
 
-                var timeline = new vis.Timeline(container, items, groups, options);
+    var timeline = new vis.Timeline(container, items, groups, options);
 
-                // Tambahkan event listener untuk tombol hapus
-                container.addEventListener('click', function(event) {
-                    if (event.target.classList.contains('delete-item')) {
-                        event.stopPropagation(); // Cegah event klik dari propagasi ke timeline
-                        var itemId = event.target.getAttribute('data-id');
-                        var selectedItem = items.get(itemId);
-                        if (selectedItem) {
-                            if (confirm('Apakah Anda yakin ingin menghapus item ini?')) {
-                                items.remove(itemId);
-                                console.log('Item dihapus:', selectedItem);
-                                // Opsional, kirim permintaan ke server untuk menghapus item dari database
-                            }
-                        }
-                    }
-                });
+    // Tambahkan event listener untuk tombol hapus
+    var selectedItemId = null;
+    container.addEventListener('click', function(event) {
+        if (event.target.classList.contains('delete-item')) {
+            event.stopPropagation(); // Cegah event klik dari propagasi ke timeline
+            selectedItemId = event.target.getAttribute('data-id');
+            console.log('selectedItemId:', selectedItemId);
 
-                // Tambahkan event listener untuk memilih item
-                timeline.on('select', function(properties) {
-                    var clickedElement = document.elementFromPoint(properties.event.center.x, properties.event.center.y);
-                    if (clickedElement && clickedElement.classList.contains('delete-item')) {
-                        return; // Jangan proses jika tombol hapus diklik
-                    }
+            var deleteEventModal = $('#deleteModal');
+            deleteEventModal.find('input[name="id"]').val(selectedItemId);
+            deleteEventModal.modal('show');
 
-                    var itemId = properties.items[0];
-                    var selectedItem = items.get(itemId);
-                    console.log('Item terpilih:', selectedItem);
-                    // Isi modal dengan data item yang dipilih
-                    var editEventModal = $('#editEventModal');
-                    editEventModal.find('input[name="id"]').val(selectedItem.id);
-                    editEventModal.find('input[name="group"]').val(selectedItem.group);
-                    editEventModal.find('input[name="start"]').val(selectedItem.start);
-                    editEventModal.find('input[name="end"]').val(selectedItem.end);
-                    // Tampilkan modal
-                    editEventModal.modal('show');
-                });
+        }
+    });
 
-                // Tambahkan event listener untuk klik grup
-                timeline.on('click', function(properties) {
-                    var groupId = properties.group;
-                    if (groupId !== undefined) {
-                        var selectedGroup = groups.get(groupId);
-                        console.log('Grup diklik:', selectedGroup);
-                        var editEventModal = $('#editEventModal');
-                        editEventModal.find('input[name="nama"]').val(selectedGroup.content);
-                    }        
-                });
-            </script>
+    // Tambahkan event listener untuk memilih item
+    timeline.on('select', function(properties) {
+        var clickedElement = document.elementFromPoint(properties.event.center.x, properties.event.center.y);
+        if (clickedElement && clickedElement.classList.contains('delete-item')) {
+            return; // Jangan proses jika tombol hapus diklik
+        }
+
+        var itemId = properties.items[0];
+        var selectedItem = items.get(itemId);
+        console.log('Item terpilih:', selectedItem);
+        // Isi modal dengan data item yang dipilih
+        var editEventModal = $('#editEventModal');
+        editEventModal.find('input[name="id"]').val(selectedItem.id);
+        editEventModal.find('input[name="group"]').val(selectedItem.group);
+        editEventModal.find('input[name="start"]').val(selectedItem.start);
+        editEventModal.find('input[name="end"]').val(selectedItem.end);
+        // Tampilkan modal
+        editEventModal.modal('show');
+    });
+
+    // Tambahkan event listener untuk klik grup
+    timeline.on('click', function(properties) {
+        var groupId = properties.group;
+        if (groupId !== undefined) {
+            var selectedGroup = groups.get(groupId);
+            console.log('Grup diklik:', selectedGroup);
+            var editEventModal = $('#editEventModal');
+            editEventModal.find('input[name="nama"]').val(selectedGroup.content);
+        }        
+    });
+</script>
+
 
             <!-- Modal Tambah Kegiatan-->
             <div class="modal fade" id="kegiatanModal" aria-labelledby="kegiatanModalLabel" aria-hidden="true">
@@ -286,8 +285,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
                         </form>
                     </div>
@@ -319,8 +318,8 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
                                 </div>
                             </form>
                         </div>
@@ -357,13 +356,40 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+
+            <!-- Modal Delete -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                    <form id="deleteModal" action="{{ route('delete.item')}}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <div class="modal-body">
+                            <input type="hidden" name="id">
+                            <p>Apakah anda yakin ingin menghapus jadwal ?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+
         </body>
         </html>
     </div>
