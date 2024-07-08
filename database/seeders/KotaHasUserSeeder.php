@@ -14,127 +14,37 @@ class KotaHasUserSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('tbl_kota_has_user')->insert([
-            [   
-                'id_kota' => 1, 
-                'id_user' => 2,
-            ],
-            [   
-                'id_kota' => 1, 
-                'id_user' => 3,
-            ],
-            [   
-                'id_kota' => 1, 
-                'id_user' => 4,
-            ],
-            [   
-                'id_kota' => 2, 
-                'id_user' => 5,
-            ],
-            [   
-                'id_kota' => 2, 
-                'id_user' => 6,
-            ],
-            [   
-                'id_kota' => 2, 
-                'id_user' => 7,
-            ],
-            [   
-                'id_kota' => 3, 
-                'id_user' => 8,
-            ],
-            [   
-                'id_kota' => 3, 
-                'id_user' => 9,
-            ],
-            [   
-                'id_kota' => 3, 
-                'id_user' => 10,
-            ],
-            [   
-                'id_kota' => 4, 
-                'id_user' => 11,
-            ],
-            [   
-                'id_kota' => 4, 
-                'id_user' => 12,
-            ],
-            [   
-                'id_kota' => 4, 
-                'id_user' => 13,
-            ],
-            [   
-                'id_kota' => 5, 
-                'id_user' => 14,
-            ],
-            [   
-                'id_kota' => 5, 
-                'id_user' => 15,
-            ],
-            [   
-                'id_kota' => 5, 
-                'id_user' => 16,
-            ],
-            [   
-                'id_kota' => 6, 
-                'id_user' => 17,
-            ],
-            [   
-                'id_kota' => 6, 
-                'id_user' => 18,
-            ],
-            [   
-                'id_kota' => 6, 
-                'id_user' => 19,
-            ],
-            [   
-                'id_kota' => 1, 
-                'id_user' => 20,
-            ],
-            [   
-                'id_kota' => 1, 
-                'id_user' => 21,
-            ],
-            [   
-                'id_kota' => 2, 
-                'id_user' => 22,
-            ],
-            [   
-                'id_kota' => 2, 
-                'id_user' => 23,
-            ],
-            [   
-                'id_kota' => 3, 
-                'id_user' => 24,
-            ],
-            [   
-                'id_kota' => 3, 
-                'id_user' => 25,
-            ],
-            [   
-                'id_kota' => 4, 
-                'id_user' => 21,
-            ],
-            [   
-                'id_kota' => 4, 
-                'id_user' => 23,
-            ],
-            [   
-                'id_kota' => 5, 
-                'id_user' => 22,
-            ],
-            [   
-                'id_kota' => 5, 
-                'id_user' => 24,
-            ],
-            [   
-                'id_kota' => 6, 
-                'id_user' => 20,
-            ],
-            [   
-                'id_kota' => 6, 
-                'id_user' => 25,
-            ],
-        ]);
+        //Array untuk menyimpan data insert
+        $data = [];
+
+        // Mengisi id_kota dari 1 sampai 40
+        for ($id_kota = 1; $id_kota <= 40; $id_kota++) {
+            // Mengisi id_user dengan role 2 (dosen) dari 2 sampai 44, maksimal 2 per kota
+            for ($i = 0; $i < 2; $i++) {
+                $id_user = 2 + ($id_kota - 1) * 2 + $i;
+                if ($id_user > 44) {
+                    break; // Jika id_user melebihi 44, berhenti menambah
+                }
+                $data[] = [
+                    'id_kota' => $id_kota,
+                    'id_user' => $id_user,
+                ];
+            }
+
+            // Mengisi id_user dengan role 3 (mahasiswa) dari 45 sampai 108, maksimal 3 per kota
+            for ($i = 0; $i < 3; $i++) {
+                $id_user = 45 + ($id_kota - 1) * 3 + $i;
+                if ($id_user > 132) {
+                    break; // Jika id_user melebihi kondisi, berhenti menambah
+                }
+                $data[] = [
+                    'id_kota' => $id_kota,
+                    'id_user' => $id_user,
+                ];
+            }
+        }
+
+        // Insert data ke tabel tbl_kota_has_user
+        DB::table('tbl_kota_has_user')->insert($data);
     }
 }

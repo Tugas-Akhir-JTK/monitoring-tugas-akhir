@@ -47,38 +47,11 @@
                             </div>
 
                             <!-- SESI -->
-                            <div class="mb-3">
-                                <label for="sesi_bimbingan" class="form-label">SESI BIMBINGAN</label>
-                                <input name="sesi_bimbingan" type="text" class="form-control" id="sesi_bimbingan" placeholder="Sesi Bimbingan Ke-"/>
-                            </div>
-
                             <div class="row g-2">
-                                <!-- TANGGAL BIMBINGAN -->
                                 <div class="col mb-3">
-                                    <label for="tanggal_bimbingan" class="form-label">Tanggal</label>
-                                    <input name="tanggal_bimbingan" value="{{ old('tanggal_bimbingan') }}" type="date" class="form-control" id="tanggal_bimbingan" placeholder="dd/mm/yy" required/>
+                                    <label for="sesi_bimbingan" class="form-label">Sesi Bimbingan</label>
+                                    <input name="sesi_bimbingan" value="{{ old('sesi_bimbingan') }}" type="text" class="form-control" id="sesi_bimbingan" placeholder="Sesi Bimbingan Ke-"/>
                                 </div>
-
-                                <!-- WAKTU BIMBINGAN -->
-                                <div class="col mb-3">
-                                    <label for="waktu_bimbingan" class="form-label">Waktu Bimbingan</label>
-                                    <input name="waktu_bimbingan" value="{{ old('waktu_bimbingan') }}" type="time" class="form-control" id="waktu_bimbingan" placeholder="hh:mm" required/>
-                                </div>
-                            </div>
-
-                            <!-- ISI RESUME BIMBINGAN -->
-                            <div class="mb-3">
-                                <label for="isi_resume_bimbingan" class="form-label">Resume Bimbingan</label>
-                                <textarea name="isi_resume_bimbingan" class="form-control" id="isi_resume_bimbingan" rows="3" required>{{ old('isi_resume_bimbingan') }}</textarea>
-                            </div>
-
-                            <div class="row g-2">
-                                <!-- PROGRES PENGERJAAN -->
-                                <div class="col mb-3">
-                                    <label for="progres_pengerjaan" class="form-label">Progres Pengerjaan</label>
-                                    <input name="progres_pengerjaan" value="{{ old('progres_pengerjaan') }}" type="text" class="form-control" id="progres_pengerjaan" placeholder="%" required/>
-                                </div>
-
                                 <!-- TAHAPAN PROGRES -->
                                 <div class="col mb-3">
                                     <label for="tahapan_progres" class="form-label">Tahapan Progres</label>
@@ -90,6 +63,32 @@
                                     </select>
                                 </div>
                             </div>  
+
+                            <div class="row g-2">
+                                <!-- TANGGAL BIMBINGAN -->
+                                <div class="col mb-3">
+                                    <label for="tanggal_bimbingan" class="form-label">Tanggal</label>
+                                    <input name="tanggal_bimbingan" value="{{ old('tanggal_bimbingan') }}" type="date" class="form-control" id="tanggal_bimbingan" placeholder="dd/mm/yy" required/>
+                                </div>
+
+                                <!-- WAKTU BIMBINGAN -->
+                                <div class="col mb-3">
+                                    <label for="jam_mulai" class="form-label">Jam Mulai</label>
+                                    <input name="jam_mulai" value="{{ old('jam_mulai') }}" type="time" class="form-control" id="jam_mulai" placeholder="hh:mm" required/>
+                                </div>
+
+                                <div class="col mb-3">
+                                    <label for="jam_selesai" class="form-label">Jam Selesai</label>
+                                    <input name="jam_selesai" value="{{ old('jam_selesai') }}" type="time" class="form-control" id="jam_selesai" placeholder="hh:mm" required/>
+                                </div>
+                            </div>
+
+                            <!-- ISI RESUME BIMBINGAN -->
+                            <div class="mb-3">
+                                <label for="isi_resume_bimbingan" class="form-label">Resume Bimbingan</label>
+                                <textarea name="isi_resume_bimbingan" class="form-control" id="isi_resume_bimbingan" rows="3" required>{{ old('isi_resume_bimbingan') }}</textarea>
+                            </div>
+
                         </div>
                     </div>
                     <div class="row">

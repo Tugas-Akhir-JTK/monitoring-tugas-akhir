@@ -130,9 +130,12 @@
                 @foreach ($seminar1 as $masterArtefak)
                     @php
                         $isSubmitted = false;
+                        $submittedFile = null;
                         foreach ($artefakKota as $artefak) {
-                            if ($artefak->id_artefak == $masterArtefak->id) {
+                            if ($artefak->nama_artefak == $masterArtefak->nama_artefak) {
                                 $isSubmitted = true;
+                                $submittedFile = $artefak->file_pengumpulan; // Ambil path file pengumpulan
+                                $submittedFileId = $artefak->nama_artefak;
                                 break;
                             }
                         }
@@ -140,10 +143,12 @@
                     <div class="row">
                         <div class="col mr-2">
                             @if ($isSubmitted)
+                                <a href="{{ route('home.showFile', $submittedFileId) }}">
                                 <span class="badge badge-pill badge-success">
                                     <i class="nav-icon fas fa-file"></i>
-                                    {{ $masterArtefak->nama_artefak }}
-                                </span>
+                                        {{ $masterArtefak->nama_artefak }}
+                                    </span>
+                                </a>
                             @else
                                 <span class="badge badge-pill badge-secondary">
                                     <i class="nav-icon fas fa-file"></i>
@@ -211,8 +216,9 @@
                     @php
                         $isSubmitted = false;
                         foreach ($artefakKota as $artefak) {
-                            if ($artefak->id_artefak == $masterArtefak->id) {
+                            if ($artefak->nama_artefak == $masterArtefak->nama_artefak) {
                                 $isSubmitted = true;
+                                $submittedFileId = $artefak->nama_artefak;
                                 break;
                             }
                         }
@@ -220,10 +226,12 @@
                     <div class="row">
                         <div class="col mr-2">
                             @if ($isSubmitted)
+                                <a href="{{ route('home.showFile', $submittedFileId) }}">
                                 <span class="badge badge-pill badge-success">
                                     <i class="nav-icon fas fa-file"></i>
-                                    {{ $masterArtefak->nama_artefak }}
-                                </span>
+                                        {{ $masterArtefak->nama_artefak }}
+                                    </span>
+                                </a>
                             @else
                                 <span class="badge badge-pill badge-secondary">
                                     <i class="nav-icon fas fa-file"></i>
@@ -291,8 +299,9 @@
                     @php
                         $isSubmitted = false;
                         foreach ($artefakKota as $artefak) {
-                            if ($artefak->id_artefak == $masterArtefak->id) {
+                            if ($artefak->nama_artefak == $masterArtefak->nama_artefak) {
                                 $isSubmitted = true;
+                                $submittedFileId = $artefak->nama_artefak;
                                 break;
                             }
                         }
@@ -300,10 +309,12 @@
                     <div class="row">
                         <div class="col mr-2">
                             @if ($isSubmitted)
+                                <a href="{{ route('home.showFile', $submittedFileId) }}">
                                 <span class="badge badge-pill badge-success">
                                     <i class="nav-icon fas fa-file"></i>
-                                    {{ $masterArtefak->nama_artefak }}
-                                </span>
+                                        {{ $masterArtefak->nama_artefak }}
+                                    </span>
+                                </a>
                             @else
                                 <span class="badge badge-pill badge-secondary">
                                     <i class="nav-icon fas fa-file"></i>
@@ -371,8 +382,9 @@
                     @php
                         $isSubmitted = false;
                         foreach ($artefakKota as $artefak) {
-                            if ($artefak->id_artefak == $masterArtefak->id) {
+                            if ($artefak->nama_artefak == $masterArtefak->nama_artefak) {
                                 $isSubmitted = true;
+                                $submittedFileId = $artefak->nama_artefak;
                                 break;
                             }
                         }
@@ -380,10 +392,12 @@
                     <div class="row">
                         <div class="col mr-2">
                             @if ($isSubmitted)
+                                <a href="{{ route('home.showFile', $submittedFileId) }}">
                                 <span class="badge badge-pill badge-success">
                                     <i class="nav-icon fas fa-file"></i>
-                                    {{ $masterArtefak->nama_artefak }}
-                                </span>
+                                        {{ $masterArtefak->nama_artefak }}
+                                    </span>
+                                </a>
                             @else
                                 <span class="badge badge-pill badge-secondary">
                                     <i class="nav-icon fas fa-file"></i>

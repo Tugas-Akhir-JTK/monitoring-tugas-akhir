@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id('id_resume_bimbingan')->unique();
             $table->integer('sesi_bimbingan');
             $table->date('tanggal_bimbingan');
-            $table->time('waktu_bimbingan');
+            $table->time('jam_mulai');
+            $table->time('jam_selesai');
             $table->text('isi_resume_bimbingan');
             $table->text('isi_revisi_bimbingan')->nullable();
-            $table->integer('progres_pengerjaan');
             $table->integer('tahapan_progres');
             $table->timestamps();
         });

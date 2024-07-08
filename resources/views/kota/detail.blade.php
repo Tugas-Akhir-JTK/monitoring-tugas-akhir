@@ -11,7 +11,6 @@
                     <div class="col">
                         <h1 class="m-0">Detail Kelompok Tugas Akhir</h1>
                     </div>
-                    @if (auth()->user()->role=="1" || auth()->user()->role == "3")
                     <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
                         <span class="badge badge-pill badge-success" style="font-size: 1.0em;">
                             <i class="nav-icon fas fa-check"></i>
@@ -22,7 +21,6 @@
                             Belum Mengumpulkan
                         </span>
                     </div>
-                    @endif
                 </div><!-- /.row -->
             <hr/>
         </div><!-- /.container-fluid -->
@@ -137,15 +135,15 @@
             @endif
         @endforeach
 
-        @if (auth()->user()->role=="1" || auth()->user()->role == "3")
         <div class="container-fluid">
             <div class="row row-cols-auto">
                 @foreach ($seminar1 as $masterArtefak)
                     @php
                         $isSubmitted = false;
                         foreach ($artefakKota as $artefak) {
-                            if ($artefak->id_artefak == $masterArtefak->id) {
+                            if ($artefak->nama_artefak == $masterArtefak->nama_artefak) {
                                 $isSubmitted = true;
+                                $submittedFileId = $artefak->nama_artefak;
                                 break;
                             }
                         }
@@ -153,10 +151,12 @@
                     <div class="row">
                         <div class="col mr-2">
                             @if ($isSubmitted)
+                                <a href="{{ route('kota.showFile', $submittedFileId) }}">
                                 <span class="badge badge-pill badge-success">
                                     <i class="nav-icon fas fa-file"></i>
-                                    {{ $masterArtefak->nama_artefak }}
-                                </span>
+                                        {{ $masterArtefak->nama_artefak }}
+                                    </span>
+                                </a>
                             @else
                                 <span class="badge badge-pill badge-secondary">
                                     <i class="nav-icon fas fa-file"></i>
@@ -168,7 +168,6 @@
                 @endforeach
             </div>
         </div>
-        @endif
         
         <br>
         
@@ -231,15 +230,15 @@
             @endif
         @endforeach
 
-        @if (auth()->user()->role=="1" || auth()->user()->role == "3")
         <div class="container-fluid">
             <div class="row row-cols-auto">
                 @foreach ($seminar2 as $masterArtefak)
                     @php
                         $isSubmitted = false;
                         foreach ($artefakKota as $artefak) {
-                            if ($artefak->id_artefak == $masterArtefak->id) {
+                            if ($artefak->nama_artefak == $masterArtefak->nama_artefak) {
                                 $isSubmitted = true;
+                                $submittedFileId = $artefak->nama_artefak;
                                 break;
                             }
                         }
@@ -247,10 +246,12 @@
                     <div class="row">
                         <div class="col mr-2">
                             @if ($isSubmitted)
+                                <a href="{{ route('kota.showFile', $submittedFileId) }}">
                                 <span class="badge badge-pill badge-success">
                                     <i class="nav-icon fas fa-file"></i>
-                                    {{ $masterArtefak->nama_artefak }}
-                                </span>
+                                        {{ $masterArtefak->nama_artefak }}
+                                    </span>
+                                </a>
                             @else
                                 <span class="badge badge-pill badge-secondary">
                                     <i class="nav-icon fas fa-file"></i>
@@ -262,7 +263,6 @@
                 @endforeach
             </div>
         </div>
-        @endif
         <br>
 
         @foreach($mastertahapan as $tahapan)
@@ -323,15 +323,15 @@
             @endif
         @endforeach
 
-        @if (auth()->user()->role=="1" || auth()->user()->role == "3")
         <div class="container-fluid">
             <div class="row row-cols-auto">
                 @foreach ($seminar3 as $masterArtefak)
                     @php
                         $isSubmitted = false;
                         foreach ($artefakKota as $artefak) {
-                            if ($artefak->id_artefak == $masterArtefak->id) {
+                            if ($artefak->nama_artefak == $masterArtefak->nama_artefak) {
                                 $isSubmitted = true;
+                                $submittedFileId = $artefak->nama_artefak;
                                 break;
                             }
                         }
@@ -339,10 +339,12 @@
                     <div class="row">
                         <div class="col mr-2">
                             @if ($isSubmitted)
+                                <a href="{{ route('kota.showFile', $submittedFileId) }}">
                                 <span class="badge badge-pill badge-success">
                                     <i class="nav-icon fas fa-file"></i>
-                                    {{ $masterArtefak->nama_artefak }}
-                                </span>
+                                        {{ $masterArtefak->nama_artefak }}
+                                    </span>
+                                </a>
                             @else
                                 <span class="badge badge-pill badge-secondary">
                                     <i class="nav-icon fas fa-file"></i>
@@ -354,7 +356,6 @@
                 @endforeach
             </div>
         </div>
-        @endif
 
         <br>
 
@@ -416,15 +417,15 @@
             @endif
         @endforeach
 
-        @if (auth()->user()->role=="1" || auth()->user()->role == "3")
         <div class="container-fluid">
             <div class="row row-cols-auto">
                 @foreach ($sidang as $masterArtefak)
                     @php
                         $isSubmitted = false;
                         foreach ($artefakKota as $artefak) {
-                            if ($artefak->id_artefak == $masterArtefak->id) {
+                            if ($artefak->nama_artefak == $masterArtefak->nama_artefak) {
                                 $isSubmitted = true;
+                                $submittedFileId = $artefak->nama_artefak;
                                 break;
                             }
                         }
@@ -432,10 +433,12 @@
                     <div class="row">
                         <div class="col mr-2">
                             @if ($isSubmitted)
+                                <a href="{{ route('kota.showFile', $submittedFileId) }}">
                                 <span class="badge badge-pill badge-success">
                                     <i class="nav-icon fas fa-file"></i>
-                                    {{ $masterArtefak->nama_artefak }}
-                                </span>
+                                        {{ $masterArtefak->nama_artefak }}
+                                    </span>
+                                </a>
                             @else
                                 <span class="badge badge-pill badge-secondary">
                                     <i class="nav-icon fas fa-file"></i>
@@ -447,7 +450,6 @@
                 @endforeach
             </div>
         </div>
-        @endif
         <br>
         <br>
         <br>

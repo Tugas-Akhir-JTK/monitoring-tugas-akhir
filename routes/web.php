@@ -20,10 +20,10 @@ use Illuminate\Support\Facades\Route;
 
 //Home
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/{id}/file', [App\Http\Controllers\HomeController::class, 'showFile'])->name('home.showFile');
 
 //Kota
 Route::get('/kota', [App\Http\Controllers\KotaController::class, 'index'])->middleware(['auth', 'role:1,2'])->name('kota');
-Route::get('/kota/detail/{id}', [App\Http\Controllers\KotaController::class, 'detail'])->middleware(['auth', 'role:1,2'])->name('kota.detail');
 Route::get('/kota/create', [App\Http\Controllers\KotaController::class, 'create'])->middleware(['auth', 'role:1,2'])->name('kota.create'); //menambahkan data
 Route::get('/kota/{id}', [App\Http\Controllers\KotaController::class, 'detail'])->middleware(['auth', 'role:1,2'])->name('kota.detail');
 Route::post('/kota/store', [App\Http\Controllers\KotaController::class, 'store'])->middleware(['auth', 'role:1,2'])->name('kota.store');
@@ -32,6 +32,7 @@ Route::put('/kota/update/{id}', [App\Http\Controllers\KotaController::class, 'up
 Route::get('/kota/search', [App\Http\Controllers\KotaController::class, 'search'])->middleware(['auth', 'role:1,2'])->name('kota.search');
 Route::delete('/kota/{id}', [App\Http\Controllers\KotaController::class, 'destroy'])->middleware(['auth', 'role:1,2'])->name('kota.destroy');
 Route::post('/store_status', [App\Http\Controllers\KotaController::class, 'store_status'])->middleware(['auth', 'role:2'])->name('store_status');
+Route::get('/kota/{id}/file', [App\Http\Controllers\KotaController::class, 'showFile'])->middleware(['auth', 'role:1, 2'])->name('kota.showFile');
 
 
 //Timeline
@@ -95,11 +96,6 @@ Route::put('/jadwal/update{id}', [App\Http\Controllers\JadwalController::class, 
 Route::delete('/jadwal/{id}', [App\Http\Controllers\JadwalController::class, 'destroy'])->middleware(['auth', 'role:1,3'])->name('jadwal.destroy');
 
 
-//Bimbingan
-Route::get('/bimbingan', [App\Http\Controllers\BimbinganController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('bimbingan');
-
-
-
 //Resume Bimbingan
 Route::get('/resume', [App\Http\Controllers\ResumeBimbinganController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('resume');
 Route::get('/resume/detail/{id}', [App\Http\Controllers\ResumeBimbinganController::class, 'detail'])->middleware(['auth', 'role:2,3'])->name('resume.detail');
@@ -110,3 +106,5 @@ Route::get('/resume/edit/{id}', [App\Http\Controllers\ResumeBimbinganController:
 Route::put('/resume/update/{id}', [App\Http\Controllers\ResumeBimbinganController::class, 'update'])->middleware(['auth', 'role:2,3'])->name('resume.update');
 Route::post('/resume/search', [App\Http\Controllers\ResumeBimbinganController::class, 'search'])->middleware(['auth', 'role:2,3'])->name('resume.search');
 Route::delete('/resume/{id}', [App\Http\Controllers\ResumeBimbinganController::class, 'destroy'])->middleware(['auth', 'role:2,3'])->name('resume.destroy');
+Route::get('/resume/generate-pdf/{sesi_bimbingan}', [App\Http\Controllers\ResumeBimbinganController::class, 'generatePdf'])->middleware(['auth', 'role:3'])->name('resume.generatePdf');
+

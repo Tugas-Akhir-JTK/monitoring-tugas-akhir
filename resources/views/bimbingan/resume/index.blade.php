@@ -12,8 +12,7 @@
                 <h1 class="m-0">Resume Bimbingan</h1>
             </div><!-- /.col -->
             <div class="col d-flex justify-content-end">
-                <div class="btn-group mr-2">
-                    <!-- Menu Dropdown Kelas -->
+                <!-- <div class="btn-group mr-2">
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="classesDropdown" data-toggle="dropdown" aria-expanded="false">
                             Kelas
@@ -25,7 +24,7 @@
                             <li><a class="dropdown-item" href="#">D4-B</a></li>
                         </ul>
                     </div>
-                </div>
+                </div> -->
                 <div class="btn-group mr-2">
                     <!-- Menu Dropdown Seminar dan Sidang -->
                     <div class="dropdown">
@@ -71,16 +70,23 @@
                     <div class="col">Resume Bimbingan Ke-{{ $resume->sesi_bimbingan }}</div>
                     @if (auth()->user()->role == "3")
                     <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
-                      <a href="{{ route('resume.edit', $resume->id_resume_bimbingan) }}"  data-toggle="tooltip" data-placement="top" title="Edit Resume Bimbingan">
-                        <i class="nav-icon fas fa-pen" style="color: blue;"></i>
-                      </a>
+                      <div class="btn-group mr-2">
+                        <a href="{{ route('resume.edit', $resume->id_resume_bimbingan) }}"  data-toggle="tooltip" data-placement="top" title="Edit Resume Bimbingan">
+                          <i class="nav-icon fas fa-pen" style="color: blue;"></i>
+                        </a>
+                      </div>
+                      <div class="btn-group">
+                        <a href="{{ route('resume.generatePdf', ['sesi_bimbingan' => $resume->id_resume_bimbingan]) }}" data-toggle="tooltip" data-placement="top" title="Download PDF">
+                          <i class="nav-icon fas fa-file-pdf" style="color: red;"></i>
+                        </a>
+                      </div>
                     </div>
                     @endif
                   </h5>
                   <div class="card-body">
-                    <div class="row justify-content-start">
-                      <small class="col-4 card-text">{{ $resume->tanggal_bimbingan }}</small>
-                      <p class="col-4 card-text"><small class="text-muted">{{ $resume->waktu_bimbingan }}</small></p>
+                    <div class="row">
+                      <small class="col">{{ $resume->tanggal_bimbingan }}</small>
+                      <p class="col"><small class="text-muted">{{ $resume->jam_mulai }} - {{ $resume->jam_selesai }}</small></p>
                     </div>
                     <div class="row">
                       <div class="col">

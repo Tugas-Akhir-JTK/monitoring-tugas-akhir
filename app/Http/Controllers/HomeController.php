@@ -10,6 +10,7 @@ use App\Models\KotaHasTahapanProgresModel;
 use App\Models\KotaHasArtefakModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -111,7 +112,10 @@ class HomeController extends Controller
 
                 // Menyiapkan data artefak untuk ditampilkan
                 $masterArtefaks = DB::table('tbl_master_artefak')->get();
-                $artefakKota = KotaHasArtefakModel::where('id_kota', $id_kota)->get();
+                $artefakKota = KotaHasArtefakModel::where('id_kota', $id_kota)
+                                                    ->join('tbl_artefak', 'tbl_kota_has_artefak.id_artefak', '=', 'tbl_artefak.id_artefak')
+                                                    ->select('tbl_artefak.nama_artefak')
+                                                    ->get();
                 $tahapan_progres = KotaHasTahapanProgresModel::where('id_kota',$id_kota)->get();
 
                 // Inisialisasi array kosong untuk menyimpan artefak sesuai dengan tahapan
@@ -214,5 +218,31 @@ class HomeController extends Controller
             return view('beranda.kaprodi.home');
         }
     
+    }
+
+    public function showFile($nama_artefak)
+    {
+        $artefak = DB::table('tbl_kota_has_artefak')
+                        ->join('tbl_artefak', 'tbl_kota_has_artefak.id_artefak', '=', 'tbl_artefak.id_artefak')
+                        ->where('tbl_artefak.nama_artefak', $nama_artefak)
+                        ->select('tbl_kota_has_artefak.file_pengumpulan', 'tbl_kota_has_artefak.id_kota')
+                        ->first();
+
+        // Ambil path file dari database
+        $filePath = $artefak->file_pengumpulan;
+        $idKota = $artefak->id_kota;
+
+        // Periksa apakah file ada
+        if (Storage::disk('public')->exists($filePath)) {
+            // Redirect ke URL file
+            return response()->file(storage_path('app/public/' . $filePath));
+        } else {
+            $user = auth()->user();
+            if($user->role == 3) {
+                return redirect()->route('home')->with('error', 'File tidak ditemukan');
+            } else {
+                return redirect()->route('kota.detail', ['id' => $idKota])->with('error', 'File tidak ditemukan');
+            }
+        }
     }
 }

@@ -37,6 +37,14 @@
                                     </div>
                             </div>
                             @endif
+                            <div class="row">
+                                <!-- TAHAPAN PROGRES -->
+                                <div class="col">
+                                    <h5>Tahapan Progres</h5>
+                                    <input class="form-control" value="{{ $tahapan_progres }}" readonly/> 
+                                </div>
+                            </div>
+                            <br>
                             <div>
                                 <h5>Resume Bimbingan</h5>
                                 <small>{{ $resumes->isi_resume_bimbingan }}</small>
@@ -47,19 +55,6 @@
                                 <small>{{ $resumes->isi_revisi_bimbingan }}</small>
                             </div>
                             <br>
-                            <div class="row g-2">
-                                <!-- PROGRES PENGERJAAN -->
-                                <div class="col mb-3">
-                                    <label for="progres_pengerjaan" class="form-label">Progres Pengerjaan</label>
-                                    <input class="form-control" value="{{ $resumes->progres_pengerjaan }}%" readonly/> 
-                                </div>
-
-                                <!-- TAHAPAN PROGRES -->
-                                <div class="col mb-3">
-                                    <label>Tahapan Progres</label>
-                                    <input class="form-control" value="{{ $tahapan_progres }}" readonly/> 
-                                </div>
-                            </div>
                         </div>
                     </div>
                 <br/>
