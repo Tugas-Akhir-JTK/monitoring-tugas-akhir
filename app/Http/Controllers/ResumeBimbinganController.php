@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\ResumeBimbinganModel;
-use App\Models\KotaHasResumeBimbinganModel;
+use App\Models\KotaHasResumeBimbinganModel; 
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 
 class ResumeBimbinganController extends Controller
@@ -64,8 +65,21 @@ class ResumeBimbinganController extends Controller
     return view('bimbingan.resume.index', compact('resumes'));
 }
 
+        // Menambahkan logika sorting berdasarkan parameter 'sort' dan 'direction'
+        if ($request->has('sort') && $request->has('direction')) {
+            $direction = $request->input('direction');
+            $query->orderBy($sort, $direction); // Menggunakan variabel $sort dari if sebelumnya
+        } else {
+            // Jika tidak ada parameter 'direction', secara default urutkan descending berdasarkan nomer dari sesi_bimbingan
+            $query->orderBy('tbl_resume_bimbingan.sesi_bimbingan', 'desc');
+        }
 
+        // Paginate hasil query
+        $resumes = $query->paginate(10);
 
+        // Mengembalikan view dengan data resumes
+        return view('bimbingan.resume.index', compact('resumes'));
+    }
 
     public function create()
     {
@@ -78,11 +92,11 @@ class ResumeBimbinganController extends Controller
     
         // Query untuk mencari user dengan role 2 yang ada dalam kota yang sama
         $dosen = DB::table('users')
-                  ->join('tbl_kota_has_user', 'users.id', '=', 'tbl_kota_has_user.id_user')
-                  ->where('users.role', 2)
-                  ->where('tbl_kota_has_user.id_kota', $id_kota)
-                  ->select('users.*')
-                  ->get();
+                    ->join('tbl_kota_has_user', 'users.id', '=', 'tbl_kota_has_user.id_user')
+                    ->where('users.role', 2)
+                    ->where('tbl_kota_has_user.id_kota', $id_kota)
+                    ->select('users.*')
+                    ->get();
     
         return view('bimbingan.resume.create', compact('dosen'));
     }
@@ -92,10 +106,10 @@ class ResumeBimbinganController extends Controller
     {
         $request->validate([
             'tanggal_bimbingan' => 'required',
-            'waktu_bimbingan' => 'required',
+            'jam_mulai' => 'required',
+            'jam_selesai' => 'required',
             'isi_resume_bimbingan' => 'required',
             'isi_revisi_bimbingan' => '',
-            'progres_pengerjaan' => 'required',
             'tahapan_progres' => 'required',
             'sesi_bimbingan'=> 'required',
         ]);
@@ -190,10 +204,10 @@ class ResumeBimbinganController extends Controller
     {
         $request->validate([
             'tanggal_bimbingan' => 'required',
-            'waktu_bimbingan' => 'required',
+            'jam_mulai' => 'required',
+            'jam_selesai' => 'required',
             'isi_resume_bimbingan' => 'required',
             'isi_revisi_bimbingan' => '',
-            'progres_pengerjaan' => 'required',
             'tahapan_progres' => 'required',
         ]);
         
@@ -221,4 +235,23 @@ class ResumeBimbinganController extends Controller
         
         return redirect()->route('resume');
     }
+
+    public function generatePdf($sesi_bimbingan)
+    {
+        $user = auth()->user();
+
+        $dosen = DB::table('tbl_resume_bimbingan as rb')
+                    ->join('tbl_kota_has_resume_bimbingan as krb', 'rb.id_resume_bimbingan', '=', 'krb.id_resume_bimbingan')
+                    ->join('users as u', 'krb.id_user', '=', 'u.id')
+                    ->select('rb.*', 'u.name as nama_dosen')
+                    ->where('rb.id_resume_bimbingan', $sesi_bimbingan)
+                    ->first();
+
+        $resume = ResumeBimbinganModel::findOrFail($sesi_bimbingan);
+
+        $pdf = PDF::loadView('bimbingan.generate', compact('resume', 'dosen'));
+
+        return $pdf->download('resume bimbingan ke-' . $resume->sesi_bimbingan . '.pdf');
+    }
+
 }

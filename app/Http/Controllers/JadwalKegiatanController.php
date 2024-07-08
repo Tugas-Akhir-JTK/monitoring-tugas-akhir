@@ -245,7 +245,16 @@ class JadwalKegiatanController extends Controller
             return redirect()->route('kegiatan.index')->with('error', 'Nama Kegiatan tidak ada');
         }
 
+        // Temukan resource berdasarkan ID
+        $resource = NamaKegiatanModel::find($validated['id']);
+        
+        // Update data resource
+        $resource->nama_kegiatan = $validated['title'];
+
+        $resource->save();
+        
         return redirect()->route('kegiatan.index')->with('success', 'Data kegiatan berhasil diperbarui.');
+
     }
 
     public function destroy($id)

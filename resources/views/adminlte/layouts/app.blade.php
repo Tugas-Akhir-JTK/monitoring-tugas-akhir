@@ -87,6 +87,33 @@
                 });
             </script>
         @endif
+        @if ($errors->any())
+            @php
+                $errorList = '<ul>';
+                foreach ($errors->all() as $error) {
+                    $errorList .= '<li>' . $error . '</li>';
+                }
+                $errorList .= '</ul>';
+            @endphp
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    Swal.fire({
+                        icon: 'error',
+                        // title: 'Kesalahan Validasi',
+                        title: `{!! $errorList !!}`,
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 7000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+                });
+            </script>
+        @endif
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu" data-slide="true" role="button" id="pushMenuIcon"><i class="fas fa-bars"></i></a>
         </li>
@@ -228,7 +255,7 @@
                 <a href="{{ route('jadwal') }}" class="nav-link">
                     <i class="nav-icon fas fa-clock"></i>
                     <p>
-                        Jadwal Penguji
+                        Jadwal Kesediaan
                         <!-- <span class="right badge badge-success">Updated</span> -->
                     </p>
                 </a>
@@ -248,7 +275,7 @@
                         <li>
                             <a class="nav-link" href="{{ route('jadwal') }}">
                                 <i class="nav-icon fas fa-arrow"></i>
-                                <p>Jadwal Penguji</p>
+                                <p>Jadwal Kesediaan</p>
                             </a>
                         </li>
                         <li>

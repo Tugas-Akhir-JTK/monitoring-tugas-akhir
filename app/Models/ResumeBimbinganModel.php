@@ -15,10 +15,10 @@ class ResumeBimbinganModel extends Model
     protected $primaryKey = 'id_resume_bimbingan';
     protected $fillable = [
         'tanggal_bimbingan',
-        'waktu_bimbingan',
+        'jam_mulai',
+        'jam_selesai',
         'isi_resume_bimbingan',
         'isi_revisi_bimbingan',
-        'progres_pengerjaan',
         'tahapan_progres',
         'sesi_bimbingan',
     ];
@@ -30,5 +30,17 @@ class ResumeBimbinganModel extends Model
         } else {
             return DB::table($this->table)->where('id_resume_bimbingan', $id)->first();
         }
+    }
+
+     // Accessor untuk format jam_mulai
+    public function getJamMulaiAttribute($value)
+    {
+        return date('H:i', strtotime($value));
+    }
+
+     // Accessor untuk format jam_selesai
+    public function getJamSelesaiAttribute($value)
+    {
+        return date('H:i', strtotime($value));
     }
 }

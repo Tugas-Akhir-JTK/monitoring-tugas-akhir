@@ -185,12 +185,12 @@
                                                         @csrf
                                                         @method('DELETE')
                                                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                                            <button class="btn btn-danger" type="submit">Batalkan Pengiriman</button>
+                                                            <button class="btn btn-danger" type="submit">Hapus File</button>
                                                         </div>
                                                     </form>
                                                 </div>
                                             @else
-                                                <div class="input-group">
+                                                <div class="input-group mb-3">
                                                     <form action="{{ route('submissions.store', $artefak->id_artefak) }}" method="POST" enctype="multipart/form-data">
                                                         @csrf
                                                         <input type="file" class="form-control" name="file_pengumpulan" required>

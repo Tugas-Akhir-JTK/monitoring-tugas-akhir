@@ -16,5 +16,12 @@ class JadwalKesediaanPengujiModel extends Model
         'nama_penguji',
         'tanggal_mulai',
         'tanggal_selesai',
+        'status',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'nama_penguji', 'name')
+                    ->where('role', 2);
+    }
 }
