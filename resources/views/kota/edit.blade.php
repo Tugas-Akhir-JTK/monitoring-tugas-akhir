@@ -47,24 +47,66 @@
                             </div>
                         </div>
                         <!-- Dosen Pembimbing -->
-<div class="list-group-item p-3">
-    <div class="row align-items-start">
-        <div class="col-md-2 mb-8pt mb-md-0">
-            <div class="media align-items-left">
-                <div class="d-flex flex-column media-body media-middle">
-                    <span class="card-title" for="dosen">Dosen Pembimbing</span>
-                </div>
-            </div>
-        </div>
-        <div class="col mb-8pt mb-md-0">
-            <select multiple class="form-control" id="dosen" name="dosen[]" required>
-                @foreach($dosen as $d)
-                    <option value="{{ $d->id }}" {{ in_array($d->id, $selectedDosen) ? 'selected' : '' }}>{{ $d->name }}</option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-</div>
+                        <!-- <div class="row">
+                        <div class="col-md-4">
+                            <div class="list-group-item p-3">
+                                <div class="row align-items-start">
+                                    <div class="col-md-4 mb-8pt mb-md-0">
+                                        <div class="media align-items-left">
+                                            <div class="d-flex flex-column media-body media-middle">
+                                                <span class="card-title" for="mahasiswa">Mahasiswa 1</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <select class="form-control" id="mahasiswa" name="mahasiswa[]" required>
+                                            <option value="" disabled selected>Pilih Mahasiswa</option>
+                                            @foreach($mahasiswa as $m)
+                                                <option value="{{ $m->nomor_induk }}" {{ in_array($m->nomor_induk, old('mahasiswa', [])) ? 'selected' : '' }}>{{ $m->nomor_induk }} - {{ $m->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="list-group-item p-3">
+                                <div class="row align-items-start">
+                                    <div class="col-md-4 mb-8pt mb-md-0">
+                                        <div class="media align-items-left">
+                                            <div class="d-flex flex-column media-body media-middle">
+                                            <span   span class="card-title" for="dosen">Dosen Pembimbing</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <select multiple class="form-control" id="dosen" name="dosen[]" required>
+                                            @foreach($dosen as $d)
+                                                <option value="{{ $d->id }}" {{ in_array($d->id, $selectedDosen) ? 'selected' : '' }}>{{ $d->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="list-group-item p-3">
+                            <div class="row align-items-start">
+                                <div class="col-md-2 mb-8pt mb-md-0">
+                                    <div class="media align-items-left">
+                                        <div class="d-flex flex-column media-body media-middle">
+                                            <span class="card-title" for="dosen">Dosen Pembimbing</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col mb-8pt mb-md-0">
+                                    <select multiple class="form-control" id="dosen" name="dosen[]" required>
+                                        @foreach($dosen as $d)
+                                            <option value="{{ $d->id }}" {{ in_array($d->id, $selectedDosen) ? 'selected' : '' }}>{{ $d->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
 <!-- Mahasiswa -->
 <div class="list-group-item p-3">

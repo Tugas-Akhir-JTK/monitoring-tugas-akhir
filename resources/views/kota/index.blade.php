@@ -106,9 +106,9 @@
                                                 <a class="edit" href="{{ route('kota.edit', $row->id_kota) }}" data-toggle="tooltip" data-placement="top" title="Edit KoTA">
                                                     <i class="nav-icon fas fa-pen" style="color: blue;"></i>
                                                 </a>
-                                                <a href="#" class="destroy" data-placement="top" title="Delete KoTA" data-toggle="modal" data-target="#deleteKotaModal-{{ $row->id_kota }}">
+                                                <!-- <a href="#" class="destroy" data-placement="top" title="Delete KoTA" data-toggle="modal" data-target="#deleteKotaModal-{{ $row->id_kota }}">
                                                     <i class="nav-icon fas fa-trash" style="color: red;"></i>
-                                                </a>
+                                                </a> -->
                                                 @csrf
                                                 @method('DELETE')
                                             </form>

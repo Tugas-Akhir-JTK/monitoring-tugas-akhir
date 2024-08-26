@@ -91,7 +91,7 @@ class KotaController extends Controller
             'kelas' => 'required', 
             'periode' => 'required',
             'mahasiswa' => 'required|array|min:1|max:3',
-            'dosen' => 'required|array|min:2|max:2',
+            // 'dosen' => 'required|array|min:2|max:2',
         ]);
         
         // Check if the Kota already exists
@@ -102,7 +102,7 @@ class KotaController extends Controller
         }
         
         // Check if user with role '3' already has a Kota
-        $userIds = array_merge($request->dosen, $request->mahasiswa);
+        $userIds = array_merge( $request->mahasiswa);
         foreach ($userIds as $userId) {
             $userRole = DB::table('users')->where('nomor_induk', $userId)->value('role');
             $userid = DB::table('users')->where('nomor_induk', $userId)->value('id');
