@@ -51,7 +51,7 @@ Route::get('/timeline', [App\Http\Controllers\TimelineController::class, 'index'
 Route::get('/timeline/store', [App\Http\Controllers\TimelineController::class, 'store'])->name('timeline.store');
 
 //Jadwal Kegiatan
-Route::get('/kegiatan', [App\Http\Controllers\JadwalKegiatanController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('kegiatan.index');
+Route::get('/kegiatan', [App\Http\Controllers\JadwalKegiatanController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('kegiatan');
 Route::get('/kegiatan/{id}', [App\Http\Controllers\JadwalKegiatanController::class, 'detail'])->middleware(['auth', 'role:2,3'])->name('kegiatan.detail');
 Route::post('/jadwal-kegiatan', [App\Http\Controllers\JadwalKegiatanController::class, 'store_kegiatan'])->middleware(['auth', 'role:2,3'])->name('kegiatan.store_kegiatan');
 Route::post('/metodologi/store', [App\Http\Controllers\JadwalKegiatanController::class, 'store_metodologi'])->middleware(['auth', 'role:2,3'])->name('metodologi.store');
@@ -70,7 +70,7 @@ Route::post('/kegiatan/store', [App\Http\Controllers\JadwalKegiatanController::c
 Route::put('/kegiatan/update/{id}', [App\Http\Controllers\JadwalKegiatanController::class, 'update'])->middleware(['auth', 'role:2,3'])->name('kegiatan.update');
 
 
-Route::get('/kegiatans', [App\Http\Controllers\KegiatanController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('kegiatans.index');
+// Route::get('/kegiatans', [App\Http\Controllers\KegiatanController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('kegiatans.index');
 
 
 

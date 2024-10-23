@@ -139,7 +139,7 @@ class JadwalKegiatanController extends Controller
             ]);
         }
 
-        return redirect()->route('kegiatan.index')->with('success', 'Jadwal Kegiatan berhasil disimpan');
+        return redirect()->route('kegiatan')->with('success', 'Jadwal Kegiatan berhasil disimpan');
 
     }
 
@@ -173,7 +173,7 @@ class JadwalKegiatanController extends Controller
             }
         }
         
-        return redirect()->route('kegiatan.index')->with('success', 'Metodologi berhasil disimpan');       
+        return redirect()->route('kegiatan')->with('success', 'Metodologi berhasil disimpan');       
        
     }
 
@@ -190,7 +190,7 @@ class JadwalKegiatanController extends Controller
         ]);
 
 
-        return redirect()->route('kegiatan.index')->with('success', 'Data berhasil diperbarui!');
+        return redirect()->route('kegiatan')->with('success', 'Data berhasil diperbarui!');
     }
 
     public function store_status_kegiatan(Request $request)
@@ -211,7 +211,7 @@ class JadwalKegiatanController extends Controller
 
         $jadwalKegiatan->save();
        
-        return redirect()->route('kegiatan.index');
+        return redirect()->route('kegiatan');
     }
 
     public function edit_Kegiatan(Request $request)
@@ -242,7 +242,7 @@ class JadwalKegiatanController extends Controller
             $namaKegiatan->nama_kegiatan = $validated['nama'];
             $namaKegiatan->save();
         } else {
-            return redirect()->route('kegiatan.index')->with('error', 'Nama Kegiatan tidak ada');
+            return redirect()->route('kegiatan')->with('error', 'Nama Kegiatan tidak ada');
         }
 
         // Temukan resource berdasarkan ID
@@ -253,7 +253,7 @@ class JadwalKegiatanController extends Controller
 
         $resource->save();
         
-        return redirect()->route('kegiatan.index')->with('success', 'Data kegiatan berhasil diperbarui.');
+        return redirect()->route('kegiatan')->with('success', 'Data kegiatan berhasil diperbarui.');
 
     }
 
@@ -273,7 +273,7 @@ class JadwalKegiatanController extends Controller
             $event->delete();
             
 
-            return redirect()->route('kegiatan.index');
+            return redirect()->route('kegiatan');
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to delete event and related resource. Error: ' . $e->getMessage()], 500);
         }
@@ -330,7 +330,7 @@ class JadwalKegiatanController extends Controller
     //     // Simpan ID ke session
     //     $request->session()->put('resourceId', $namaKegiatan->id);
 
-    //     return redirect()->route('kegiatan.index')->with('step', 2);
+    //     return redirect()->route('kegiatan')->with('step', 2);
     // }
 
     // public function storeJadwalKegiatan(Request $request)
@@ -377,7 +377,7 @@ class JadwalKegiatanController extends Controller
     //     // Hapus ID dari session
     //     $request->session()->forget('resourceId');
 
-    //     return redirect()->route('kegiatan.index')->with('success', 'Jadwal Kegiatan berhasil disimpan');
+    //     return redirect()->route('kegiatan')->with('success', 'Jadwal Kegiatan berhasil disimpan');
     // }
 
     // public function edit_resource(Request $request)
@@ -396,6 +396,6 @@ class JadwalKegiatanController extends Controller
 
     //     $resource->save();
         
-    //     return redirect()->route('kegiatan.index');
+    //     return redirect()->route('kegiatan');
     // }
 }
