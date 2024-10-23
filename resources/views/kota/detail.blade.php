@@ -11,7 +11,6 @@
                     <div class="col">
                         <h1 class="m-0">Detail Kelompok Tugas Akhir</h1>
                     </div>
-                    @if (auth()->user()->role=="1" || auth()->user()->role == "3")
                     <div class="col d-grid gap-2 d-md-flex justify-content-md-end">
                         <span class="badge badge-pill badge-success" style="font-size: 1.0em;">
                             <i class="nav-icon fas fa-check"></i>
@@ -22,7 +21,6 @@
                             Belum Mengumpulkan
                         </span>
                     </div>
-                    @endif
                 </div><!-- /.row -->
             <hr/>
         </div><!-- /.container-fluid -->
@@ -89,7 +87,7 @@
                     <div class="row">
                         <div class="col">{{ $tahapan->nama_progres }}</div>
                         <div class="col-5 d-md-flex justify-content-md-end">
-                            @if (auth()->user()->role == "2")
+                            @if (auth()->user()->role == "3")
                                 @foreach($tahapan_progres as $item)
                                     @if($item->id_master_tahapan_progres == 1)
                                         <form action="{{ route('store_status') }}" method="POST" id="statusForm_{{ $item->id }}">
@@ -98,8 +96,6 @@
                                             <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
                                             <div class="form-group">
                                                 <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
-                                                    <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
-                                                    <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
                                                     <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
                                                     <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
                                                 </select>
@@ -109,22 +105,22 @@
                                 @endforeach
                             @endif
 
-                            @if (auth()->user()->role == "1" || auth()->user()->role == "3")
-                                <div>
-                                    @foreach($tahapan_progres as $item)
-                                        @if($item->id_master_tahapan_progres == 1)
-                                            @if($item->status == 'belum-disetujui')
-                                                <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
-                                            @elseif($item->status == 'disetujui')
-                                                <span id="selectedBadge" class="badge bg-success">Disetujui</span>
-                                            @elseif($item->status == 'selesai')
-                                                <span id="selectedBadge" class="badge bg-primary">Selesai</span>
-                                            @elseif($item->status == 'on_progres')
-                                                <span id="selectedBadge" class="badge bg-warning">On Progres</span>
-                                            @endif
+                            @if (auth()->user()->role == "1" || auth()->user()->role == "2")
+                            <div>
+                                @foreach($tahapan_progres as $item)
+                                    @if($item->id_master_tahapan_progres == 1)
+                                        @if($item->status == 'belum-disetujui' )
+                                            <span id="selectedBadge" class="badge bg-danger">Belum Disetujui</span>
+                                        @elseif($item->status == 'disetujui')
+                                            <span id="selectedBadge" class="badge bg-success">Disetujui</span>
+                                        @elseif($item->status == 'selesai')
+                                            <span id="selectedBadge" class="badge bg-primary">Selesai</span>
+                                        @elseif($item->status == 'on_progres')
+                                            <span id="selectedBadge" class="badge bg-warning">On Progres</span>
                                         @endif
-                                    @endforeach
-                                </div>
+                                    @endif
+                                @endforeach
+                            </div>
                             @endif
                         </div>
                         <div class="col justify-content-md-end">
@@ -137,15 +133,15 @@
             @endif
         @endforeach
 
-        @if (auth()->user()->role=="1" || auth()->user()->role == "3")
         <div class="container-fluid">
             <div class="row row-cols-auto">
                 @foreach ($seminar1 as $masterArtefak)
                     @php
                         $isSubmitted = false;
                         foreach ($artefakKota as $artefak) {
-                            if ($artefak->id_artefak == $masterArtefak->id) {
+                            if ($artefak->nama_artefak == $masterArtefak->nama_artefak) {
                                 $isSubmitted = true;
+                                $submittedFileId = $artefak->nama_artefak;
                                 break;
                             }
                         }
@@ -153,10 +149,12 @@
                     <div class="row">
                         <div class="col mr-2">
                             @if ($isSubmitted)
+                                <a href="{{ route('kota.showFile', $submittedFileId) }}">
                                 <span class="badge badge-pill badge-success">
                                     <i class="nav-icon fas fa-file"></i>
-                                    {{ $masterArtefak->nama_artefak }}
-                                </span>
+                                        {{ $masterArtefak->nama_artefak }}
+                                    </span>
+                                </a>
                             @else
                                 <span class="badge badge-pill badge-secondary">
                                     <i class="nav-icon fas fa-file"></i>
@@ -168,7 +166,6 @@
                 @endforeach
             </div>
         </div>
-        @endif
         
         <br>
         
@@ -191,7 +188,7 @@
                                             <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
                                             <div class="form-group">
                                                 <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
-                                                    <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
+                                                    <option value="belum-disetujui" class="badge badge-danger" disabled {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
                                                     <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
                                                     <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
                                                     <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
@@ -231,15 +228,15 @@
             @endif
         @endforeach
 
-        @if (auth()->user()->role=="1" || auth()->user()->role == "3")
         <div class="container-fluid">
             <div class="row row-cols-auto">
                 @foreach ($seminar2 as $masterArtefak)
                     @php
                         $isSubmitted = false;
                         foreach ($artefakKota as $artefak) {
-                            if ($artefak->id_artefak == $masterArtefak->id) {
+                            if ($artefak->nama_artefak == $masterArtefak->nama_artefak) {
                                 $isSubmitted = true;
+                                $submittedFileId = $artefak->nama_artefak;
                                 break;
                             }
                         }
@@ -247,10 +244,12 @@
                     <div class="row">
                         <div class="col mr-2">
                             @if ($isSubmitted)
+                                <a href="{{ route('kota.showFile', $submittedFileId) }}">
                                 <span class="badge badge-pill badge-success">
                                     <i class="nav-icon fas fa-file"></i>
-                                    {{ $masterArtefak->nama_artefak }}
-                                </span>
+                                        {{ $masterArtefak->nama_artefak }}
+                                    </span>
+                                </a>
                             @else
                                 <span class="badge badge-pill badge-secondary">
                                     <i class="nav-icon fas fa-file"></i>
@@ -262,7 +261,6 @@
                 @endforeach
             </div>
         </div>
-        @endif
         <br>
 
         @foreach($mastertahapan as $tahapan)
@@ -284,7 +282,7 @@
                                             <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
                                             <div class="form-group">
                                                 <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
-                                                    <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
+                                                <option value="belum-disetujui" class="badge badge-danger" disabled {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
                                                     <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
                                                     <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
                                                     <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
@@ -323,15 +321,15 @@
             @endif
         @endforeach
 
-        @if (auth()->user()->role=="1" || auth()->user()->role == "3")
         <div class="container-fluid">
             <div class="row row-cols-auto">
                 @foreach ($seminar3 as $masterArtefak)
                     @php
                         $isSubmitted = false;
                         foreach ($artefakKota as $artefak) {
-                            if ($artefak->id_artefak == $masterArtefak->id) {
+                            if ($artefak->nama_artefak == $masterArtefak->nama_artefak) {
                                 $isSubmitted = true;
+                                $submittedFileId = $artefak->nama_artefak;
                                 break;
                             }
                         }
@@ -339,10 +337,12 @@
                     <div class="row">
                         <div class="col mr-2">
                             @if ($isSubmitted)
+                                <a href="{{ route('kota.showFile', $submittedFileId) }}">
                                 <span class="badge badge-pill badge-success">
                                     <i class="nav-icon fas fa-file"></i>
-                                    {{ $masterArtefak->nama_artefak }}
-                                </span>
+                                        {{ $masterArtefak->nama_artefak }}
+                                    </span>
+                                </a>
                             @else
                                 <span class="badge badge-pill badge-secondary">
                                     <i class="nav-icon fas fa-file"></i>
@@ -354,7 +354,6 @@
                 @endforeach
             </div>
         </div>
-        @endif
 
         <br>
 
@@ -377,7 +376,7 @@
                                             <input type="hidden" name="id_master_tahapan_progres" value="{{ $item->id_master_tahapan_progres }}">
                                             <div class="form-group">
                                                 <select class="form-control-sm" id="statusControlSelect_{{ $item->id }}" name="status" onchange="submitForm('{{ $item->id }}')">
-                                                    <option value="belum-disetujui" class="badge badge-danger" {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
+                                                    <option value="belum-disetujui" class="badge badge-danger" disabled {{ $item->status == 'belum-disetujui' ? 'selected' : '' }}>Belum Disetujui</option>
                                                     <option value="disetujui" class="badge badge-success" {{ $item->status == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
                                                     <option value="selesai" class="badge badge-primary" {{ $item->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
                                                     <option value="on_progres" class="badge badge-warning" {{ $item->status == 'on_progres' ? 'selected' : '' }}>On-Progres</option>
@@ -416,15 +415,15 @@
             @endif
         @endforeach
 
-        @if (auth()->user()->role=="1" || auth()->user()->role == "3")
         <div class="container-fluid">
             <div class="row row-cols-auto">
                 @foreach ($sidang as $masterArtefak)
                     @php
                         $isSubmitted = false;
                         foreach ($artefakKota as $artefak) {
-                            if ($artefak->id_artefak == $masterArtefak->id) {
+                            if ($artefak->nama_artefak == $masterArtefak->nama_artefak) {
                                 $isSubmitted = true;
+                                $submittedFileId = $artefak->nama_artefak;
                                 break;
                             }
                         }
@@ -432,10 +431,12 @@
                     <div class="row">
                         <div class="col mr-2">
                             @if ($isSubmitted)
+                                <a href="{{ route('kota.showFile', $submittedFileId) }}">
                                 <span class="badge badge-pill badge-success">
                                     <i class="nav-icon fas fa-file"></i>
-                                    {{ $masterArtefak->nama_artefak }}
-                                </span>
+                                        {{ $masterArtefak->nama_artefak }}
+                                    </span>
+                                </a>
                             @else
                                 <span class="badge badge-pill badge-secondary">
                                     <i class="nav-icon fas fa-file"></i>
@@ -447,7 +448,6 @@
                 @endforeach
             </div>
         </div>
-        @endif
         <br>
         <br>
         <br>
@@ -483,9 +483,6 @@
     }
 
     function submitForm(id) {
-        document.getElementById('statusForm_' + id).submit();
-    }
-    function submitForm_2(id) {
         document.getElementById('statusForm_' + id).submit();
     }
 

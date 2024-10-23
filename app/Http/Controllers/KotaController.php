@@ -54,17 +54,19 @@ class KotaController extends Controller
             $query->orderBy($request->input('sort'), $request->input('direction'));
         }
 
-    // Lakukan join dengan tabel tahapan_progres dan master_tahapan_progres
-    $query->leftJoin('tbl_kota_has_tahapan_progres', 'tbl_kota.id_kota', '=', 'tbl_kota_has_tahapan_progres.id_kota')
-                    ->leftJoin('tbl_master_tahapan_progres', 'tbl_kota_has_tahapan_progres.id_master_tahapan_progres', '=', 'tbl_master_tahapan_progres.id')
-                    ->select('tbl_kota.*', 'tbl_master_tahapan_progres.nama_progres AS nama_tahapan', 'tbl_kota_has_tahapan_progres.status AS status')
-                    ->where(function ($query) {
-                        $query->where('tbl_kota_has_tahapan_progres.status', 'on_progres')
-                                ->orWhere('tbl_kota_has_tahapan_progres.status', 'disetujui');
-                    });
-                    // ->first();
-   
-    $kotas = $query->get();
+
+        // Lakukan join dengan tabel tahapan_progres dan master_tahapan_progres
+        $query->leftJoin('tbl_kota_has_tahapan_progres', 'tbl_kota.id_kota', '=', 'tbl_kota_has_tahapan_progres.id_kota')
+                        ->leftJoin('tbl_master_tahapan_progres', 'tbl_kota_has_tahapan_progres.id_master_tahapan_progres', '=', 'tbl_master_tahapan_progres.id')
+                        ->select('tbl_kota.*', 'tbl_master_tahapan_progres.nama_progres AS nama_tahapan', 'tbl_kota_has_tahapan_progres.status AS status')
+                        ->where(function ($query) {
+                            $query->where('tbl_kota_has_tahapan_progres.status', 'on_progres')
+                                    ->orWhere('tbl_kota_has_tahapan_progres.status', 'disetujui');
+                        });
+                        // ->first();
+    
+        $kotas = $query->get();
+
 
 
 
@@ -88,10 +90,8 @@ class KotaController extends Controller
             'judul' => 'required',
             'kelas' => 'required', 
             'periode' => 'required',
-            'mitra' => 'required',
-            'luaran' => 'required',
-            'mahasiswa' => 'required|array|min:1',
-            'dosen' => 'required|array|min:2',
+            'mahasiswa' => 'required|array|min:1|max:3',
+            // 'dosen' => 'required|array|min:2|max:2',
         ]);
         
         // Check if the Kota already exists
@@ -102,7 +102,7 @@ class KotaController extends Controller
         }
         
         // Check if user with role '3' already has a Kota
-        $userIds = array_merge($request->dosen, $request->mahasiswa);
+        $userIds = array_merge( $request->mahasiswa);
         foreach ($userIds as $userId) {
             $userRole = DB::table('users')->where('nomor_induk', $userId)->value('role');
             $userid = DB::table('users')->where('nomor_induk', $userId)->value('id');
@@ -143,7 +143,7 @@ class KotaController extends Controller
             DB::table('tbl_kota_has_tahapan_progres')->insert($tahapan);
         }
         
-        session()->flash('success', 'Data KoTA berhasil disimpan');
+        session()->flash('success', 'Data KoTA berhasil ditambahkan');
         return redirect()->route('kota');
         
         
@@ -222,7 +222,10 @@ class KotaController extends Controller
 
 
         $masterArtefaks = DB::table('tbl_master_artefak')->get();
-        $artefakKota = KotaHasArtefakModel::where('id_kota', $id)->get();
+        $artefakKota = KotaHasArtefakModel::where('id_kota', $id)
+                                                ->join('tbl_artefak', 'tbl_kota_has_artefak.id_artefak', '=', 'tbl_artefak.id_artefak')
+                                                ->select('tbl_artefak.nama_artefak')
+                                                ->get();
 
 
         // Inisialisasi array kosong untuk menyimpan artefak sesuai dengan tahapan
@@ -318,6 +321,7 @@ class KotaController extends Controller
             ->where('id_master_tahapan_progres', $id_master_tahapan_progres)
             ->first();
 
+
         if ($kotaTahapanProgres) {
             // Ubah status tahapan progres saat ini
             $kotaTahapanProgres->status = $status;
@@ -343,16 +347,47 @@ class KotaController extends Controller
 
     
     public function edit($id)
-    {
-        $kota = KotaModel::with('users')->findOrFail($id);
-        $dosen = User::where('role', 2)->get();
-        $mahasiswa = User::where('role', 3)->get();
+{
+    $kota = KotaModel::with('users')->findOrFail($id);
+    
+    if (!$kota) {
+        return redirect()->route('kota')->withErrors('Data tidak ditemukan.');
+    }
 
-        if (!$kota) {
-            return redirect()->route('kota')->withErrors('Data tidak ditemukan.');
+
+    // Ambil dosen dan mahasiswa berdasarkan role
+    $dosen = User::where('role', 2)->get();
+    $mahasiswa = User::where('role', 3)->get(); // Hanya mahasiswa dengan role 3
+
+    // Lakukan pengecekan untuk opsi yang dipilih (selected)
+    $selectedDosen = $kota->users()->where('role', 2)->pluck('users.id')->toArray();
+    $selectedMahasiswa = $kota->users()->where('role', 3)->pluck('users.id')->toArray();
+
+    return view('kota.edit', compact('kota', 'dosen', 'mahasiswa', 'selectedDosen', 'selectedMahasiswa'));
+}
+
+
+
+    public function showFile($nama_artefak)
+    {
+        $artefak = DB::table('tbl_kota_has_artefak')
+                        ->join('tbl_artefak', 'tbl_kota_has_artefak.id_artefak', '=', 'tbl_artefak.id_artefak')
+                        ->where('tbl_artefak.nama_artefak', $nama_artefak)
+                        ->select('tbl_kota_has_artefak.file_pengumpulan', 'tbl_kota_has_artefak.id_kota')
+                        ->first();
+
+        // Ambil path file dari database
+        $filePath = $artefak->file_pengumpulan;
+        $idKota = $artefak->id_kota;
+
+        // Periksa apakah file ada
+        if (Storage::disk('public')->exists($filePath)) {
+            // Redirect ke URL file
+            return response()->file(storage_path('app/public/' . $filePath));
+        } else {
+            // Handle jika file tidak ditemukan
+            return redirect()->route('kota.detail', ['id' => $idKota])->with('error', 'File tidak ditemukan.');
         }
-        
-        return view('kota.edit', compact('kota', 'dosen', 'mahasiswa'));
     }
 
     public function update(Request  $request, $id)
@@ -377,29 +412,10 @@ class KotaController extends Controller
         $kota->users()->sync($userIds);
 
         // Set flash message
-        session()->flash('success', 'Data kota berhasil diubah');
+        session()->flash('success', 'Data kota berhasil dirubah');
 
         // Redirect ke halaman kota.index dengan pesan sukses
         return redirect()->route('kota');
-    }
-    
-    public function search(Request $request)
-    {
-        $keyword = $request->input('keyword');
-
-        // Ambil nama kolom dari tabel
-        $columns = DB::getSchemaBuilder()->getColumnListing('tbl_kota');
-
-        // Buat query pencarian dinamis
-        $query = DB::table('tbl_kota');
-        
-        foreach ($columns as $column) {
-            $query->orWhere($column, 'like', '%' . $keyword . '%');
-        }
-
-        $kotas = $query->get();
-        
-        return view('kota.index', compact('kotas'));
     }
     
     public function destroy($id)

@@ -85,7 +85,7 @@
                             <td>{{ $row->judul }}</td>
                             <td class="text-center">{{ $row->nama_tahapan }}</td>
                             <td class="text-center">
-                                <a class="edit" href="{{ route('kegiatan.index', $row->id_kota) }}" data-toggle="tooltip" data-placement="top" title="Jadwal Kegiatan KoTA"><i class="nav-icon fas fa-calendar" style="color: gray;"></i></a>                     
+                                <a class="detail" href="{{ route('kegiatan.detail', $row->id_kota) }}" data-toggle="tooltip" data-placement="top" title="Jadwal Kegiatan KoTA"><i class="nav-icon fas fa-calendar" style="color: gray;"></i></a>                     
                                 <a class="detail" href="{{ route('kota.detail', $row->id_kota) }}" data-toggle="tooltip" data-placement="top" title="Detail KoTA"><i class="nav-icon fas fa-eye" style="color: gray;"></i></a>
                                 <a class="detail" href="{{ route('resume', $row->id_kota) }}" data-toggle="tooltip" data-placement="top" title="Resume KoTA"><i class="nav-icon fas fa-book" style="color: gray;"></i></a>
                             </td>

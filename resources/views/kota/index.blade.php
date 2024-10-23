@@ -51,10 +51,10 @@
                                     Tahapan TA
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-lg">
-                                    <li><a href="#" class="dropdown-item">Seminar 1</a></li>
-                                    <li><a href="#" class="dropdown-item">Seminar 2</a></li>
-                                    <li><a href="#" class="dropdown-item">Seminar 3</a></li>
-                                    <li><a href="#" class="dropdown-item">Sidang</a></li>
+                                    <li><a href="{{ route('kota', ['sort' => 'tbl_master_tahapan_progres.nama_progres', 'direction' => 'asc', 'value' => 'Seminar 1']) }}" class="dropdown-item">Seminar 1</a></li>
+                                    <li><a href="{{ route('kota', ['sort' => 'tbl_master_tahapan_progres.nama_progres', 'direction' => 'asc', 'value' => 'Seminar 2']) }}" class="dropdown-item">Seminar 2</a></li>
+                                    <li><a href="{{ route('kota', ['sort' => 'tbl_master_tahapan_progres.nama_progres', 'direction' => 'asc', 'value' => 'Seminar 3']) }}" class="dropdown-item">Seminar 3</a></li>
+                                    <li><a href="{{ route('kota', ['sort' => 'tbl_master_tahapan_progres.nama_progres', 'direction' => 'asc', 'value' => 'Sidang']) }}" class="dropdown-item">Sidang</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -106,9 +106,9 @@
                                                 <a class="edit" href="{{ route('kota.edit', $row->id_kota) }}" data-toggle="tooltip" data-placement="top" title="Edit KoTA">
                                                     <i class="nav-icon fas fa-pen" style="color: blue;"></i>
                                                 </a>
-                                                <a href="#" class="destroy" data-placement="top" title="Delete KoTA" data-toggle="modal" data-target="#deleteKotaModal-{{ $row->id_kota }}">
+                                                <!-- <a href="#" class="destroy" data-placement="top" title="Delete KoTA" data-toggle="modal" data-target="#deleteKotaModal-{{ $row->id_kota }}">
                                                     <i class="nav-icon fas fa-trash" style="color: red;"></i>
-                                                </a>
+                                                </a> -->
                                                 @csrf
                                                 @method('DELETE')
                                             </form>
@@ -153,7 +153,7 @@
             "responsive": true,
             "lengthChange": true,
             "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>

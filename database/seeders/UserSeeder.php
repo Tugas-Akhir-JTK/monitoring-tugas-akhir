@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
@@ -16,249 +17,79 @@ class UserSeeder extends Seeder
     {
         User::create([
             'role' => 1,
+            'nomor_induk' => 198608202019031014,
             'name' => 'Trisna',
-            'nomor_induk' => '211511048',
-            'email' => 'admin@example.com',
+            'email' => 'trisna@polban.ac.id',
             'password' => Hash::make('1234567890'),
         ]);
 
-        User::create([
-            'role' => 3,
-            'name' => 'Bagus',
-            'nomor_induk' => '211511001',
-            'email' => 'bagus@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
 
-        User::create([
-            'role' => 3,
-            'name' => 'Reyna',
-            'nomor_induk' => '211511002',
-            'email' => 'reyna@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
+        $dosenFilePath = 'json_data/dosen.json';
 
-        User::create([
-            'role' => 3,
-            'name' => 'Nazwa',
-            'nomor_induk' => '211511003',
-            'email' => 'nazwa@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
+        if (Storage::exists($dosenFilePath)) {
+            $dosenJson = Storage::get($dosenFilePath);
+            $dosen = json_decode($dosenJson, true);
+    
+            if ($dosen) {
+                foreach ($dosen as $dosen) {
+                    User::create([
+                        'role' => 2,
+                        'nomor_induk' => $dosen['nip'], // assuming nim is the student ID
+                        'name' => $dosen['nama'],
+                        'email' => $dosen['email'],
+                        'password' => Hash::make('1234567890'),
+                    ]);
+                }
+            } else {
+                // Handle JSON decode error if needed
+                echo "Failed to decode JSON file.";
+            }
+        } else {
+            // Handle file not found error if needed
+            echo "File dosen.json not found.";
+        }
 
-        User::create([
-            'role' => 3,
-            'name' => 'Aca',
-            'nomor_induk' => '211511004',
-            'email' => 'aca@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
 
-        User::create([
-            'role' => 3,
-            'name' => 'Haidar',
-            'nomor_induk' => '211511005',
-            'email' => 'haidar@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
 
-        User::create([
-            'role' => 3,
-            'name' => 'Diaz',
-            'nomor_induk' => '211511006',
-            'email' => 'diaz@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
+        $mahasiswaFilePath = 'json_data/mahasiswa.json';
 
-        User::create([
-            'role' => 3,
-            'name' => 'Apip',
-            'nomor_induk' => '211511007',
-            'email' => 'apip@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 3,
-            'name' => 'Salman',
-            'nomor_induk' => '211511008',
-            'email' => 'salman@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 3,
-            'name' => 'Zahra',
-            'nomor_induk' => '211511009',
-            'email' => 'zahra@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 3,
-            'name' => 'Nurul',
-            'nomor_induk' => '211511010',
-            'email' => 'nurul@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 3,
-            'name' => 'Jundy',
-            'nomor_induk' => '211511011',
-            'email' => 'jundy@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 3,
-            'name' => 'Fiqli',
-            'nomor_induk' => '211511012',
-            'email' => 'fiqli@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 3,
-            'name' => 'Hafid',
-            'nomor_induk' => '211511013',
-            'email' => 'hafid@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 3,
-            'name' => 'Benny',
-            'nomor_induk' => '211511014',
-            'email' => 'benny@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 3,
-            'name' => 'Yoga',
-            'nomor_induk' => '211511015',
-            'email' => 'yoga@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 3,
-            'name' => 'Uqy',
-            'nomor_induk' => '211511016',
-            'email' => 'uqy@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 3,
-            'name' => 'Andre',
-            'nomor_induk' => '211511017',
-            'email' => 'andre@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 3,
-            'name' => 'Lola',
-            'nomor_induk' => '211511018',
-            'email' => 'lola@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 2,
-            'name' => 'Mariah',
-            'nomor_induk' => '211611001',
-            'email' => 'mariah@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 2,
-            'name' => 'Bunga',
-            'nomor_induk' => '211611002',
-            'email' => 'bunga@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 2,
-            'name' => 'Sarah',
-            'nomor_induk' => '211611003',
-            'email' => 'sarah@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 2,
-            'name' => 'Catlin',
-            'nomor_induk' => '211611004',
-            'email' => 'catlin@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 2,
-            'name' => 'Bagas',
-            'nomor_induk' => '211611005',
-            'email' => 'bagas@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 2,
-            'name' => 'Joni',
-            'nomor_induk' => '211611006',
-            'email' => 'joni@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 2,
-            'name' => 'Rofi',
-            'nomor_induk' => '211611007',
-            'email' => 'rofi@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 2,
-            'name' => 'Faul',
-            'nomor_induk' => '211611008',
-            'email' => 'faul@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 3,
-            'name' => 'Kevin',
-            'nomor_induk' => '211511019',
-            'email' => 'kevin@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 3,
-            'name' => 'Rivan',
-            'nomor_induk' => '211511020',
-            'email' => 'rivan@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
-
-        User::create([
-            'role' => 3,
-            'name' => 'Syahrul',
-            'nomor_induk' => '211511021',
-            'email' => 'syahrul@example.com',
-            'password' => Hash::make('1234567890'),
-        ]);
+        if (Storage::exists($mahasiswaFilePath)) {
+            $mahasiswaJson = Storage::get($mahasiswaFilePath);
+            $mahasiswa = json_decode($mahasiswaJson, true);
+    
+            if ($mahasiswa) {
+                foreach ($mahasiswa as $mhs) {
+                    User::create([
+                        'role' => 3,
+                        'nomor_induk' => $mhs['nim'], // assuming nim is the student ID
+                        'name' => $mhs['nama'],
+                        'email' => $mhs['email'],
+                        'password' => Hash::make('1234567890'),
+                    ]);
+                }
+            } else {
+                // Handle JSON decode error if needed
+                echo "Failed to decode JSON file.";
+            }
+        } else {
+            // Handle file not found error if needed
+            echo "File mahasiswa.json not found.";
+        }
 
         User::create([
             'role' => 4,
-            'name' => 'Santi',
-            'nomor_induk' => '211711001',
-            'email' => 'santi@example.com',
+            'nomor_induk' => 197109031999032001,
+            'name' => 'Santi Sundari',
+            'email' => 'santi@polban.ac.id',
+            'password' => Hash::make('1234567890'),
+        ]);
+
+        // Head of Study Program (Kaprodi D3)
+        User::create([
+            'role' => 5,
+            'nomor_induk' => 199301062019031017,
+            'name' => 'Lukmannul Hakim Firdaus',
+            'email' => 'lukmannul@polban.ac.id',
             'password' => Hash::make('1234567890'),
         ]);
         User::create([

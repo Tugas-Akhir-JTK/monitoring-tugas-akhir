@@ -8,7 +8,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6 col-md-8">
-                    <h1 class="m-0">Tambah Resume Bimbingan</h1>
+                    <h1 class="m-0">Edit Resume Bimbingan</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
             <hr/>
@@ -38,8 +38,32 @@
 
                             <!-- DOSEN -->
                             <div class="mb-3">
-                                <label for="judul" class="form-label">Dosen</label>
-                                <input name="judul" value="{{ $dosen->nama_dosen }}" type="text" class="form-control" id="judul" placeholder="" required disabled/>
+                                <label for="dosen">Dosen Pembimbing</label>
+                                <select class="form-control" id="dosen" name="dosen" required>
+                                    <option value='' disabled>Pilih Dosen</option>
+                                    @foreach($dosen as $d)
+                                        <option value="{{ $d->id }}" {{ $dosen_terkait->id_dosen_terkait == $d->id ? 'selected' : '' }}>
+                                            {{ $d->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="row g-2">
+                                <div class="col mb-3">
+                                    <label for="sesi_bimbingan" class="form-label">Sesi Bimbingan</label>
+                                    <input name="sesi_bimbingan" value="{{ old('sesi_bimbingan', $resume->sesi_bimbingan) }}" type="text" class="form-control" id="sesi_bimbingan" placeholder="Sesi Bimbingan Ke-"/>
+                                </div>
+                                <!-- TAHAPAN PROGRES -->
+                                <div class="col mb-3">
+                                    <label for="tahapan_progres" class="form-label">Tahapan Progres</label>
+                                    <select name="tahapan_progres" class="form-control" id="tahapan_progres" required>
+                                        <option value="" disabled {{ old('tahapan_progres', $resume->tahapan_progres) === null ? 'selected' : '' }}>Pilih Tahapan Progres</option>
+                                        <option value="1" {{ old('tahapan_progres', $resume->tahapan_progres) == 1 ? 'selected' : '' }}>Seminar 2</option>
+                                        <option value="2" {{ old('tahapan_progres', $resume->tahapan_progres) == 2 ? 'selected' : '' }}>Seminar 3</option>
+                                        <option value="3" {{ old('tahapan_progres', $resume->tahapan_progres) == 3 ? 'selected' : '' }}>Sidang</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="row g-2">
@@ -51,8 +75,13 @@
 
                                 <!-- WAKTU BIMBINGAN -->
                                 <div class="col mb-3">
-                                    <label for="waktu_bimbingan" class="form-label">Waktu Bimbingan</label>
-                                    <input name="waktu_bimbingan" value="{{ old('waktu_bimbingan', $resume->waktu_bimbingan) }}" type="time" class="form-control" id="waktu_bimbingan" placeholder="hh:mm" required/>
+                                    <label for="jam_mulai" class="form-label">Jam Mulai</label>
+                                    <input name="jam_mulai" value="{{ old('jam_mulai', $resume->jam_mulai) }}" type="time" class="form-control" id="jam_mulai" placeholder="hh:mm" required/>
+                                </div>
+
+                                <div class="col mb-3">
+                                    <label for="jam_selesai" class="form-label">Jam Selesai</label>
+                                    <input name="jam_selesai" value="{{ old('jam_selesai', $resume->jam_selesai) }}" type="time" class="form-control" id="jam_selesai" placeholder="hh:mm" required/>
                                 </div>
                             </div>
 
@@ -68,24 +97,6 @@
                                 <textarea name="isi_revisi_bimbingan" class="form-control" id="isi_revisi_bimbingan" rows="3">{{ old('isi_revisi_bimbingan', $resume->isi_revisi_bimbingan) }}</textarea>
                             </div>
 
-                            <div class="row g-2">
-                                <!-- PROGRES PENGERJAAN -->
-                                <div class="col mb-3">
-                                    <label for="progres_pengerjaan" class="form-label">Progres Pengerjaan</label>
-                                    <input name="progres_pengerjaan" value="{{ old('progres_pengerjaan', $resume->progres_pengerjaan) }}" type="text" class="form-control" id="progres_pengerjaan" placeholder="%" required/>
-                                </div>
-
-                                <!-- TAHAPAN PROGRES -->
-                                <div class="col mb-3">
-                                    <label for="tahapan_progres" class="form-label">Tahapan Progres</label>
-                                    <select name="tahapan_progres" class="form-control" id="tahapan_progres" value="{{ old('progres_pengerjaan', $resume->progres_pengerjaan) }}" required>
-                                        <option value="" disabled selected>{{ $tahapan_progres }}</option>
-                                        <option value="1" {{ old('tahapan_progres', $resume->tahapan_progres) == 1 ? 'selected' : '' }}>Seminar 2</option>
-                                        <option value="2" {{ old('tahapan_progres', $resume->tahapan_progres) == 2 ? 'selected' : '' }}>Seminar 3</option>
-                                        <option value="3" {{ old('tahapan_progres', $resume->tahapan_progres) == 3 ? 'selected' : '' }}>Sidang</option>
-                                    </select>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="row">

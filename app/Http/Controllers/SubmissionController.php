@@ -14,12 +14,16 @@ class SubmissionController extends Controller
     public function store(Request $request, $artefak_id)
     {
         $request->validate([
-            'file_pengumpulan' => 'required|mimes:doc,docx,pdf,xlsx|max:2048',
+            'file_pengumpulan' => 'required|mimes:pdf|max:2048',
+        ], [
+            'file_pengumpulan.required' => 'File pengumpulan harus diunggah.',
+            'file_pengumpulan.mimes' => 'File pengumpulan harus dalam format pdf.',
+            'file_pengumpulan.max' => 'Ukuran file pengumpulan maksimal adalah 2MB.',
         ]);
     
         $file = $request->file('file_pengumpulan');
         $originalFileName = $file->getClientOriginalName();
-        $filePath = $file->storeAs('submissions', $originalFileName, 'public');    
+        $filePath = $file->storeAs('submissions', $originalFileName, 'public');
         // Mendapatkan id_kota dari user yang sedang login
         $user = auth()->user();
     
