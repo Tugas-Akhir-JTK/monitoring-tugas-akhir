@@ -34,7 +34,10 @@ class HomeController extends Controller
         if (Auth::check()) {
             $role = Auth::user()->role;
             if ($role == '1') {
-                return view('beranda.koordinator.home');
+                $jumlahBimbinganPerKota = $this->getJumlahBimbinganPerKota();
+    
+                // Pass data to the view
+                return view('beranda.koordinator.home', compact('jumlahBimbinganPerKota'));
             } elseif ($role == '3') {
                 $user = auth()->user();
 
@@ -171,8 +174,10 @@ class HomeController extends Controller
                             break;
                     }
                 }
+                $mastertahapan = DB::table('tbl_master_tahapan_progres')->get();
 
-                return view('beranda.mahasiswa.home', compact('kotas', 'progressStage1Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota','tahapan_progres', 'selesaiPercentage1', 'selesaiPercentage2', 'selesaiPercentage3', 'selesaiPercentage4'));
+
+                return view('beranda.mahasiswa.home', compact('kotas', 'progressStage1Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota','tahapan_progres', 'selesaiPercentage1', 'selesaiPercentage2', 'selesaiPercentage3', 'selesaiPercentage4', 'mastertahapan'));
             }
         }
 
@@ -201,7 +206,6 @@ class HomeController extends Controller
             $sort = $request->input('sort');
             $value = $request->input('value');
     
-            // Tambahkan filter berdasarkan nilai yang dipilih
             $query->where($sort, $value);
         }
     
@@ -215,9 +219,197 @@ class HomeController extends Controller
         if ($user->role == 2) {
             return view('beranda.pembimbing.home', compact('kotas'));
         } elseif ($user->role == 4) {
-            return view('beranda.kaprodi.home');
+            $query = KotaModel::query();
+
+            // Menambahkan filter berdasarkan parameter 'sort' dan 'value'
+            if ($request->has('sort') && $request->has('value')) {
+                $sort = $request->input('sort');
+                $value = $request->input('value');
+
+            $values = explode(',', $value);
+            // Menghapus spasi putih di sekitar nilai
+            $values = array_map('trim', $values);
+
+            // Memastikan array tidak kosong sebelum menggunakan whereIn
+            if (count($values) > 0) {
+                $query->whereIn($sort, $values);
+            }
+
+                // Menggunakan whereIn untuk filter berdasarkan nilai yang dipilih
+                $query->whereIn($sort, $values);
+            }
+
+            // Menambahkan logika sorting berdasarkan parameter 'sort' dan 'direction'
+            if ($request->has('sort') && $request->has('direction')) {
+                $sort = $request->input('sort');
+                $direction = $request->input('direction');
+    
+                if (in_array($direction, ['asc', 'desc'])) {
+                    $query->orderBy($sort, $direction);
+                }
+            }
+
+            $kotas = $query->get();
+            $luaranCounts = $this->getLuaranData($kotas);
+            $mitraCounts = $this->getMitraCounts($kotas);
+            return view('beranda.kaprodi.home', compact('luaranCounts', 'mitraCounts', 'kotas'));
+        }
+    }
+
+    public function kota_status(Request $request)
+    {
+        $status = $request->input('status');
+        $id_kota = $request->input('id_kota');
+        $id_master_tahapan_progres = $request->input('id_master_tahapan_progres');
+    
+        // Cari tahapan progres saat ini
+        $kotaTahapanProgres = KotaHasTahapanProgresModel::where('id_kota', $id_kota)
+            ->where('id_master_tahapan_progres', $id_master_tahapan_progres)
+            ->first();
+            
+        if ($kotaTahapanProgres) {
+            // Ubah status tahapan progres saat ini
+            $kotaTahapanProgres->status = $status;
+            $kotaTahapanProgres->save();
+    
+            // Jika statusnya 'selesai', ubah status data setelahnya menjadi 'on_progres'
+            if ($status == 'selesai') {
+                $nextTahapanProgres = KotaHasTahapanProgresModel::where('id_kota', $id_kota)
+                                                                ->where('id_master_tahapan_progres', $id_master_tahapan_progres + 1)
+                                                                ->first();
+    
+                if ($nextTahapanProgres) {
+                    $nextTahapanProgres->status = 'on_progres';
+                    $nextTahapanProgres->save();
+                }
+            }
         }
     
+        return redirect()->back();
+    }
+
+    public function showFile($nama_artefak)
+    {
+        $artefak = DB::table('tbl_kota_has_artefak')
+                        ->join('tbl_artefak', 'tbl_kota_has_artefak.id_artefak', '=', 'tbl_artefak.id_artefak')
+                        ->where('tbl_artefak.nama_artefak', $nama_artefak)
+                        ->select('tbl_kota_has_artefak.file_pengumpulan', 'tbl_kota_has_artefak.id_kota')
+                        ->first();
+
+        // Ambil path file dari database
+        $filePath = $artefak->file_pengumpulan;
+        $idKota = $artefak->id_kota;
+
+        // Periksa apakah file ada
+        if (Storage::disk('public')->exists($filePath)) {
+            // Redirect ke URL file
+            return response()->file(storage_path('app/public/' . $filePath));
+        } else {
+            $user = auth()->user();
+            if($user->role == 3) {
+                return redirect()->route('home')->with('error', 'File tidak ditemukan');
+            } else {
+                return redirect()->route('kota.detail', ['id' => $idKota])->with('error', 'File tidak ditemukan');
+            }
+        }
+    }
+
+    private function getLuaranData($filteredKotas = null){
+        $kotaData = $filteredKotas ?? KotaModel::select('luaran')->get();
+        $luaranCounts = [
+            'HKI' => 0,
+            'UAT' => 0,
+            'Jurnal' => 0
+        ];
+
+        foreach ($kotaData as $kota) {
+            if (strpos($kota->luaran, 'HKI') !== false) {
+                $luaranCounts['HKI']++;
+            }
+            if (strpos($kota->luaran, 'UAT') !== false) {
+                $luaranCounts['UAT']++;
+            }
+            if (strpos($kota->luaran, 'Jurnal') !== false) {
+                $luaranCounts['Jurnal']++;
+            }
+        }
+
+        return $luaranCounts;
+    }
+
+    private function getMitraCounts($filteredKotas = null)
+    {
+        // Ambil semua data Kota
+        $kotaData = $filteredKotas ?? KotaModel::select('luaran')->get();
+    
+        // Inisialisasi array untuk menyimpan jumlah kota per kategori mitra
+        $mitraCounts = [
+            'Non-mitra' => 0,
+            'Organisasi' => 0,
+            'Industri' => 0
+        ];
+    
+        // Perulangan untuk menghitung jumlah kota berdasarkan kategori mitra
+        foreach ($kotaData as $kota) {
+            if ($kota->mitra === 'Non-mitra') {
+                $mitraCounts['Non-mitra']++;
+            } elseif ($kota->mitra === 'Organisasi') {
+                $mitraCounts['Organisasi']++;
+            } elseif ($kota->mitra === 'Industri') {
+                $mitraCounts['Industri']++;
+            }
+        }
+    
+        return $mitraCounts;
+    }
+    private function getJumlahBimbinganPerKota(){
+        $kotas = KotaModel::all();
+        $jumlahBimbinganPerKota = [];
+    
+        foreach ($kotas as $kota) {
+            $id_kota = $kota->id_kota;
+            
+            $progressStage2Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+                ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
+                ->where('tahapan_progres', '2')
+                ->count();
+            $progressStage3Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+                ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
+                ->where('tahapan_progres', '3')
+                ->count();
+            $progressStage4Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+                ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
+                ->where('tahapan_progres', '4')
+                ->count();
+    
+            $jumlahBimbingan = $progressStage2Count + $progressStage3Count + $progressStage4Count;
+    
+            $jumlahBimbinganPerKota[] = [
+                'kota' => $kota->nama_kota,
+                'kelas' => $kota->kelas,
+                'jumlah_bimbingan' => $jumlahBimbingan
+            ];
+        }
+    
+        return $jumlahBimbinganPerKota;
+    }
+
+    private function calculateCompletionPercentage($id_kota, $seminar_1)
+    {
+        $total_kegiatan = DB::table('tbl_kegiatan_has_timeline as kt')
+            ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+            ->where('kt.id_timeline', $seminar_1)
+            ->where('j.id', $id_kota) // Filter berdasarkan kota
+            ->count();
+    
+        $selesai_count = DB::table('tbl_kegiatan_has_timeline as kt')
+            ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
+            ->where('kt.id_timeline', $seminar_1)
+            ->where('j.status', 'completed')
+            ->where('j.id', $id_kota) // Filter berdasarkan kota
+            ->count();
+    
+        return ($total_kegiatan > 0) ? ($selesai_count / $total_kegiatan) * 100 : 0;
     }
 
     public function showFile($nama_artefak)

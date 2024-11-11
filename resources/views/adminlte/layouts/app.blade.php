@@ -279,7 +279,7 @@
                             </a>
                         </li>
                         <li>
-                            <a class="nav-link" href="{{ route('kegiatan.index') }}">
+                            <a class="nav-link" href="{{ route('kegiatan') }}">
                                 <i class="nav-icon fas fa-arrow"></i>
                                 <p>Jadwal Kegiatan</p>
                             </a>

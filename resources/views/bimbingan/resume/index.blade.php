@@ -80,10 +80,23 @@
                           <i class="nav-icon fas fa-file-pdf" style="color: red;"></i>
                         </a>
                       </div>
+                      <div class="btn-group mr-2">
+                        <a href="{{ route('resume.edit', $resume->id_resume_bimbingan) }}"  data-toggle="tooltip" data-placement="top" title="Edit Resume Bimbingan">
+                          <i class="nav-icon fas fa-pen" style="color: blue;"></i>
+                        </a>
+                      </div>
+                      <div class="btn-group">
+                        <a href="{{ route('resume.generatePdf', ['sesi_bimbingan' => $resume->id_resume_bimbingan]) }}" data-toggle="tooltip" data-placement="top" title="Download PDF">
+                          <i class="nav-icon fas fa-file-pdf" style="color: red;"></i>
+                        </a>
+                      </div>
                     </div>
                     @endif
                   </h5>
                   <div class="card-body">
+                    <div class="row">
+                      <small class="col">{{ $resume->tanggal_bimbingan }}</small>
+                      <p class="col"><small class="text-muted">{{ $resume->jam_mulai }} - {{ $resume->jam_selesai }}</small></p>
                     <div class="row">
                       <small class="col">{{ $resume->tanggal_bimbingan }}</small>
                       <p class="col"><small class="text-muted">{{ $resume->jam_mulai }} - {{ $resume->jam_selesai }}</small></p>

@@ -46,43 +46,88 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Tambah Mahasiswa dan Dosen Pembimbing -->
+                        <!-- Dosen Pembimbing -->
+                        <!-- <div class="row">
+                        <div class="col-md-4">
+                            <div class="list-group-item p-3">
+                                <div class="row align-items-start">
+                                    <div class="col-md-4 mb-8pt mb-md-0">
+                                        <div class="media align-items-left">
+                                            <div class="d-flex flex-column media-body media-middle">
+                                                <span class="card-title" for="mahasiswa">Mahasiswa 1</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <select class="form-control" id="mahasiswa" name="mahasiswa[]" required>
+                                            <option value="" disabled selected>Pilih Mahasiswa</option>
+                                            @foreach($mahasiswa as $m)
+                                                <option value="{{ $m->nomor_induk }}" {{ in_array($m->nomor_induk, old('mahasiswa', [])) ? 'selected' : '' }}>{{ $m->nomor_induk }} - {{ $m->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="list-group-item p-3">
+                                <div class="row align-items-start">
+                                    <div class="col-md-4 mb-8pt mb-md-0">
+                                        <div class="media align-items-left">
+                                            <div class="d-flex flex-column media-body media-middle">
+                                            <span   span class="card-title" for="dosen">Dosen Pembimbing</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <select multiple class="form-control" id="dosen" name="dosen[]" required>
+                                            @foreach($dosen as $d)
+                                                <option value="{{ $d->id }}" {{ in_array($d->id, $selectedDosen) ? 'selected' : '' }}>{{ $d->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
                         <div class="list-group-item p-3">
-                        <div class="row align-items-start">
-                            <div class="col-md-2 mb-8pt mb-md-0">
-                                <div class="media align-items-left">
-                                    <div class="d-flex flex-column media-body media-middle">
-                                        <span class="card-title" for="dosen">Dosen Pembimbing</span>
+                            <div class="row align-items-start">
+                                <div class="col-md-2 mb-8pt mb-md-0">
+                                    <div class="media align-items-left">
+                                        <div class="d-flex flex-column media-body media-middle">
+                                            <span class="card-title" for="dosen">Dosen Pembimbing</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col mb-8pt mb-md-0">
-                                <select multiple class="form-control" id="dosen" name="dosen[]" required>
-                                    @foreach($dosen as $d)
-                                        <option value="{{ $d->id }}" {{ in_array($d->id, old('dosen', $kota->users->pluck('id')->toArray())) ? 'selected' : '' }}>{{ $d->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="list-group-item p-3">
-                        <div class="row align-items-start">
-                            <div class="col-md-2 mb-8pt mb-md-0">
-                                <div class="media align-items-left">
-                                    <div class="d-flex flex-column media-body media-middle">
-                                        <span class="card-title" for="mahasiswa">Mahasiswa</span>
-                                    </div>
+                                <div class="col mb-8pt mb-md-0">
+                                    <select multiple class="form-control" id="dosen" name="dosen[]" required>
+                                        @foreach($dosen as $d)
+                                            <option value="{{ $d->id }}" {{ in_array($d->id, $selectedDosen) ? 'selected' : '' }}>{{ $d->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col mb-8pt mb-md-0">
-                                <select multiple class="form-control" id="mahasiswa" name="mahasiswa[]" required>
-                                    @foreach($mahasiswa as $m)
-                                        <option value="{{ $m->id }}" {{ in_array($m->id, old('mahasiswa', $kota->users->pluck('id')->toArray())) ? 'selected' : '' }}>{{ $m->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
                         </div>
-                    </div>
+
+<!-- Mahasiswa -->
+<div class="list-group-item p-3">
+    <div class="row align-items-start">
+        <div class="col-md-2 mb-8pt mb-md-0">
+            <div class="media align-items-left">
+                <div class="d-flex flex-column media-body media-middle">
+                    <span class="card-title" for="mahasiswa">Mahasiswa</span>
+                </div>
+            </div>
+        </div>
+        <div class="col mb-8pt mb-md-0">
+            <select multiple class="form-control" id="mahasiswa" name="mahasiswa[]" required>
+                @foreach($mahasiswa as $m)
+                    <option value="{{ $m->id }}" {{ in_array($m->id, $selectedMahasiswa) ? 'selected' : '' }}>{{ $m->name }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</div>
+
 
                         <!-- Judul KoTA -->
                         <div class="list-group-item p-3">
@@ -135,6 +180,46 @@
                                     <option value="2" {{ old('kelas', $kota->kelas) == 2 ? 'selected' : '' }}>D3-B</option>
                                     <option value="3" {{ old('kelas', $kota->kelas) == 3 ? 'selected' : '' }}>D4-A</option>
                                     <option value="4" {{ old('kelas', $kota->kelas) == 4 ? 'selected' : '' }}>D4-B</option>
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list-group-item p-3">
+                            <div class="row align-items-start">
+                                <div class="col-md-2 mb-8pt mb-md-0">
+                                    <div class="media align-items-left">
+                                        <div class="d-flex flex-column media-body media-middle">
+                                            <span class="card-title" for="mitra">Mitra</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col mb-8pt mb-md-0">
+                                <select name="mitra" class="form-control" id="mitra" required>
+                                    <option value="" disabled selected>Pilih Mitra</option>
+                                    <option value="Non-mitra" {{ old('mitra', $kota->mitra) == 'Non-mitra' ? 'selected' : '' }}>Non-mitra</option>
+                                    <option value="Organisasi" {{ old('mitra', $kota->mitra) == 'Organisasi' ? 'selected' : '' }}>Organisasi</option>
+                                    <option value="Industri" {{ old('mitra', $kota->mitra) == 'Industri' ? 'selected' : '' }}>Industri</option>
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list-group-item p-3">
+                            <div class="row align-items-start">
+                                <div class="col-md-2 mb-8pt mb-md-0">
+                                    <div class="media align-items-left">
+                                        <div class="d-flex flex-column media-body media-middle">
+                                            <span class="card-title" for="luaran">Luaran</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col mb-8pt mb-md-0">
+                                <select name="luaran" class="form-control" id="luaran" required>
+                                    <option value="" disabled selected>Pilih Luaran</option>
+                                    <option value="HKI" {{ old('luaran', $kota->luaran) == 'HKI' ? 'selected' : '' }}>HKI</option>
+                                    <option value="UAT" {{ old('luaran', $kota->luaran) == 'UAT' ? 'selected' : '' }}>UAT</option>
+                                    <option value="Jurnal" {{ old('luaran', $kota->luaran) == 'Jurnal' ? 'selected' : '' }}>Jurnal</option>
                                 </select>
                                 </div>
                             </div>

@@ -38,8 +38,32 @@
 
                             <!-- DOSEN -->
                             <div class="mb-3">
-                                <label for="judul" class="form-label">Dosen</label>
-                                <input name="judul" value="{{ $dosen->nama_dosen }}" type="text" class="form-control" id="judul" placeholder="" required disabled/>
+                                <label for="dosen">Dosen Pembimbing</label>
+                                <select class="form-control" id="dosen" name="dosen" required>
+                                    <option value='' disabled>Pilih Dosen</option>
+                                    @foreach($dosen as $d)
+                                        <option value="{{ $d->id }}" {{ $dosen_terkait->id_dosen_terkait == $d->id ? 'selected' : '' }}>
+                                            {{ $d->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="row g-2">
+                                <div class="col mb-3">
+                                    <label for="sesi_bimbingan" class="form-label">Sesi Bimbingan</label>
+                                    <input name="sesi_bimbingan" value="{{ old('sesi_bimbingan', $resume->sesi_bimbingan) }}" type="text" class="form-control" id="sesi_bimbingan" placeholder="Sesi Bimbingan Ke-"/>
+                                </div>
+                                <!-- TAHAPAN PROGRES -->
+                                <div class="col mb-3">
+                                    <label for="tahapan_progres" class="form-label">Tahapan Progres</label>
+                                    <select name="tahapan_progres" class="form-control" id="tahapan_progres" required>
+                                        <option value="" disabled {{ old('tahapan_progres', $resume->tahapan_progres) === null ? 'selected' : '' }}>Pilih Tahapan Progres</option>
+                                        <option value="1" {{ old('tahapan_progres', $resume->tahapan_progres) == 1 ? 'selected' : '' }}>Seminar 2</option>
+                                        <option value="2" {{ old('tahapan_progres', $resume->tahapan_progres) == 2 ? 'selected' : '' }}>Seminar 3</option>
+                                        <option value="3" {{ old('tahapan_progres', $resume->tahapan_progres) == 3 ? 'selected' : '' }}>Sidang</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="row g-2">

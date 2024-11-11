@@ -19,14 +19,7 @@
                     Periode
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2023]) }}" class="dropdown-item">2023</a></li>
                   <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2024]) }}" class="dropdown-item">2024</a></li>
-                  <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2025]) }}" class="dropdown-item">2025</a></li>
-                  <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2026]) }}" class="dropdown-item">2026</a></li>
-                  <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2027]) }}" class="dropdown-item">2027</a></li>
-                  <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2028]) }}" class="dropdown-item">2028</a></li>
-                  <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2029]) }}" class="dropdown-item">2029</a></li>
-                  <li><a href="{{ route('kota', ['sort' => 'periode', 'direction' => 'asc', 'value' => 2030]) }}" class="dropdown-item">2026</a></li>
                 </ul>
             </div>
         </div>
@@ -34,13 +27,11 @@
             <!-- Messages Dropdown Menu -->
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    Kelas
+                    Prodi
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a href="{{ route('kota', ['sort' => 'kelas', 'direction' => 'asc', 'value' => 1]) }}" class="dropdown-item">D3-A</a></li>
-                  <li><a href="{{ route('kota', ['sort' => 'kelas', 'direction' => 'asc', 'value' => 2]) }}" class="dropdown-item">D3-B</a></li>
-                  <li><a href="{{ route('kota', ['sort' => 'kelas', 'direction' => 'asc', 'value' => 3]) }}" class="dropdown-item">D4-A</a></li>
-                  <li><a href="{{ route('kota', ['sort' => 'kelas', 'direction' => 'asc', 'value' => 4]) }}" class="dropdown-item">D4-B</a></li>
+                  <li><a href="{{ route('home', ['sort' => 'kelas', 'direction' => 'asc', 'value' => '1, 2']) }}" class="dropdown-item">D3</a></li>
+                  <li><a href="{{ route('home', ['sort' => 'kelas', 'direction' => 'asc', 'value' => '3, 4']) }}" class="dropdown-item">D4</a></li>
                 </ul>
             </div>
         </div>
@@ -60,10 +51,10 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">
-              <h2 class="card-title"><strong>Pie Chart</strong></h2>
+              <h2 class="card-title"><strong>Sebaran Luaran Tambahan TA</strong></h2>
             </div>
             <div class="card-body">
-              <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+              <canvas id="luaranPieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
             </div>
           </div>
         </div>
@@ -71,10 +62,10 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">
-              <h2 class="card-title"><strong>Pie Chart</strong></h2>
+              <h2 class="card-title"><strong>Sebaran Mitra KoTA</strong></h2>
             </div>
             <div class="card-body">
-              <canvas id="pieChart1" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+              <canvas id="mitraChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
             </div>
           </div>
         </div>
@@ -82,7 +73,7 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">
-              <h2 class="card-title"><strong>Pie Chart</strong></h2>
+              <h2 class="card-title"><strong>Sebaran Yudisium KoTA</strong></h2>
             </div>
             <div class="card-body">
               <canvas id="pieChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
@@ -91,7 +82,7 @@
         </div>
 
         <div class="col-md-6">
-          <div class="card">
+          {{-- <div class="card">
             <div class="card-header">
               <h3 class="card-title"><strong>Line Chart</strong></h3>
             </div>
@@ -100,11 +91,11 @@
                 <canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
               </div>
             </div>
-          </div>
+          </div> --}}
         </div>
 
         <div class="col-md-6">
-          <div class="card">
+          {{-- <div class="card">
             <div class="card-header">
               <h3 class="card-title"><strong>Bar Chart</strong></h3>
             </div>
@@ -113,7 +104,7 @@
                 <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
               </div>
             </div>
-          </div>
+          </div> --}}
         </div>
       </div>
     </div>
@@ -121,165 +112,160 @@
   
 
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const ctx = document.getElementById('luaranPieChart').getContext('2d');
+    const luaranCounts = @json($luaranCounts);
+    const kotas = @json($kotas);
 
-        //-------------
-        //- PIE CHART -
-        //-------------
-        var pieChartCanvas = document.getElementById('pieChart').getContext('2d');
-        var pieData = {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                label: 'Dataset 1',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.8)',
-                    'rgba(54, 162, 235, 0.8)',
-                    'rgba(255, 206, 86, 0.8)',
-                    'rgba(75, 192, 192, 0.8)',
-                    'rgba(153, 102, 255, 0.8)',
-                    'rgba(255, 159, 64, 0.8)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        };
-        var pieOptions = {
-            maintainAspectRatio: false,
-            responsive: true,
-        };
+    const luaranLabels = Object.keys(luaranCounts);
+    const luaranData = Object.values(luaranCounts);
 
-        // Create pie chart
-        new Chart(pieChartCanvas, {
-            type: 'pie',
-            data: pieData,
-            options: pieOptions
-        });
+    const luaranChartData = {
+        labels: luaranLabels,
+        datasets: [{
+            label: 'Persentase Luaran',
+            data: luaranData,
+            backgroundColor: [
+                'rgb(47, 85, 151)',
+                'rgb(180, 199, 231)',
+                'rgb(68, 114, 196)'
+            ],
+            borderColor: [
+                'rgb(47, 85, 151)',
+                'rgb(180, 199, 231)',
+                'rgb(68, 114, 196)'
+            ],
+            borderWidth: 1
+        }]
+    };
 
-        //-------------
-        //- PIE CHART 1 -
-        //-------------
-        var pieChartCanvas1 = document.getElementById('pieChart1').getContext('2d');
-        var pieData1 = {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                label: 'Dataset 1',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.8)',
-                    'rgba(54, 162, 235, 0.8)',
-                    'rgba(255, 206, 86, 0.8)',
-                    'rgba(75, 192, 192, 0.8)',
-                    'rgba(153, 102, 255, 0.8)',
-                    'rgba(255, 159, 64, 0.8)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        };
-        var pieOptions1 = {
-            maintainAspectRatio: false,
-            responsive: true,
-        };
+    const luaranChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        tooltips: {
+            callbacks: {
+                label: function (tooltipItem, data) {
+                    const dataset = data.datasets[tooltipItem.datasetIndex];
+                    const total = dataset.data.reduce((prev, curr) => prev + curr, 0);
+                    const currentValue = dataset.data[tooltipItem.index];
+                    const percentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                    return data.labels[tooltipItem.index] + ': ' + percentage + '%';
+                },
+                afterLabel: function (tooltipItem, data) {
+                    const index = tooltipItem.index;
+                    const label = data.labels[index];
+                    const filteredKotas = kotas.filter(kota => kota.luaran.includes(label));
+                    return filteredKotas.map(kota => kota.nama_kota).join(', ');
+                }
+            }
+        }
+    };
 
-        // Create pie chart
-        new Chart(pieChartCanvas1, {
-            type: 'pie',
-            data: pieData1,
-            options: pieOptions1
-        });
+    new Chart(ctx, {
+        type: 'pie',
+        data: luaranChartData,
+        options: luaranChartOptions
+    });
 
-        //-------------
-        //- PIE CHART 2 -
-        //-------------
-        var pieChartCanvas2 = document.getElementById('pieChart2').getContext('2d');
-        var pieData2 = {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                label: 'Dataset 1',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.8)',
-                    'rgba(54, 162, 235, 0.8)',
-                    'rgba(255, 206, 86, 0.8)',
-                    'rgba(75, 192, 192, 0.8)',
-                    'rgba(153, 102, 255, 0.8)',
-                    'rgba(255, 159, 64, 0.8)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        };
-        var pieOptions2 = {
-            maintainAspectRatio: false,
-            responsive: true,
-        };
+    const mitraChartCanvas = document.getElementById('mitraChart').getContext('2d');
+    const mitraCounts = @json($mitraCounts);
 
-        // Create pie chart
-        new Chart(pieChartCanvas2, {
-            type: 'pie',
-            data: pieData2,
-            options: pieOptions2
-        });
+    const mitraLabels = Object.keys(mitraCounts);
+    const mitraData = Object.values(mitraCounts);
+  
+    const mitraChartData = {
+        labels: mitraLabels,
+        datasets: [{
+            label: 'Jumlah Kota',
+            data: mitraData,
+            backgroundColor: [
+                'rgb(68, 114, 196)',
+                'rgb(180, 199, 231)',
+                'rgb(47, 85, 151)'
+            ],
+            borderColor: [
+                'rgb(68, 114, 196)',
+                'rgb(180, 199, 231)',
+                'rgb(47, 85, 151)'
+            ],
+            borderWidth: 1
+        }]
+    };
 
+    const mitraChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        tooltips: {
+            callbacks: {
+                label: function (tooltipItem, data) {
+                    const dataset = data.datasets[tooltipItem.datasetIndex];
+                    const total = dataset.data.reduce((prev, curr) => prev + curr, 0);
+                    const currentValue = dataset.data[tooltipItem.index];
+                    const percentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                    return data.labels[tooltipItem.index] + ': ' + percentage + '%';
+                },
+                afterLabel: function (tooltipItem, data) {
+                    const index = tooltipItem.index;
+                    const label = data.labels[index];
+                    const filteredKotas = kotas.filter(kota => kota.mitra.includes(label));
+                    return filteredKotas.map(kota => kota.nama_kota).join(', ');
+                }
+            }
+        }
+    };
 
-        //-------------
-        //- BAR CHART -
-        //-------------
-        var barChartCanvas = document.getElementById('barChart').getContext('2d');
-        var barChartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-                label: 'Dataset 1',
-                data: [65, 59, 80, 81, 56, 55, 40],
-                backgroundColor: 'rgba(255, 99, 132, 0.8)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
-            },
-            {
-                label: 'Dataset 2',
-                data: [28, 48, 40, 19, 86, 27, 90],
-                backgroundColor: 'rgba(54, 162, 235, 0.8)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        };
-        var barChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            datasetFill: false
-        };
+    // Create mitra pie chart
+    new Chart(mitraChartCanvas, {
+        type: 'pie',
+        data: mitraChartData,
+        options: mitraChartOptions
+    });
 
-        // Create bar chart
-        new Chart(barChartCanvas, {
-            type: 'bar',
-            data: barChartData,
-            options: barChartOptions
-        });
+    
+    // Get context with jQuery - using jQuery's .get() method.
+    const pieChartCanvas1 = document.getElementById('pieChart2').getContext('2d');
 
-      });
-  </script>
+    // Data untuk pie chart
+    const pieData = {
+        labels: [
+            'Yudisium 1',
+            'Yudisium 2',
+            'Yudisium 3'
+        ],
+        datasets: [{
+            data: [50, 10, 5], // Persentase bebas yang bisa Anda ubah sesuai kebutuhan
+            backgroundColor : ['#2F5597', '#B4C7E7', '#4472C4'],
+        }]
+    };
+
+    // Opsi untuk pie chart
+    const pieOptions = {
+      maintainAspectRatio: false,
+      responsive: true,
+      plugins: {
+          tooltip: {
+              callbacks: {
+                  label: function(context) {
+                      const label = context.label || '';
+                      const value = context.raw;
+                      const dataset = context.dataset;
+                      const total = dataset.data.reduce((prev, curr) => prev + curr, 0);
+                      const percentage = Math.round((value / total) * 100);
+                      return `${label}: ${percentage}%`;
+                  }
+              }
+          }
+      }
+  };
+
+    // Buat pie chart menggunakan Chart.js
+    new Chart(pieChartCanvas1, {
+        type: 'pie',
+        data: pieData,
+        options: pieOptions
+    });
+});
+</script>
   
 @endsection

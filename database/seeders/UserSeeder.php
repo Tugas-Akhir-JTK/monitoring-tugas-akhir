@@ -80,7 +80,7 @@ class UserSeeder extends Seeder
             'role' => 4,
             'nomor_induk' => 197109031999032001,
             'name' => 'Santi Sundari',
-            'email' => 'santi.sundari@polban.ac.id',
+            'email' => 'santi@polban.ac.id',
             'password' => Hash::make('1234567890'),
         ]);
 
@@ -89,10 +89,17 @@ class UserSeeder extends Seeder
             'role' => 5,
             'nomor_induk' => 199301062019031017,
             'name' => 'Lukmannul Hakim Firdaus',
-            'email' => 'lukmannul.hakim@polban.ac.id',
+            'email' => 'lukmannul@polban.ac.id',
             'password' => Hash::make('1234567890'),
         ]);
-
+        User::create([
+            'role' => 4,
+            'name' => 'Lukman',
+            'nomor_induk' => '311711001',
+            'email' => 'lukman@example.com',
+            'password' => Hash::make('1234567890'),
+        ]);
+        
     }
 
 }

@@ -10,7 +10,7 @@
       <div class="card">
         <div class="card-body login-card-body">
           <p class="login-box-msg">
-            <img src="{{ asset('assets/dist/img/polban.png') }}" alt="Polban Logo" style="width: 300px; height: auto;"/>
+            <img src="{{ asset('assets/dist/img/jtk.jpg') }}" alt="Polban Logo" style="width: 250px; height: auto;"/>
           </p>
 
           <form action="{{ route('login') }}" method="POST">
