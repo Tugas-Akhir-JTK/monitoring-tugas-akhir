@@ -5,9 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\ResumeBimbinganModel;
 use App\Models\KotaHasResumeBimbinganModel; 
-use App\Models\KotaHasResumeBimbinganModel; 
 use App\Models\User;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 
@@ -61,22 +59,6 @@ class ResumeBimbinganController extends Controller
         }
 
         // Paginate hasil query dengan 10 data per halaman
-        $resumes = $query->paginate(10);
-
-    // Mengembalikan view dengan data resumes
-    return view('bimbingan.resume.index', compact('resumes'));
-}
-
-        // Menambahkan logika sorting berdasarkan parameter 'sort' dan 'direction'
-        if ($request->has('sort') && $request->has('direction')) {
-            $direction = $request->input('direction');
-            $query->orderBy($sort, $direction); // Menggunakan variabel $sort dari if sebelumnya
-        } else {
-            // Jika tidak ada parameter 'direction', secara default urutkan descending berdasarkan nomer dari sesi_bimbingan
-            $query->orderBy('tbl_resume_bimbingan.sesi_bimbingan', 'desc');
-        }
-
-        // Paginate hasil query
         $resumes = $query->paginate(10);
 
         // Mengembalikan view dengan data resumes
@@ -293,25 +275,6 @@ class ResumeBimbinganController extends Controller
         
         return redirect()->route('resume');
     }
-
-    public function generatePdf($sesi_bimbingan)
-    {
-        $user = auth()->user();
-
-        $dosen = DB::table('tbl_resume_bimbingan as rb')
-                    ->join('tbl_kota_has_resume_bimbingan as krb', 'rb.id_resume_bimbingan', '=', 'krb.id_resume_bimbingan')
-                    ->join('users as u', 'krb.id_user', '=', 'u.id')
-                    ->select('rb.*', 'u.name as nama_dosen')
-                    ->where('rb.id_resume_bimbingan', $sesi_bimbingan)
-                    ->first();
-
-        $resume = ResumeBimbinganModel::findOrFail($sesi_bimbingan);
-
-        $pdf = PDF::loadView('bimbingan.generate', compact('resume', 'dosen'));
-
-        return $pdf->download('resume bimbingan ke-' . $resume->sesi_bimbingan . '.pdf');
-    }
-
 
     public function generatePdf($sesi_bimbingan)
     {
