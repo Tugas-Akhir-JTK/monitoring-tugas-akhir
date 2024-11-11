@@ -64,7 +64,6 @@ class ResumeBimbinganController extends Controller
         // Mengembalikan view dengan data resumes
         return view('bimbingan.resume.index', compact('resumes'));
     }
-    
 
     public function create()
     {
@@ -82,7 +81,7 @@ class ResumeBimbinganController extends Controller
                     ->where('tbl_kota_has_user.id_kota', $id_kota)
                     ->select('users.*')
                     ->get();
-
+    
         return view('bimbingan.resume.create', compact('dosen'));
     }
     
@@ -91,6 +90,8 @@ class ResumeBimbinganController extends Controller
     {
         $request->validate([
             'tanggal_bimbingan' => 'required',
+            'jam_mulai' => 'required',
+            'jam_selesai' => 'required',
             'jam_mulai' => 'required',
             'jam_selesai' => 'required',
             'isi_resume_bimbingan' => 'required',
@@ -206,6 +207,8 @@ class ResumeBimbinganController extends Controller
     {
         $request->validate([
             'tanggal_bimbingan' => 'required',
+            'jam_mulai' => 'required',
+            'jam_selesai' => 'required',
             'jam_mulai' => 'required',
             'jam_selesai' => 'required',
             'isi_resume_bimbingan' => 'required',

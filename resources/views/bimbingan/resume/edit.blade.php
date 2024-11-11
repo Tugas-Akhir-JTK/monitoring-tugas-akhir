@@ -67,6 +67,23 @@
                             </div>
 
                             <div class="row g-2">
+                                <div class="col mb-3">
+                                    <label for="sesi_bimbingan" class="form-label">Sesi Bimbingan</label>
+                                    <input name="sesi_bimbingan" value="{{ old('sesi_bimbingan', $resume->sesi_bimbingan) }}" type="text" class="form-control" id="sesi_bimbingan" placeholder="Sesi Bimbingan Ke-"/>
+                                </div>
+                                <!-- TAHAPAN PROGRES -->
+                                <div class="col mb-3">
+                                    <label for="tahapan_progres" class="form-label">Tahapan Progres</label>
+                                    <select name="tahapan_progres" class="form-control" id="tahapan_progres" required>
+                                        <option value="" disabled {{ old('tahapan_progres', $resume->tahapan_progres) === null ? 'selected' : '' }}>Pilih Tahapan Progres</option>
+                                        <option value="1" {{ old('tahapan_progres', $resume->tahapan_progres) == 1 ? 'selected' : '' }}>Seminar 2</option>
+                                        <option value="2" {{ old('tahapan_progres', $resume->tahapan_progres) == 2 ? 'selected' : '' }}>Seminar 3</option>
+                                        <option value="3" {{ old('tahapan_progres', $resume->tahapan_progres) == 3 ? 'selected' : '' }}>Sidang</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row g-2">
                                 <!-- TANGGAL BIMBINGAN -->
                                 <div class="col mb-3">
                                     <label for="tanggal_bimbingan" class="form-label">Tanggal</label>

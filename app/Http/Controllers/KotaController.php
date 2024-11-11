@@ -54,18 +54,16 @@ class KotaController extends Controller
             $query->orderBy($request->input('sort'), $request->input('direction'));
         }
 
-
-        // Lakukan join dengan tabel tahapan_progres dan master_tahapan_progres
-        $query->leftJoin('tbl_kota_has_tahapan_progres', 'tbl_kota.id_kota', '=', 'tbl_kota_has_tahapan_progres.id_kota')
-                        ->leftJoin('tbl_master_tahapan_progres', 'tbl_kota_has_tahapan_progres.id_master_tahapan_progres', '=', 'tbl_master_tahapan_progres.id')
-                        ->select('tbl_kota.*', 'tbl_master_tahapan_progres.nama_progres AS nama_tahapan', 'tbl_kota_has_tahapan_progres.status AS status')
-                        ->where(function ($query) {
-                            $query->where('tbl_kota_has_tahapan_progres.status', 'on_progres')
-                                    ->orWhere('tbl_kota_has_tahapan_progres.status', 'disetujui');
-                        });
-                        // ->first();
-    
-        $kotas = $query->get();
+    // Lakukan join dengan tabel tahapan_progres dan master_tahapan_progres
+    $query->leftJoin('tbl_kota_has_tahapan_progres', 'tbl_kota.id_kota', '=', 'tbl_kota_has_tahapan_progres.id_kota')
+                    ->leftJoin('tbl_master_tahapan_progres', 'tbl_kota_has_tahapan_progres.id_master_tahapan_progres', '=', 'tbl_master_tahapan_progres.id')
+                    ->select('tbl_kota.*', 'tbl_master_tahapan_progres.nama_progres AS nama_tahapan', 'tbl_kota_has_tahapan_progres.status AS status')
+                    ->where(function ($query) {
+                        $query->where('tbl_kota_has_tahapan_progres.status', 'on_progres')
+                                ->orWhere('tbl_kota_has_tahapan_progres.status', 'disetujui');
+                    });
+   
+    $kotas = $query->get();
 
 
 
@@ -143,6 +141,7 @@ class KotaController extends Controller
             DB::table('tbl_kota_has_tahapan_progres')->insert($tahapan);
         }
         
+        session()->flash('success', 'Data KoTA berhasil ditambahkan');
         session()->flash('success', 'Data KoTA berhasil ditambahkan');
         return redirect()->route('kota');
         
@@ -222,6 +221,10 @@ class KotaController extends Controller
 
 
         $masterArtefaks = DB::table('tbl_master_artefak')->get();
+        $artefakKota = KotaHasArtefakModel::where('id_kota', $id)
+                                                ->join('tbl_artefak', 'tbl_kota_has_artefak.id_artefak', '=', 'tbl_artefak.id_artefak')
+                                                ->select('tbl_artefak.nama_artefak')
+                                                ->get();
         $artefakKota = KotaHasArtefakModel::where('id_kota', $id)
                                                 ->join('tbl_artefak', 'tbl_kota_has_artefak.id_artefak', '=', 'tbl_artefak.id_artefak')
                                                 ->select('tbl_artefak.nama_artefak')
@@ -347,26 +350,17 @@ class KotaController extends Controller
 
     
     public function edit($id)
-{
-    $kota = KotaModel::with('users')->findOrFail($id);
-    
-    if (!$kota) {
-        return redirect()->route('kota')->withErrors('Data tidak ditemukan.');
+    {
+        $kota = KotaModel::with('users')->findOrFail($id);
+        $dosen = User::where('role', 2)->get();
+        $mahasiswa = User::where('role', 3)->get();
+
+        if (!$kota) {
+            return redirect()->route('kota')->withErrors('Data tidak ditemukan.');
+        }
+        
+        return view('kota.edit', compact('kota', 'dosen', 'mahasiswa'));
     }
-
-
-    // Ambil dosen dan mahasiswa berdasarkan role
-    $dosen = User::where('role', 2)->get();
-    $mahasiswa = User::where('role', 3)->get(); // Hanya mahasiswa dengan role 3
-
-    // Lakukan pengecekan untuk opsi yang dipilih (selected)
-    $selectedDosen = $kota->users()->where('role', 2)->pluck('users.id')->toArray();
-    $selectedMahasiswa = $kota->users()->where('role', 3)->pluck('users.id')->toArray();
-
-    return view('kota.edit', compact('kota', 'dosen', 'mahasiswa', 'selectedDosen', 'selectedMahasiswa'));
-}
-
-
 
     public function showFile($nama_artefak)
     {
@@ -412,6 +406,7 @@ class KotaController extends Controller
         $kota->users()->sync($userIds);
 
         // Set flash message
+        session()->flash('success', 'Data kota berhasil dirubah');
         session()->flash('success', 'Data kota berhasil dirubah');
 
         // Redirect ke halaman kota.index dengan pesan sukses
