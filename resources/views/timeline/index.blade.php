@@ -4,7 +4,7 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <div class="content-header pb-0">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
@@ -76,16 +76,18 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-    <div class="content">
-      <div class="container-fluid" style="background-color: B8C6E2;">
+    <div class="content mx-3 px-4 py-3" style="background-color: #B8C6E2;">
+      <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
-            <div class="timeline">
+            <div class="timeline timeline-inverse">
               @foreach ($timelines as $timeline)
                 <div class="time-label">
-                  <span class="bg-secondary">{{ $timeline->tanggal_mulai }}</span>
+                  <span class="bg-secondary">{{ date('d-M-Y', strtotime($timeline->tanggal_mulai)) }}</span>
                 </div>
-                <div>
+
+                <!-- timeline-item -->
+                <div class="">
                   <i class="fas fa-calendar bg-blue"></i>
                   <div class="timeline-item">
                     <div class="timeline-header d-flex justify-content-between align-items-center">
@@ -119,100 +121,103 @@
                         Tidak ada artefak terkait.
                       @endif
                     </div>
-                    <div class="timeline-footer">
-                      <!-- Edit Modal -->
-                      <div class="modal fade" id="editTimelineModal-{{ $timeline->id_timeline }}" tabindex="-1"
-                        role="dialog" aria-labelledby="editTimelineModalLabel-{{ $timeline->id_timeline }}"
-                        aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="editTimelineModalLabel-{{ $timeline->id_timeline }}">
-                                Edit Timeline</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
+                  </div>
+                  <!-- /.timeline-item -->
+
+
+                  <div class="timeline-footer">
+                    <!-- Edit Modal -->
+                    <div class="modal fade" id="editTimelineModal-{{ $timeline->id_timeline }}" tabindex="-1"
+                      role="dialog" aria-labelledby="editTimelineModalLabel-{{ $timeline->id_timeline }}"
+                      aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="editTimelineModalLabel-{{ $timeline->id_timeline }}">
+                              Edit Timeline</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form action="{{ route('timeline.update', $timeline->id_timeline) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="modal-body">
+                              <div class="form-group">
+                                <label for="edit_nama_kegiatan_{{ $timeline->id_timeline }}">Nama
+                                  Kegiatan</label>
+                                <input type="text" class="form-control"
+                                  id="edit_nama_kegiatan_{{ $timeline->id_timeline }}" name="nama_kegiatan"
+                                  value="{{ $timeline->nama_kegiatan }}" required>
+                              </div>
+                              <div class="form-group">
+                                <label for="edit_tanggal_mulai_{{ $timeline->id_timeline }}">Tanggal
+                                  Mulai</label>
+                                <input type="date" class="form-control"
+                                  id="edit_tanggal_mulai_{{ $timeline->id_timeline }}" name="tanggal_mulai"
+                                  value="{{ $timeline->tanggal_mulai }}" required>
+                              </div>
+                              <div class="form-group">
+                                <label for="edit_tanggal_selesai_{{ $timeline->id_timeline }}">Tanggal
+                                  Selesai</label>
+                                <input type="date" class="form-control"
+                                  id="edit_tanggal_selesai_{{ $timeline->id_timeline }}" name="tanggal_selesai"
+                                  value="{{ $timeline->tanggal_selesai }}" required>
+                              </div>
+                              <div class="form-group">
+                                <label for="edit_deskripsi_{{ $timeline->id_timeline }}">Deskripsi</label>
+                                <textarea class="form-control" id="edit_deskripsi_{{ $timeline->id_timeline }}" name="deskripsi" rows="3">{{ $timeline->deskripsi }}</textarea>
+                              </div>
+                              <div class="form-group">
+                                <label for="id_master_artefak">Pilih Artefak</label>
+                                <select class="form-control" id="id_master_artefak" name="id_master_artefak[]" multiple
+                                  required>
+                                  @foreach ($masterArtefaks as $artefak)
+                                    <option value="{{ $artefak->id }}"
+                                      @if (in_array($artefak->id, $timeline->artefak->pluck('id_master_artefak')->toArray())) selected @endif>
+                                      {{ $artefak->nama_artefak }}</option>
+                                  @endforeach
+                                </select>
+                              </div>
                             </div>
-                            <form action="{{ route('timeline.update', $timeline->id_timeline) }}" method="POST">
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                              <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Delete Modal -->
+                    <div class="modal fade" id="deleteTimelineModal-{{ $timeline->id_timeline }}" tabindex="-1"
+                      role="dialog" aria-labelledby="deleteTimelineModalLabel-{{ $timeline->id_timeline }}"
+                      aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="deleteTimelineModalLabel-{{ $timeline->id_timeline }}">
+                              Konfirmasi Hapus</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <p>Apakah Anda yakin ingin menghapus timeline dengan kegiatan
+                              "<strong>{{ $timeline->nama_kegiatan }}</strong>"?</p>
+                          </div>
+                          <div class="modal-footer">
+                            <form action="{{ route('timeline.destroy', $timeline->id_timeline) }}" method="POST"
+                              style="display:inline;">
                               @csrf
-                              @method('PUT')
-                              <div class="modal-body">
-                                <div class="form-group">
-                                  <label for="edit_nama_kegiatan_{{ $timeline->id_timeline }}">Nama
-                                    Kegiatan</label>
-                                  <input type="text" class="form-control"
-                                    id="edit_nama_kegiatan_{{ $timeline->id_timeline }}" name="nama_kegiatan"
-                                    value="{{ $timeline->nama_kegiatan }}" required>
-                                </div>
-                                <div class="form-group">
-                                  <label for="edit_tanggal_mulai_{{ $timeline->id_timeline }}">Tanggal
-                                    Mulai</label>
-                                  <input type="date" class="form-control"
-                                    id="edit_tanggal_mulai_{{ $timeline->id_timeline }}" name="tanggal_mulai"
-                                    value="{{ $timeline->tanggal_mulai }}" required>
-                                </div>
-                                <div class="form-group">
-                                  <label for="edit_tanggal_selesai_{{ $timeline->id_timeline }}">Tanggal
-                                    Selesai</label>
-                                  <input type="date" class="form-control"
-                                    id="edit_tanggal_selesai_{{ $timeline->id_timeline }}" name="tanggal_selesai"
-                                    value="{{ $timeline->tanggal_selesai }}" required>
-                                </div>
-                                <div class="form-group">
-                                  <label for="edit_deskripsi_{{ $timeline->id_timeline }}">Deskripsi</label>
-                                  <textarea class="form-control" id="edit_deskripsi_{{ $timeline->id_timeline }}" name="deskripsi" rows="3">{{ $timeline->deskripsi }}</textarea>
-                                </div>
-                                <div class="form-group">
-                                  <label for="id_master_artefak">Pilih Artefak</label>
-                                  <select class="form-control" id="id_master_artefak" name="id_master_artefak[]"
-                                    multiple required>
-                                    @foreach ($masterArtefaks as $artefak)
-                                      <option value="{{ $artefak->id }}"
-                                        @if (in_array($artefak->id, $timeline->artefak->pluck('id_master_artefak')->toArray())) selected @endif>
-                                        {{ $artefak->nama_artefak }}</option>
-                                    @endforeach
-                                  </select>
-                                </div>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                <button type="submit" class="btn btn-primary">Simpan</button>
-                              </div>
+                              @method('DELETE')
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                              <button type="submit" class="btn btn-danger">Hapus</button>
                             </form>
                           </div>
                         </div>
                       </div>
-                      <!-- Delete Modal -->
-                      <div class="modal fade" id="deleteTimelineModal-{{ $timeline->id_timeline }}" tabindex="-1"
-                        role="dialog" aria-labelledby="deleteTimelineModalLabel-{{ $timeline->id_timeline }}"
-                        aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="deleteTimelineModalLabel-{{ $timeline->id_timeline }}">
-                                Konfirmasi Hapus</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              <p>Apakah Anda yakin ingin menghapus timeline dengan kegiatan
-                                "<strong>{{ $timeline->nama_kegiatan }}</strong>"?</p>
-                            </div>
-                            <div class="modal-footer">
-                              <form action="{{ route('timeline.destroy', $timeline->id_timeline) }}" method="POST"
-                                style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                <button type="submit" class="btn btn-danger">Hapus</button>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div> <!-- /.timeline-footer -->
-                  </div> <!-- /.timeline-item -->
+                    </div>
+                  </div>
                 </div>
               @endforeach
               <div>

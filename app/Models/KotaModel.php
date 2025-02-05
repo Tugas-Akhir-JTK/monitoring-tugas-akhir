@@ -4,35 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class KotaModel extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
     protected $table = 'tbl_kota';
-    protected $primaryKey = 'id_kota';
     protected $fillable = [
+        'periode_id',
+        'anggota1_id',
+        'anggota2_id',
+        'anggota3_id',
+        'dospem1_id',
+        'dospem2_id',
         'nama_kota',
-        'judul',
-        'kelas', 
-        'periode',
-        'mitra',
-        'luaran'
+        'judul_tugas_akhir',
+        'metodologi_tugas_akhir',
+        'luaran_tugas_akhir',
+        'mitra_tugas_akhir'
     ];
-
-    public function users()
-    {
-        return $this->belongsToMany(User::class, 'tbl_kota_has_user', 'id_kota', 'id_user');
-    }
-
-    public function getKota($id = null)
-    {
-        if ($id === null) {
-            return DB::table($this->table)->get();
-        } else {
-            return DB::table($this->table)->where('id_kota', $id)->first();
-        }
-    }
 }

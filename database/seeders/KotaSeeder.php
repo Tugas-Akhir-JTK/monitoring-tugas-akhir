@@ -2,10 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\KotaModel;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
 class KotaSeeder extends Seeder
@@ -15,74 +13,117 @@ class KotaSeeder extends Seeder
      */
     public function run(): void
     {
-        $judulList = [
-            'PENGEMBANGAN APLIKASI MONITORING TUGAS AKHIR DI JURUSAN TEKNIK KOMPUTER DAN INFORMATIKA',
-            'PEMANFAATAN TELEMEDICINE LAYANAN INFORMASI INTERAKTIF BERBASIS CHATBOT DAN LAYANAN RESERVASI ANTRIAN PASIEN',
-            'PENGEMBANGAN APLIKASI AUDIT MUTU INTERNAL BERBASIS WEBSITE SPMI POLBAN',
-            'PENGEMBANGAN APLIKASI PENGUKURAN CAPAIAN PEMBELAJARAN BERBASIS WEB DENGAN MENGGUNAKAN METODE GRAPH',
-            'RANCANG BANGUN SISTEM ANALISIS KOMPUTASI SCORE INHEREN PADA IDENTIFIKASI RESIKO DI SPI POLBAN',
-            'PENGEMBANGAN APLIKASI WEB UNTUK REKOMENDASI PEMBELAJARAN ONLINE MENGGUNAKAN METODE HYBRID FILTERING',
-            'PENGEMBANGAN SISTEM INFORMASI MANAJEMEN LABORATORIUM',
-            'PENGEMBANGAN SISTEM E-COMMERCE UNTUK PENJUALAN PRODUK LOKAL',
-            'RANCANG BANGUN APLIKASI PEMANTAUAN CUACA REALTIME',
-            'PENGEMBANGAN SISTEM INFORMASI AKADEMIK BERBASIS WEB'
-        ];
+        KotaModel::create([
+            'periode_id' => 3,
+            'anggota1_id' => 7,
+            'anggota2_id' => null,
+            'anggota3_id' => null,
+            'dospem1_id' => null,
+            'dospem2_id' => null,
+            'nama_kota' => '101',
+            'judul_tugas_akhir' => 'PENGEMBANGAN APLIKASI MONITORING TUGAS AKHIR DI JURUSAN TEKNIK KOMPUTER DAN INFORMATIKA',
+            'metodologi_tugas_akhir' => null,
+            'luaran_tugas_akhir' => 'HKI',
+            'mitra_tugas_akhir' => 'industri',
+        ]);
 
-        $classes = [
-            '1' => 101, //Angka 1 mewakili kelas D3-A
-            '2' => 201, //Angka 2 mewakili kelas D3-B
-            '3' => 301, //Angka 3 mewakili kelas D4-A
-            '4' => 401, //Angka 4 mewakili kelas D4-B
-        ];
+        KotaModel::create([
+            'periode_id' => 2,
+            'anggota1_id' => 7,
+            'anggota2_id' => null,
+            'anggota3_id' => null,
+            'dospem1_id' => 8,
+            'dospem2_id' => 9,
+            'nama_kota' => '102',
+            'judul_tugas_akhir' => 'PEMANFAATAN TELEMEDICINE LAYANAN INFORMASI INTERAKTIF BERBASIS CHATBOT DAN LAYANAN RESERVASI ANTRIAN PASIEN',
+            'metodologi_tugas_akhir' => 'waterfall',
+            'luaran_tugas_akhir' => 'Jurnal',
+            'mitra_tugas_akhir' => 'non-mitra',
+        ]);
 
-        foreach ($classes as $class => $startId) {
-            for ($i = 0; $i < 10; $i++) {
-                $kota = KotaModel::create([
-                    'nama_kota' => $startId + $i,
-                    'judul' => $judulList[$i % count($judulList)],
-                    'kelas' => $class,
-                    'periode' => 2024,
-                    'mitra' => 'Industri',
-                    'luaran' => 'HKI',
-                ]);
+        KotaModel::create([
+            'periode_id' => 3,
+            'anggota1_id' => 5,
+            'anggota2_id' => 6,
+            'anggota3_id' => null,
+            'dospem1_id' => null,
+            'dospem2_id' => null,
+            'nama_kota' => '201',
+            'judul_tugas_akhir' => 'PENGEMBANGAN APLIKASI AUDIT MUTU INTERNAL BERBASIS WEBSITE SPMI POLBAN',
+            'metodologi_tugas_akhir' => null,
+            'luaran_tugas_akhir' => 'HKI',
+            'mitra_tugas_akhir' => 'organisasi',
+        ]);
 
-                // Pastikan kota sudah dibuat
-                if ($kota) {
-                    // Cari kota berdasarkan id_kota yang baru dibuat
-                    $existingKota = KotaModel::find($kota->id_kota);
+        KotaModel::create([
+            'periode_id' => 3,
+            'anggota1_id' => 7,
+            'anggota2_id' => null,
+            'anggota3_id' => null,
+            'dospem1_id' => null,
+            'dospem2_id' => null,
+            'nama_kota' => '208',
+            'judul_tugas_akhir' => 'RANCANG BANGUN SISTEM ANALISIS KOMPUTASI SCORE INHEREN PADA IDENTIFIKASI RESIKO DI SPI POLBAN',
+            'metodologi_tugas_akhir' => null,
+            'luaran_tugas_akhir' => 'HKI',
+            'mitra_tugas_akhir' => 'industri',
+        ]);
 
-                    // Jika kota ada, masukkan ke tbl_kota_has_tahapan_progres
-                    if ($existingKota) {
-                        DB::table('tbl_kota_has_tahapan_progres')->insert([
-                            'id_kota' => $existingKota->id_kota,
-                            'id_master_tahapan_progres' => 1, // id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
-                            'status' => 'on_progres',
-                        ]);
-                        DB::table('tbl_kota_has_tahapan_progres')->insert([
-                            'id_kota' => $existingKota->id_kota,
-                            'id_master_tahapan_progres' => 2, // id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
-                            'status' => 'belum-disetujui',
-                        ]);
-                        DB::table('tbl_kota_has_tahapan_progres')->insert([
-                            'id_kota' => $existingKota->id_kota,
-                            'id_master_tahapan_progres' => 3, // id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
-                            'status' => 'belum-disetujui',
-                        ]);
-                        DB::table('tbl_kota_has_tahapan_progres')->insert([
-                            'id_kota' => $existingKota->id_kota,
-                            'id_master_tahapan_progres' => 4, // id_master_tahapan_progres dari tbl_master_tahapan_progres dengan id = 1
-                            'status' => 'belum-disetujui',
-                        ]);
-                    } else {
-                        // Handle jika kota tidak ditemukan
-                        echo "Kota dengan id {$kota->id_kota} tidak ditemukan.";
-                    }
-                } else {
-                    // Handle jika kota gagal dibuat
-                    echo "Gagal membuat kota.";
-                }
-            }
-        }
+        KotaModel::create([
+            'periode_id' => 1,
+            'anggota1_id' => 6,
+            'anggota2_id' => null,
+            'anggota3_id' => null,
+            'dospem1_id' => null,
+            'dospem2_id' => null,
+            'nama_kota' => '204',
+            'judul_tugas_akhir' => 'RANCANG BANGUN APLIKASI PEMANTAUAN CUACA REALTIME',
+            'metodologi_tugas_akhir' => null,
+            'luaran_tugas_akhir' => 'HKI',
+            'mitra_tugas_akhir' => 'non-mitra',
+        ]);
+
+        KotaModel::create([
+            'periode_id' => 1,
+            'anggota1_id' => 5,
+            'anggota2_id' => null,
+            'anggota3_id' => null,
+            'dospem1_id' => null,
+            'dospem2_id' => null,
+            'nama_kota' => '302',
+            'judul_tugas_akhir' => 'PENGEMBANGAN SISTEM INFORMASI AKADEMIK BERBASIS WEB',
+            'metodologi_tugas_akhir' => null,
+            'luaran_tugas_akhir' => 'Jurnal',
+            'mitra_tugas_akhir' => 'organisasi',
+        ]);
+
+        KotaModel::create([
+            'periode_id' => 2,
+            'anggota1_id' => 7,
+            'anggota2_id' => null,
+            'anggota3_id' => null,
+            'dospem1_id' => null,
+            'dospem2_id' => null,
+            'nama_kota' => '401',
+            'judul_tugas_akhir' => 'PENGEMBANGAN SISTEM E-COMMERCE UNTUK PENJUALAN PRODUK LOKAL',
+            'metodologi_tugas_akhir' => null,
+            'luaran_tugas_akhir' => 'HKI',
+            'mitra_tugas_akhir' => 'industri',
+        ]);
+
+        KotaModel::create([
+            'periode_id' => 3,
+            'anggota1_id' => 7,
+            'anggota2_id' => null,
+            'anggota3_id' => null,
+            'dospem1_id' => null,
+            'dospem2_id' => null,
+            'nama_kota' => '201',
+            'judul_tugas_akhir' => 'PENGEMBANGAN APLIKASI WEB UNTUK REKOMENDASI PEMBELAJARAN ONLINE MENGGUNAKAN METODE HYBRID FILTERING',
+            'metodologi_tugas_akhir' => null,
+            'luaran_tugas_akhir' => 'UAT',
+            'mitra_tugas_akhir' => 'organisasi',
+        ]);
         
     }
 }

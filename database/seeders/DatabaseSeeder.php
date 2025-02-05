@@ -15,21 +15,15 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(3)->create();
         $this->call([
-            DosenSeeder::class,
-            MahasiswaSeeder::class,
+            PeriodeSeeder::class,
             UserSeeder::class,
-            MasterTahapanProgresSeeder::class,
             KotaSeeder::class,
-            MasterArtefakSeeder::class,
+            TimelineUtamaSeeder::class,
+            TimelineKotaSeeder::class,
             ArtefakSeeder::class,
-            ResumeBimbinganSeeder::class,
-            KotaHasUserSeeder::class,
-            // JadwalKegiatanSeeder::class,
-            TimelineSeeder::class,
-            TimelineHasArtefakSeeder::class,
-            MasterMetodologiSeeder::class,
-            JadwalKesediaanPengujiSeeder::class,
-
+            ArtefakTerkumpulSeeder::class,
+            JadwalPengujiSeeder::class,
+            ResumeSeeder::class,
         ]);
     }
 }

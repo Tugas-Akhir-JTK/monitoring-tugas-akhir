@@ -1,5 +1,7 @@
 @extends('adminlte.layouts.app')
 
+@section('title', 'Beranda')
+
 @section('content')
 
   <!-- Content Wrapper. Contains page content -->

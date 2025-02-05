@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ArtefakModel extends Model
+class JadwalPengujiModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'tbl_artefak';
+    protected $table = 'tbl_jadwal_penguji';
     protected $fillable = [
-        'periode_id',
+        'kota_id',
         'timeline_utama_id',
-        'nama_artefak',
-        'deskripsi_artefak',
-        'kategori_artefak',
-        'tenggat_waktu'
+        'dospem_id',
+        'tanggal_mulai',
+        'tanggal_selesai',
+        'status'
     ];
 }

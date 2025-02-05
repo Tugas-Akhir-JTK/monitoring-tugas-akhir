@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Monitoring Tugas Akhir</title>
+  <title>@yield('title', ' ') - Monitoring Tugas Akhir</title>
   <link rel="icon" type="image/x-icon" href="{{ asset('assets/dist/img/logo_polban.ico') }}">
 
   <!-- Google Font: Source Sans Pro -->
@@ -21,10 +21,6 @@
   <link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
   <!-- FullCalendar -->
   <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/main.css') }}">
-  <!-- AdminLTE -->
-  <script src="{{ asset('assets/dist/css/adminlte.min.js') }}"></script>
-  <!-- Manual CSS -->
-  <link rel="stylesheet" href="/resources/css/app.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('assets/dist/css/adminlte.min.css') }}">
   <!-- Ionicons -->
@@ -52,81 +48,12 @@
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
       <!-- Left navbar links -->
       <ul class="navbar-nav">
-        @if (session('success'))
-          <script>
-            document.addEventListener('DOMContentLoaded', function() {
-              Swal.fire({
-                icon: 'success',
-                // title: 'Success',
-                title: "{{ session('success') }}",
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                  toast.addEventListener('mouseenter', Swal.stopTimer)
-                  toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-              });
-            });
-          </script>
-        @endif
-        @if (session('error'))
-          <script>
-            document.addEventListener('DOMContentLoaded', function() {
-              Swal.fire({
-                icon: 'error',
-                // title: 'Error',
-                title: "{{ session('error') }}",
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                  toast.addEventListener('mouseenter', Swal.stopTimer)
-                  toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-              });
-            });
-          </script>
-        @endif
-        @if ($errors->any())
-          @php
-            $errorList = '<ul>';
-            foreach ($errors->all() as $error) {
-                $errorList .= '<li>' . $error . '</li>';
-            }
-            $errorList .= '</ul>';
-          @endphp
-          <script>
-            document.addEventListener('DOMContentLoaded', function() {
-              Swal.fire({
-                icon: 'error',
-                // title: 'Kesalahan Validasi',
-                title: `{!! $errorList !!}`,
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 7000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                  toast.addEventListener('mouseenter', Swal.stopTimer)
-                  toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-              });
-            });
-          </script>
-        @endif
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu" data-slide="true" role="button" id="pushMenuIcon"><i
               class="fas fa-bars"></i></a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-          <a href="#" class="nav-link">
-            {{ request()->route()->getName() }}
-          </a>
+        <li class="nav-item d-flex align-items-center">
+          <h5 class="m-0">{{ Str::ucfirst(request()->route()->getName()) }}</h5>
         </li>
       </ul>
 
@@ -135,36 +62,40 @@
         <li class="nav-item dropdown dropstart">
           <div class="media user-panel d-flex" data-toggle="dropdown">
             <div class="image">
-              <img src="{{ asset('assets/dist/img/user.jpg') }}" class="img-circle elevation-2" alt="User Image">
+              <img src="{{ asset('assets/dist/img/user.png') }}" class="img-circle" alt="User Image">
             </div>
             <div class="info">
-              <a href="#" class="d-block">{{ auth()->user()->name }}</a>
+              <a href="#" class="d-block" style="color:black; font-weight: 500">{{ auth()->user()->name }}
+                ({{ (auth()->user()->role === 1 ? 'Koordinator' : auth()->user()->role === 2) ? 'Pembimbing' : 'Mahasiswa' }})
+              </a>
             </div>
           </div>
-          <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <li class="dropdown-item">
-              <div class="image text-center">
-                <img src="{{ asset('assets/dist/img/user2.jpg') }}" class="img-circle elevation-2" alt="User Image">
-                <a href="#" class="d-block">{{ auth()->user()->nomor_induk }}</a>
-                <a href="#" class="d-block">{{ auth()->user()->name }}</a>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <li class="dropdown-item d-flex justify-content-between align-items-center flex-column">
+              <div class="border-top border-bottom border-dark align-self-start w-100 mb-3">
+                <h5 class="m-0 py-1">Detail Profile</h5>
               </div>
-              <br>
-              <br>
-              <a href="{{ route('logout') }}"
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                class="btn btn-danger ml-auto" style="color: white;">Logout</a>
-              <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+              <div class="image text-center">
+                <img src="{{ asset('assets/dist/img/user.png') }}" class="img-circle img-fluid" style="width: 60%"
+                  alt="User Image">
+              </div>
+              <div class="mb-4 mt-3 text-center">
+                <h6 class="m-0">{{ auth()->user()->nomor_induk }}</h6>
+                <h5 class="m-0">{{ auth()->user()->name }}</h5>
+              </div>
+              <form action="{{ route('logout') }}" method="POST" class="align-self-end">
                 @csrf
+                <button type="submit" class="btn btn-danger">Logout</button>
               </form>
             </li>
           </ul>
         </li>
 
-        <li class="nav-item">
+        {{-- <li class="nav-item">
           <a class="nav-link" data-widget="fullscreen" data-slide="true" href="#" role="button">
             <i class="fas fa-expand-arrows-alt"></i>
           </a>
-        </li>
+        </li> --}}
       </ul>
     </nav>
     <!-- /.navbar -->
@@ -364,6 +295,60 @@
     <script src="{{ asset('assets/dist/js/demo.js') }}"></script>
 
 
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        @if (session('success'))
+          Swal.fire({
+            icon: 'success',
+            title: "{{ session('success') }}",
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
+            }
+          });
+        @endif
+
+        @if (session('error'))
+          Swal.fire({
+            icon: 'error',
+            title: "{{ session('error') }}",
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
+            }
+          });
+        @endif
+
+        @if ($errors->any())
+          let errorList = @json($errors->all());
+          let errorMessage = errorList.join('<br>'); // Menggabungkan daftar error
+          Swal.fire({
+            icon: 'error',
+            title: "Kesalahan Validasi",
+            html: errorMessage, // Menggunakan 'html' agar format tetap bagus
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 7000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
+            }
+          });
+        @endif
+      })
+    </script>
 
     <script>
       document.getElementById('pushMenuIcon').addEventListener('click', function() {

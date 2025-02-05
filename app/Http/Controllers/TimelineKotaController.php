@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class KotaController extends Controller
+class TimelineKotaController extends Controller
 {
     /**
      * Display a listing of the resource.

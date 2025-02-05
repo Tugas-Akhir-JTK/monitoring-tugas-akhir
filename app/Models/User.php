@@ -19,7 +19,8 @@ class User extends Authenticatable
     protected $fillable = [
         'role',
         'nomor_induk',
-        'name',
+        'nama',
+        'kelas',
         'email',
         'password',
     ];
@@ -48,3 +49,4 @@ class User extends Authenticatable
         return $this->belongsTo(KotaModel::class, 'id_kota');
     }
 }
+

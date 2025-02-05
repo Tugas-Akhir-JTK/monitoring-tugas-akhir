@@ -5,13 +5,17 @@
 @section('content')
 
   <body class="hold-transition login-page">
-    <div class="card login-box py-4" style="width:28rem;">
-      <div class="w-100 d-flex justify-content-center border-bottom mb-2 mt-3 pb-4">
+    <div class="card login-box w-100 m-auto py-4" style="max-width:28rem;">
+      <div class="w-100 d-flex justify-content-center border-bottom mb-1 mt-3 pb-4">
         <img src="{{ asset('assets/dist/img/polban.png') }}" class="img-fluid" style="width: auto; height: auto;"
           alt="Polban Logo">
       </div>
 
       <div class="card-body px-4">
+        <div class="d-flex align-items-center flex-column mb-4 text-center">
+          <h5 class="text-secondary">Login to your account</h5>
+          <div class="div w-50 border-primary border border-2"></div>
+        </div>
         <form action="{{ route('login') }}" method="POST">
           @csrf
           <label for="email" class="fw-normal mb-1">Email</label>
@@ -22,7 +26,7 @@
               </div>
             </div>
             <input type="email" id="email" class="form-control @error('email') is-invalid @enderror" name="email"
-              value="{{ old('email') }}" placeholder="Enter Email" style="outline: none; box-shadow: none;">
+              value="{{ old('email') }}" placeholder="Email" style="outline: none; box-shadow: none;">
             @error('email')
               <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
