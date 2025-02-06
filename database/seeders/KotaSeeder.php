@@ -15,6 +15,7 @@ class KotaSeeder extends Seeder
     {
         KotaModel::create([
             'periode_id' => 3,
+            'timeline_utama_id' => 1,
             'anggota1_id' => 7,
             'anggota2_id' => null,
             'anggota3_id' => null,
@@ -29,6 +30,7 @@ class KotaSeeder extends Seeder
 
         KotaModel::create([
             'periode_id' => 2,
+            'timeline_utama_id' => 1,
             'anggota1_id' => 7,
             'anggota2_id' => null,
             'anggota3_id' => null,
@@ -43,6 +45,7 @@ class KotaSeeder extends Seeder
 
         KotaModel::create([
             'periode_id' => 3,
+            'timeline_utama_id' => null,
             'anggota1_id' => 5,
             'anggota2_id' => 6,
             'anggota3_id' => null,
@@ -57,6 +60,7 @@ class KotaSeeder extends Seeder
 
         KotaModel::create([
             'periode_id' => 3,
+            'timeline_utama_id' => null,
             'anggota1_id' => 7,
             'anggota2_id' => null,
             'anggota3_id' => null,
@@ -71,6 +75,7 @@ class KotaSeeder extends Seeder
 
         KotaModel::create([
             'periode_id' => 1,
+            'timeline_utama_id' => null,
             'anggota1_id' => 6,
             'anggota2_id' => null,
             'anggota3_id' => null,
@@ -85,6 +90,7 @@ class KotaSeeder extends Seeder
 
         KotaModel::create([
             'periode_id' => 1,
+            'timeline_utama_id' => null,
             'anggota1_id' => 5,
             'anggota2_id' => null,
             'anggota3_id' => null,
@@ -99,6 +105,7 @@ class KotaSeeder extends Seeder
 
         KotaModel::create([
             'periode_id' => 2,
+            'timeline_utama_id' => null,
             'anggota1_id' => 7,
             'anggota2_id' => null,
             'anggota3_id' => null,
@@ -113,6 +120,7 @@ class KotaSeeder extends Seeder
 
         KotaModel::create([
             'periode_id' => 3,
+            'timeline_utama_id' => null,
             'anggota1_id' => 7,
             'anggota2_id' => null,
             'anggota3_id' => null,

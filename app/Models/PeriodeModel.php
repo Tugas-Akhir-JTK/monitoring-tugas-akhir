@@ -12,4 +12,12 @@ class PeriodeModel extends Model
     protected $fillable = [
         'periode'
     ];
+
+    public function artefak() {
+        return $this->hasMany(ArtefakModel::class);
+    }
+
+    public function kota() {
+        return $this->hasMany(KotaModel::class);
+    }
 }

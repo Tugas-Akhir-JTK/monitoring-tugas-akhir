@@ -12,6 +12,7 @@ class KotaModel extends Model
     protected $table = 'tbl_kota';
     protected $fillable = [
         'periode_id',
+        'timeline_utama_id',
         'anggota1_id',
         'anggota2_id',
         'anggota3_id',
@@ -23,4 +24,12 @@ class KotaModel extends Model
         'luaran_tugas_akhir',
         'mitra_tugas_akhir'
     ];
+
+    public function periode () {
+        return $this->belongsTo(PeriodeModel::class);
+    }
+
+    public function timelineUtama () {
+        return $this->belongsTo(TimelineUtamaModel::class);
+    }
 }

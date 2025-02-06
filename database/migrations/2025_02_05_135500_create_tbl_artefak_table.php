@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('periode_id');
             $table->unsignedBigInteger('timeline_utama_id')->nullable()->default(null);
-            $table->string('nama_artefak', 100);
+            $table->string('nama_artefak', 100)->unique();
             $table->text('deskripsi_artefak');
             $table->string('kategori_artefak', 50);
             $table->dateTime('tenggat_waktu');
@@ -23,7 +23,7 @@ return new class extends Migration
 
             // Foreign Key
             $table->foreign('periode_id')->references('id')->on('tbl_periode')->onUpdate('cascade')->onDelete('restrict');
-            $table->foreign('timeline_utama_id')->references('id')->on('tbl_timeline_utama')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('timeline_utama_id')->references('id')->on('tbl_timeline_utama')->onUpdate('cascade')->onDelete('set null');
         });
     }
 

@@ -18,4 +18,12 @@ class ArtefakModel extends Model
         'kategori_artefak',
         'tenggat_waktu'
     ];
+
+    public function periode () {
+        return $this->belongsTo(PeriodeModel::class);
+    }
+
+    public function timelineUtama () {
+        return $this->belongsTo(TimelineUtamaModel::class);
+    }
 }

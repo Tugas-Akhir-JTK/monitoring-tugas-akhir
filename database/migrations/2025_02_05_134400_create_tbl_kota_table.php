@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tbl_kota', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('periode_id');
+            $table->unsignedBigInteger('timeline_utama_id')->nullable()->default(null);
             $table->unsignedBigInteger('anggota1_id');
             $table->unsignedBigInteger('anggota2_id')->nullable()->default(null);
             $table->unsignedBigInteger('anggota3_id')->nullable()->default(null);
@@ -28,6 +29,7 @@ return new class extends Migration
 
             // foreign key
             $table->foreign('periode_id')->references('id')->on('tbl_periode')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('timeline_utama_id')->references('id')->on('tbl_timeline_utama')->onUpdate('cascade')->onDelete('set null');
             $table->foreign('anggota1_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('anggota2_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('anggota3_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('restrict');

@@ -17,4 +17,12 @@ class TimelineUtamaModel extends Model
         'tanggal_mulai',
         'tanggal_selesai'
     ];
+
+    public function artefak() {
+        return $this->hasMany(ArtefakModel::class);
+    }
+
+    public function kota() {
+        return $this->hasMany(KotaModel::class);
+    }
 }

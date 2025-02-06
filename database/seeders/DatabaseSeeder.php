@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PeriodeSeeder::class,
             UserSeeder::class,
-            KotaSeeder::class,
             TimelineUtamaSeeder::class,
+            KotaSeeder::class,
             TimelineKotaSeeder::class,
             ArtefakSeeder::class,
             ArtefakTerkumpulSeeder::class,
