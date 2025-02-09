@@ -354,12 +354,18 @@ class KotaController extends Controller
         $kota = KotaModel::with('users')->findOrFail($id);
         $dosen = User::where('role', 2)->get();
         $mahasiswa = User::where('role', 3)->get();
+        $kotaHasUser = KotaHasUserModel::where('id_kota', $id)->get()->toArray();
+        $list_id_user = [];
 
         if (!$kota) {
             return redirect()->route('kota')->withErrors('Data tidak ditemukan.');
         }
         
-        return view('kota.edit', compact('kota', 'dosen', 'mahasiswa'));
+        foreach ($kotaHasUser as $user_id) {
+            array_push($list_id_user, $user_id['id_user']);
+        }
+
+        return view('kota.edit', compact('kota', 'dosen', 'mahasiswa', 'list_id_user'));
     }
 
     public function showFile($nama_artefak)
