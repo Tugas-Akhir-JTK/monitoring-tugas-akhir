@@ -4,30 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-
 
 class ArtefakModel extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
     protected $table = 'tbl_artefak';
-    protected $primaryKey = 'id_artefak';
     protected $fillable = [
-        'id_artefak',
+        'periode_id',
+        'timeline_utama_id',
         'nama_artefak',
-        'deskripsi',
+        'deskripsi_artefak',
         'kategori_artefak',
-        'tenggat_waktu',
+        'tenggat_waktu'
     ];
 
-    public function getArtefak($id = null)
-    {
-        if ($id === null) {
-            return DB::table($this->table)->get();
-        } else {
-            return DB::table($this->table)->where('id_artefak', $id)->first();
-        }
+    public function periode () {
+        return $this->belongsTo(PeriodeModel::class);
+    }
+
+    public function timelineUtama () {
+        return $this->belongsTo(TimelineUtamaModel::class);
     }
 }
