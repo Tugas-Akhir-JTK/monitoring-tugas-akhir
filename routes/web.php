@@ -40,20 +40,20 @@ Route::put('/timeline/update/{id}', [App\Http\Controllers\TimelineUtamaControlle
 Route::delete('/timeline/{id}', [App\Http\Controllers\TimelineUtamaController::class, 'destroy'])->middleware(['auth', 'role:1'])->name('timeline.destroy');
 
 //Jadwal Kegiatan
-Route::get('/kegiatan', [App\Http\Controllers\JadwalKegiatanController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('kegiatan');
-Route::get('/kegiatan/{id}', [App\Http\Controllers\JadwalKegiatanController::class, 'detail'])->middleware(['auth', 'role:2,3'])->name('kegiatan.detail');
-Route::post('/jadwal-kegiatan', [App\Http\Controllers\JadwalKegiatanController::class, 'store_kegiatan'])->middleware(['auth', 'role:2,3'])->name('kegiatan.store_kegiatan');
-Route::post('/metodologi/store', [App\Http\Controllers\JadwalKegiatanController::class, 'store_metodologi'])->middleware(['auth', 'role:2,3'])->name('metodologi.store');
-Route::post('/metodologi/update/{id}', [App\Http\Controllers\JadwalKegiatanController::class, 'update_metodologi'])->middleware(['auth', 'role:2,3'])->name('metodologi.update');
-Route::post('/status-kegiatan', [App\Http\Controllers\JadwalKegiatanController::class, 'store_status_kegiatan'])->middleware(['auth', 'role:2,3'])->name('kegiatan.storeStatusKegiatan');
-Route::post('/events/edit', [App\Http\Controllers\JadwalKegiatanController::class, 'edit_Kegiatan'])->middleware(['auth', 'role:2,3'])->name('events.edit');
-Route::post('/resources/edit', [App\Http\Controllers\JadwalKegiatanController::class, 'edit_resource'])->middleware(['auth', 'role:2,3'])->name('resources.edit');
-Route::delete('/delete-event/{id}', [App\Http\Controllers\JadwalKegiatanController::class, 'destroy'])->middleware(['auth', 'role:2,3'])->name('events.destroy');
-Route::post('/events/update', [App\Http\Controllers\JadwalKegiatanController::class, 'update'])->middleware(['auth', 'role:2,3'])->name('events.update');
-Route::delete('/delete-item', [App\Http\Controllers\JadwalKegiatanController::class, 'destroy'])->middleware(['auth', 'role:3'])->name('delete.item');
-Route::get('/kegiatan/create', [App\Http\Controllers\JadwalKegiatanController::class, 'create'])->middleware(['auth', 'role:2,3'])->name('kegiatan.create');
-Route::post('/kegiatan/store', [App\Http\Controllers\JadwalKegiatanController::class, 'store'])->middleware(['auth', 'role:2,3'])->name('kegiatan.store');
-Route::put('/kegiatan/update/{id}', [App\Http\Controllers\JadwalKegiatanController::class, 'update'])->middleware(['auth', 'role:2,3'])->name('kegiatan.update');
+Route::get('/kegiatan', [App\Http\Controllers\TimelineKotaController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('kegiatan');
+Route::get('/kegiatan/{id}', [App\Http\Controllers\TimelineKotaController::class, 'detail'])->middleware(['auth', 'role:2,3'])->name('kegiatan.detail');
+Route::post('/jadwal-kegiatan', [App\Http\Controllers\TimelineKotaController::class, 'store_kegiatan'])->middleware(['auth', 'role:2,3'])->name('kegiatan.store_kegiatan');
+Route::post('/metodologi/store', [App\Http\Controllers\TimelineKotaController::class, 'store_metodologi'])->middleware(['auth', 'role:2,3'])->name('metodologi.store');
+Route::post('/metodologi/update/{id}', [App\Http\Controllers\TimelineKotaController::class, 'update_metodologi'])->middleware(['auth', 'role:2,3'])->name('metodologi.update');
+Route::post('/status-kegiatan', [App\Http\Controllers\TimelineKotaController::class, 'store_status_kegiatan'])->middleware(['auth', 'role:2,3'])->name('kegiatan.storeStatusKegiatan');
+Route::post('/events/edit', [App\Http\Controllers\TimelineKotaController::class, 'edit_Kegiatan'])->middleware(['auth', 'role:2,3'])->name('events.edit');
+Route::post('/resources/edit', [App\Http\Controllers\TimelineKotaController::class, 'edit_resource'])->middleware(['auth', 'role:2,3'])->name('resources.edit');
+Route::delete('/delete-event/{id}', [App\Http\Controllers\TimelineKotaController::class, 'destroy'])->middleware(['auth', 'role:2,3'])->name('events.destroy');
+Route::post('/events/update', [App\Http\Controllers\TimelineKotaController::class, 'update'])->middleware(['auth', 'role:2,3'])->name('events.update');
+Route::delete('/delete-item', [App\Http\Controllers\TimelineKotaController::class, 'destroy'])->middleware(['auth', 'role:3'])->name('delete.item');
+Route::get('/kegiatan/create', [App\Http\Controllers\TimelineKotaController::class, 'create'])->middleware(['auth', 'role:2,3'])->name('kegiatan.create');
+Route::post('/kegiatan/store', [App\Http\Controllers\TimelineKotaController::class, 'store'])->middleware(['auth', 'role:2,3'])->name('kegiatan.store');
+Route::put('/kegiatan/update/{id}', [App\Http\Controllers\TimelineKotaController::class, 'update'])->middleware(['auth', 'role:2,3'])->name('kegiatan.update');
 
 //Artefak
 Route::get('/artefak', [App\Http\Controllers\ArtefakController::class, 'index'])->middleware(['auth', 'role:1,3'])->name('artefak');
@@ -71,12 +71,12 @@ Route::post('/artefak/{artefak_id}/submit', [App\Http\Controllers\ArtefakTerkump
 Route::delete('submissions/{id}', [App\Http\Controllers\ArtefakTerkumpulController::class, 'destroy'])->middleware(['auth', 'role:3'])->name('submissions.destroy');
 
 //Jadwal
-Route::get('/jadwal', [App\Http\Controllers\JadwalController::class, 'index'])->middleware(['auth', 'role:1,3'])->name('jadwal');
-Route::post('/jadwal/store', [App\Http\Controllers\JadwalController::class, 'store'])->middleware(['auth', 'role:1,3'])->name('jadwal.store');
-Route::post('/jadwal/events', [App\Http\Controllers\JadwalController::class, 'events'])->middleware(['auth', 'role:1,3'])->name('jadwal.events');
-Route::get('/jadwal/edit/{id}', [App\Http\Controllers\JadwalController::class, 'edit'])->middleware(['auth', 'role:1,3'])->name('jadwal.edit');
-Route::put('/jadwal/update{id}', [App\Http\Controllers\JadwalController::class, 'update'])->middleware(['auth', 'role:1,3'])->name('jadwal.update');
-Route::delete('/jadwal/{id}', [App\Http\Controllers\JadwalController::class, 'destroy'])->middleware(['auth', 'role:1,3'])->name('jadwal.destroy');
+Route::get('/jadwal', [App\Http\Controllers\JadwalPengujiController::class, 'index'])->middleware(['auth', 'role:1,3'])->name('jadwal');
+Route::post('/jadwal/store', [App\Http\Controllers\JadwalPengujiController::class, 'store'])->middleware(['auth', 'role:1,3'])->name('jadwal.store');
+Route::post('/jadwal/events', [App\Http\Controllers\JadwalPengujiController::class, 'events'])->middleware(['auth', 'role:1,3'])->name('jadwal.events');
+Route::get('/jadwal/edit/{id}', [App\Http\Controllers\JadwalPengujiController::class, 'edit'])->middleware(['auth', 'role:1,3'])->name('jadwal.edit');
+Route::put('/jadwal/update{id}', [App\Http\Controllers\JadwalPengujiController::class, 'update'])->middleware(['auth', 'role:1,3'])->name('jadwal.update');
+Route::delete('/jadwal/{id}', [App\Http\Controllers\JadwalPengujiController::class, 'destroy'])->middleware(['auth', 'role:1,3'])->name('jadwal.destroy');
 
 //Resume Bimbingan
 Route::get('/resume', [App\Http\Controllers\ResumeController::class, 'index'])->middleware(['auth', 'role:2,3'])->name('resume');

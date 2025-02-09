@@ -65,8 +65,8 @@
               <img src="{{ asset('assets/dist/img/user.png') }}" class="img-circle" alt="User Image">
             </div>
             <div class="info">
-              <a href="#" class="d-block" style="color:black; font-weight: 500">{{ auth()->user()->name }}
-                ({{ (auth()->user()->role === 1 ? 'Koordinator' : auth()->user()->role === 2) ? 'Pembimbing' : 'Mahasiswa' }})
+              <a href="#" class="d-block" style="color:black; font-weight: 500">{{ auth()->user()->nama }}
+                ({{ auth()->user()->role === 1 ? 'Koordinator' : (auth()->user()->role === 2 ? 'Pembimbing' : 'Mahasiswa') }})
               </a>
             </div>
           </div>
@@ -81,7 +81,7 @@
               </div>
               <div class="mb-4 mt-3 text-center">
                 <h6 class="m-0">{{ auth()->user()->nomor_induk }}</h6>
-                <h5 class="m-0">{{ auth()->user()->name }}</h5>
+                <h5 class="m-0">{{ auth()->user()->nama }}</h5>
               </div>
               <form action="{{ route('logout') }}" method="POST" class="align-self-end">
                 @csrf
