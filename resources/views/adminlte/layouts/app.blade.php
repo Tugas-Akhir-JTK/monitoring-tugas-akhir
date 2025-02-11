@@ -132,26 +132,30 @@
         <li class="nav-item dropdown dropstart">
           <div class="media user-panel d-flex" data-toggle="dropdown">
             <div class="image">
-              <img src="{{ asset('assets/dist/img/user.jpg') }}" class="img-circle elevation-2" alt="User Image">
+              <img src="{{ asset('assets/dist/img/user.png') }}" class="img-circle" alt="User Image">
             </div>
             <div class="info">
-              <a href="#" class="d-block">{{ auth()->user()->name }}</a>
+              <a href="#" class="d-block" style="color:black; font-weight: 500">{{ auth()->user()->name }}
+                ({{ auth()->user()->role === 1 ? 'Koordinator' : (auth()->user()->role === 2 ? 'Pembimbing' : (auth()->user()->role === 3 ? 'Mahasiswa' : 'Kaprodi')) }})
+              </a>
             </div>
           </div>
-          <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <li class="dropdown-item">
-              <div class="image text-center">
-                <img src="{{ asset('assets/dist/img/user2.jpg') }}" class="img-circle elevation-2" alt="User Image">
-                <a href="#" class="d-block">{{ auth()->user()->nomor_induk }}</a>
-                <a href="#" class="d-block">{{ auth()->user()->name }}</a>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <li class="dropdown-item d-flex justify-content-between align-items-center flex-column">
+              <div class="border-top border-bottom border-dark align-self-start w-100 mb-3">
+                <h5 class="m-0 py-1">Detail Profile</h5>
               </div>
-              <br>
-              <br>
-              <a href="{{ route('logout') }}"
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                class="btn btn-danger ml-auto" style="color: white;">Logout</a>
-              <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+              <div class="image text-center">
+                <img src="{{ asset('assets/dist/img/user.png') }}" class="img-circle img-fluid" style="width: 60%"
+                  alt="User Image">
+              </div>
+              <div class="mb-4 mt-3 text-center">
+                <h6 class="m-0">{{ auth()->user()->nomor_induk }}</h6>
+                <h5 class="m-0">{{ auth()->user()->name }}</h5>
+              </div>
+              <form action="{{ route('logout') }}" method="POST" class="align-self-end">
                 @csrf
+                <button type="submit" class="btn btn-danger">Logout</button>
               </form>
             </li>
           </ul>
