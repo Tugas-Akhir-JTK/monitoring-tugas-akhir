@@ -8,6 +8,7 @@ use App\Models\KotaModel;
 use App\Models\ResumeBimbinganModel;
 use App\Models\KotaHasTahapanProgresModel;
 use App\Models\KotaHasArtefakModel;
+use App\Models\KotaHasResumeBimbinganModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -51,67 +52,6 @@ class HomeController extends Controller
                 $id_kota = DB::table('tbl_kota_has_user')
                             ->where('id_user', $user->id)
                             ->value('id_kota');
-
-                // Menghitung progress tahapan bimbingan
-                $progressStage1Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
-                                                            ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
-                                                            ->where('tahapan_progres', '2')
-                                                            ->count();
-                $progressStage2Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
-                                                            ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
-                                                            ->where('tahapan_progres', '3')
-                                                            ->count();
-                $progressStage3Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
-                                                            ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
-                                                            ->where('tahapan_progres', '4')
-                                                            ->count();
-                $seminar_1 = 1; // Definisikan id_timeline
-                $seminar_2 = 2; // Definisikan id_timeline
-                $seminar_3 = 3; // Definisikan id_timeline
-                $seminar_4 = 4; // Definisikan id_timeline
-                
-                $total_kegiatan_1 = DB::table('tbl_kegiatan_has_timeline as kt')
-                                    ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
-                                    ->where('kt.id_timeline', $seminar_1)
-                                    ->count();
-                $selesai_count_1 = DB::table('tbl_kegiatan_has_timeline as kt')
-                                    ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
-                                    ->where('kt.id_timeline', $seminar_1)
-                                    ->where('j.status', 'completed')
-                                    ->count();
-                $total_kegiatan_2 = DB::table('tbl_kegiatan_has_timeline as kt')
-                                    ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
-                                    ->where('kt.id_timeline', $seminar_2)
-                                    ->count();
-                $selesai_count_2 = DB::table('tbl_kegiatan_has_timeline as kt')
-                                    ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
-                                    ->where('kt.id_timeline', $seminar_2)
-                                    ->where('j.status', 'completed')
-                                    ->count();
-                $total_kegiatan_3 = DB::table('tbl_kegiatan_has_timeline as kt')
-                                    ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
-                                    ->where('kt.id_timeline', $seminar_3)
-                                    ->count();
-                $selesai_count_3 = DB::table('tbl_kegiatan_has_timeline as kt')
-                                    ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
-                                    ->where('kt.id_timeline', $seminar_3)
-                                    ->where('j.status', 'completed')
-                                    ->count();
-                $total_kegiatan_4 = DB::table('tbl_kegiatan_has_timeline as kt')
-                                    ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
-                                    ->where('kt.id_timeline', $seminar_4)
-                                    ->count();
-                $selesai_count_4 = DB::table('tbl_kegiatan_has_timeline as kt')
-                                    ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
-                                    ->where('kt.id_timeline', $seminar_4)
-                                    ->where('j.status', 'completed')
-                                    ->count();
-        
-                // Hitung persentase
-                $selesaiPercentage1 = ($total_kegiatan_1 > 0) ? ($selesai_count_1 / $total_kegiatan_1) * 100 : 0;
-                $selesaiPercentage2 = ($total_kegiatan_2 > 0) ? ($selesai_count_2 / $total_kegiatan_2) * 100 : 0;
-                $selesaiPercentage3 = ($total_kegiatan_3 > 0) ? ($selesai_count_3 / $total_kegiatan_3) * 100 : 0;
-                $selesaiPercentage4 = ($total_kegiatan_4 > 0) ? ($selesai_count_4 / $total_kegiatan_4) * 100 : 0;
 
                 // Menyiapkan data artefak untuk ditampilkan
                 $masterArtefaks = DB::table('tbl_master_artefak')->get();
@@ -176,8 +116,103 @@ class HomeController extends Controller
                 }
                 $mastertahapan = DB::table('tbl_master_tahapan_progres')->get();
 
+                // untur bar progres
+                $artefak_dikumpulkan_1 = DB::table('tbl_artefak as ar')
+                                            ->join('tbl_kota_has_artefak as kar', 'kar.id_artefak', '=', 'ar.id_artefak')
+                                            ->where(function ($query) {
+                                                $query->where('ar.nama_artefak', 'FTA 01')
+                                                    ->orWhere('ar.nama_artefak', 'FTA 02')
+                                                    ->orWhere('ar.nama_artefak', 'FTA 03')
+                                                    ->orWhere('ar.nama_artefak', 'FTA 04')
+                                                    ->orWhere('ar.nama_artefak', 'FTA 05')
+                                                    ->orWhere('ar.nama_artefak', 'FTA 05a')
+                                                    ->orWhere('ar.nama_artefak', 'Proposal Tugas Akhir');
+                                            })
+                                            ->where('id_kota', $id_kota)
+                                            ->get()
+                                            ->count();
+                $artefak_dikumpulkan_2 = DB::table('tbl_artefak as ar')
+                                            ->join('tbl_kota_has_artefak as kar', 'kar.id_artefak', '=', 'ar.id_artefak')
+                                            ->where(function ($query) {
+                                                $query->where('ar.nama_artefak', 'FTA 06')
+                                                    ->orWhere('ar.nama_artefak', 'FTA 06a')
+                                                    ->orWhere('ar.nama_artefak', 'FTA 07')
+                                                    ->orWhere('ar.nama_artefak', 'FTA 08')
+                                                    ->orWhere('ar.nama_artefak', 'FTA 09')
+                                                    ->orWhere('ar.nama_artefak', 'FTA 09a')
+                                                    ->orWhere('ar.nama_artefak', 'Laporan Tugas Akhir')
+                                                    ->orWhere('ar.nama_artefak', 'SRS')
+                                                    ->orWhere('ar.nama_artefak', 'SDD');
+                                            })
+                                            ->where('id_kota', $id_kota)
+                                            ->get()
+                                            ->count();
+                $artefak_dikumpulkan_3 = DB::table('tbl_artefak as ar')
+                                            ->join('tbl_kota_has_artefak as kar', 'kar.id_artefak', '=', 'ar.id_artefak')
+                                            ->where(function ($query) {
+                                                $query->where('ar.nama_artefak', 'FTA 10')
+                                                    ->orWhere('ar.nama_artefak', 'FTA 11')
+                                                    ->orWhere('ar.nama_artefak', 'FTA 12')
+                                                    ->orWhere('ar.nama_artefak', 'Laporan Tugas Akhir')
+                                                    ->orWhere('ar.nama_artefak', 'SRS')
+                                                    ->orWhere('ar.nama_artefak', 'SDD');
+                                            })
+                                            ->where('id_kota', $id_kota)
+                                            ->get()
+                                            ->count();
+                $artefak_dikumpulkan_4 = DB::table('tbl_artefak as ar')
+                                            ->join('tbl_kota_has_artefak as kar', 'kar.id_artefak', '=', 'ar.id_artefak')
+                                            ->where(function ($query) {
+                                                $query->where('ar.nama_artefak', 'FTA 13')
+                                                    ->orWhere('ar.nama_artefak', 'FTA 14')
+                                                    ->orWhere('ar.nama_artefak', 'FTA 15')
+                                                    ->orWhere('ar.nama_artefak', 'FTA 16')
+                                                    ->orWhere('ar.nama_artefak', 'FTA 17')
+                                                    ->orWhere('ar.nama_artefak', 'FTA 18')
+                                                    ->orWhere('ar.nama_artefak', 'FTA 19')
+                                                    ->orWhere('ar.nama_artefak', 'Laporan Tugas Akhir')
+                                                    ->orWhere('ar.nama_artefak', 'SRS')
+                                                    ->orWhere('ar.nama_artefak', 'SDD');
+                                            })
+                                            ->where('id_kota', $id_kota)
+                                            ->get()
+                                            ->count();
+                $resume_bimbingan_1 = DB::table('tbl_resume_bimbingan as rb')
+                                                ->join('tbl_kota_has_resume_bimbingan as krb', 'krb.id_resume_bimbingan', '=', 'rb.id_resume_bimbingan')
+                                                ->where('krb.id_kota', $id_kota)
+                                                ->where('rb.sesi_bimbingan', 1)
+                                                ->count();
+                $resume_bimbingan_2 = DB::table('tbl_resume_bimbingan as rb')
+                                                ->join('tbl_kota_has_resume_bimbingan as krb', 'krb.id_resume_bimbingan', '=', 'rb.id_resume_bimbingan')
+                                                ->where('krb.id_kota', $id_kota)
+                                                ->where('rb.sesi_bimbingan', 2)
+                                                ->count();
+                $resume_bimbingan_3 = DB::table('tbl_resume_bimbingan as rb')
+                                                ->join('tbl_kota_has_resume_bimbingan as krb', 'krb.id_resume_bimbingan', '=', 'rb.id_resume_bimbingan')
+                                                ->where('krb.id_kota', $id_kota)
+                                                ->where('rb.sesi_bimbingan', 3)
+                                                ->count();
+                $resume_bimbingan_4 = DB::table('tbl_resume_bimbingan as rb')
+                                                ->join('tbl_kota_has_resume_bimbingan as krb', 'krb.id_resume_bimbingan', '=', 'rb.id_resume_bimbingan')
+                                                ->where('krb.id_kota', $id_kota)
+                                                ->where('rb.sesi_bimbingan', 4)
+                                                ->count();
+                $jml_perlu_dikumpulkan_1 = 12; // artefak 7 & bimbingan 5
+                $jml_sudah_dikumpulkan_1 = $artefak_dikumpulkan_1 + ($resume_bimbingan_1 > 5 ? 5 : $resume_bimbingan_1);
+                $jml_perlu_dikumpulkan_2 = 14; // artefak 9 & bimbingan 5
+                $jml_sudah_dikumpulkan_2 = $artefak_dikumpulkan_2 + ($resume_bimbingan_2 > 5 ? 5 : $resume_bimbingan_2);
+                $jml_perlu_dikumpulkan_3 = 11; // artefak 7 & bimbingan 5
+                $jml_sudah_dikumpulkan_3 = $artefak_dikumpulkan_3 + ($resume_bimbingan_3 > 5 ? 5 : $resume_bimbingan_3);
+                $jml_perlu_dikumpulkan_4 = 15; // artefak 7 & bimbingan 5
+                $jml_sudah_dikumpulkan_4 = $artefak_dikumpulkan_4 + ($resume_bimbingan_4 > 5 ? 5 : $resume_bimbingan_4);
 
-                return view('beranda.mahasiswa.home', compact('kotas', 'progressStage1Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota','tahapan_progres', 'selesaiPercentage1', 'selesaiPercentage2', 'selesaiPercentage3', 'selesaiPercentage4', 'mastertahapan'));
+                // Hitung persentase
+                $selesaiPercentage1 = ($jml_perlu_dikumpulkan_1 > 0) ? ($jml_sudah_dikumpulkan_1 / $jml_perlu_dikumpulkan_1) * 100 : 0;
+                $selesaiPercentage2 = ($jml_perlu_dikumpulkan_2 > 0) ? ($jml_sudah_dikumpulkan_2 / $jml_perlu_dikumpulkan_2) * 100 : 0;
+                $selesaiPercentage3 = ($jml_perlu_dikumpulkan_3 > 0) ? ($jml_sudah_dikumpulkan_3 / $jml_perlu_dikumpulkan_3) * 100 : 0;
+                $selesaiPercentage4 = ($jml_perlu_dikumpulkan_4 > 0) ? ($jml_sudah_dikumpulkan_4 / $jml_perlu_dikumpulkan_4) * 100 : 0;
+                
+                return view('beranda.mahasiswa.home', compact('kotas', 'resume_bimbingan_1', 'resume_bimbingan_2', 'resume_bimbingan_3', 'resume_bimbingan_4', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota','tahapan_progres', 'selesaiPercentage1', 'selesaiPercentage2', 'selesaiPercentage3', 'selesaiPercentage4', 'mastertahapan'));
             }
         }
 
@@ -343,6 +378,10 @@ class HomeController extends Controller
         foreach ($kotas as $kota) {
             $id_kota = $kota->id_kota;
             
+            $progressStage1Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+                ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
+                ->where('tahapan_progres', '1')
+                ->count();
             $progressStage2Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
                 ->where('tbl_kota_has_resume_bimbingan.id_kota', $id_kota)
                 ->where('tahapan_progres', '2')
@@ -356,7 +395,7 @@ class HomeController extends Controller
                 ->where('tahapan_progres', '4')
                 ->count();
     
-            $jumlahBimbingan = $progressStage2Count + $progressStage3Count + $progressStage4Count;
+            $jumlahBimbingan = $progressStage1Count + $progressStage2Count + $progressStage3Count + $progressStage4Count;
     
             $jumlahBimbinganPerKota[] = [
                 'kota' => $kota->nama_kota,

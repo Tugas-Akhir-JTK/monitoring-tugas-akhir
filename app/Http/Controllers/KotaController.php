@@ -155,6 +155,10 @@ class KotaController extends Controller
         $seminar_3 = 3; // Definisikan id_timeline
         $seminar_4 = 4; // Definisikan id_timeline
 
+        $progressStage1Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
+                                                    ->where('tbl_kota_has_resume_bimbingan.id_kota', $id)
+                                                    ->where('tahapan_progres', '1')
+                                                    ->count();
         $progressStage2Count = ResumeBimbinganModel::join('tbl_kota_has_resume_bimbingan', 'tbl_resume_bimbingan.id_resume_bimbingan', '=', 'tbl_kota_has_resume_bimbingan.id_resume_bimbingan')
                                                     ->where('tbl_kota_has_resume_bimbingan.id_kota', $id)
                                                     ->where('tahapan_progres', '2')
@@ -172,6 +176,7 @@ class KotaController extends Controller
                             ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
                             ->where('kt.id_timeline', $seminar_1)
                             ->count();
+        
         $selesai_count_1 = DB::table('tbl_kegiatan_has_timeline as kt')
                             ->join('tbl_jadwal_kegiatan as j', 'kt.id_jadwal_kegiatan', '=', 'j.id')
                             ->where('kt.id_timeline', $seminar_1)
@@ -287,7 +292,7 @@ class KotaController extends Controller
         
 
         return view('kota.detail', 
-        compact('kota', 'progressStage4Count', 'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota', 'mastertahapan', 'tahapan_progres', 'selesaiPercentage1', 'selesaiPercentage2', 'selesaiPercentage3', 'selesaiPercentage4'));
+        compact('kota','progressStage1Count', 'progressStage4Count',  'progressStage2Count', 'progressStage3Count', 'dosen', 'mahasiswa', 'seminar1', 'seminar2', 'seminar3', 'sidang', 'artefakKota', 'mastertahapan', 'tahapan_progres', 'selesaiPercentage1', 'selesaiPercentage2', 'selesaiPercentage3', 'selesaiPercentage4'));
     }
 
     // public function store_status(Request $request)
